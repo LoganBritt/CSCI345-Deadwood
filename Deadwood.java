@@ -1,3 +1,8 @@
+/*
+//	This is the startup file for Deadwood
+//	This is the executable that will be ran to begin executing the game
+*/
+
 public class Deadwood{
         public static void main(String[] args){
                 System.out.println("Running Deadwood.java");
