@@ -6,19 +6,25 @@
 
 import java.awt.image.BufferedImage;
 
-public class Board{
+public class Board {
 	private Space[] spaces;
 	private BufferedImage background;
 
-	Board(BufferedImage newBackground, Space[] spaceSet){
+	Board(BufferedImage newBackground, Space[] spaceSet) {
 		spaces = spaceSet;
 		background = newBackground;
 	}
-        public static void main(String[] args){
-                System.out.println("Running Board.java");
-        }
 
-	public BufferedImage getBoard(){ return background;}
-	public Space[] getSpaceList(){ return spaces;}
+	public static void main(String[] args) {
+		System.out.println("Running Board.java");
+	}
+
+	public BufferedImage getBoard() {
+		return background;
+	}
+
+	public Space[] getSpaceList() {
+		return spaces;
+	}
 
 }

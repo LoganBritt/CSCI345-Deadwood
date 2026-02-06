@@ -4,24 +4,23 @@
 //      No default values are needed, therefore we decided we don't need an added default constructor
 */
 
-public abstract class Casting extends Space{
+public abstract class Casting extends Space {
 
-        private int[] moneyCostSet = {4, 10, 18, 28, 40};
-        private int[] creditCostSet = {5, 10, 15, 20, 25};
-        public static void main(String[] args){
+        private int[] moneyCostSet = { 4, 10, 18, 28, 40 };
+        private int[] creditCostSet = { 5, 10, 15, 20, 25 };
+
+        public static void main(String[] args) {
                 System.out.println("Running Casting.java");
         }
 
         // returns the money cost of the selected rank
-        public int moneyCost(int rank){
+        public int moneyCost(int rank) {
                 return 0;
         }
 
-        //returns the credit cost of the selected rank
-        public int creditCost(int rank){
+        // returns the credit cost of the selected rank
+        public int creditCost(int rank) {
                 return 0;
         }
-
-
 
 }

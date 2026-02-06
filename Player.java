@@ -1,3 +1,4 @@
+
 /*
 //	This Class represents each of the players playing the game
 //	It contains the specific data that belongs to each player
@@ -6,6 +7,7 @@
 //  TakeRole is handled in Role, not in Player
 */
 import java.util.Random;
+
 public class Player {
 
 	public int dollars;
@@ -18,7 +20,7 @@ public class Player {
 		System.out.println("Running Player.java");
 	}
 
-	Player(Space trailers){
+	Player(Space trailers) {
 		currLocation = trailers;
 	}
 
@@ -31,22 +33,21 @@ public class Player {
 	// revieve rewards for working on/off card
 	public void act(boolean onCard) {
 		Random r = new Random();
-		int roll = r.nextInt(1,7);
+		int roll = r.nextInt(1, 7);
 		int budget = currLocation.getCard().getBudget();
 
-		if (roll + rehearseTokens >= budget){
+		if (roll + rehearseTokens >= budget) {
 			currLocation.setShots(currLocation.getShots() - 1);
 			clearTokens();
-			if (onCard){
+			if (onCard) {
 				credits += 2;
-			}
-			else{
+			} else {
 				dollars++;
 				credits++;
 			}
 		}
 
-		else if (!onCard){
+		else if (!onCard) {
 			dollars++;
 		}
 
