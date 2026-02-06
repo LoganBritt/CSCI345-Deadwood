@@ -3,11 +3,11 @@
 //	They contain Roles and is where Players can work on Roles
 */
 
-public class Scene implements Space{
+public class Scene extends Space{
 	private Role untakenRoles[];
 	private Role takenRoles[];
-	public Card card;
-	public int shots;
+	private Card card;
+	private int shots;
 
 	Scene(Card setCard, int shotAmt){
 		card = setCard;
@@ -19,33 +19,24 @@ public class Scene implements Space{
         }
 
 	//Sets the card to a new card
-	public void setCard(Card newCard){
-		
-	}
+	public void setCard(Card newCard){}
 
 	//Changes a role from the untaken array to the taken array
-	public void changeToTaken(Role roleToChange){
-		
-	}
+	public void changeToTaken(Role roleToChange){}
 
 	//Returns the untaken role list
-	public Role[] getUntakenRoles(){
-		return untakenRoles;
-	}
+	public Role[] getUntakenRoles(){  return untakenRoles;}
 
 	//Returns the taken role list
-	public Role[] getTakenRoles(){
-		return takenRoles;
-	}
+	public Role[] getTakenRoles(){	return takenRoles;}
 
 	//Returns whether the scene is complete or not (card is null)
-	public boolean sceneComplete(){
-		return true;
-	}
+	public boolean sceneComplete(){	return true;}
 
 	//Returns the shot amount
-	public int getShots(){
-		return shots;
-	}
+	public int getShots(){	return shots;}
+
+	public Card getCard(){ return card;}
+	public void setShots(int newShots){ shots = newShots;}
 
 }

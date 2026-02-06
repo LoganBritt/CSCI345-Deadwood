@@ -32,10 +32,10 @@ public class Player {
 	public void act(boolean onCard) {
 		Random r = new Random();
 		int roll = r.nextInt(1,7);
-		int budget = currLocation.card.getBudget();
+		int budget = currLocation.getCard().getBudget();
 
 		if (roll + rehearseTokens >= budget){
-			currLocation.shots--;
+			currLocation.setShots(currLocation.getShots() - 1);
 			clearTokens();
 			if (onCard){
 				credits += 2;

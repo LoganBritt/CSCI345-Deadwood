@@ -34,5 +34,8 @@ public class Card{
 
         }
 
+	public int getBudget(){
+		return budget;
+	}
 
 }

@@ -20,10 +20,15 @@ public class GameManager{
 
 	//Is called to start the game
 	//Creates the objects for the game to play with
-	public void startGame(){
+	public static void startGame(){
 		int[] diceReturn = rollDice(5);
 		System.out.println("Rolling 5 dice:");
-		System.out.println(diceReturn.toString);
+		System.out.print("[");
+		for(int i = 0; i < 5; i++){
+			System.out.print(diceReturn[i]);
+			System.out.print(", ");
+		}
+		System.out.println("]");
 	}
 
 	public int getDay(){
@@ -50,14 +55,14 @@ public class GameManager{
 
 	}
 
-	public int[] rollDice(int dieAmt){
+	public static int[] rollDice(int dieAmt){
 		Random rand = new Random();
-		int[] retVals;
+		int[] retVals = new int[dieAmt];
 		for(int i = 0; i < dieAmt; i++){
 			retVals[i] = rand.nextInt(1, 7);
 		}
-
-		return Arrays.sort(retVals);
+		Arrays.sort(retVals);
+		return retVals;
 	}
 
 }
