@@ -10,12 +10,16 @@ public class Player {
 
 	public int dollars;
 	public int credits;
-	public int rank;
+	public int rank = 1;
 	public int rehearseTokens;
 	public Space currLocation;
 
 	public static void main(String[] args) {
 		System.out.println("Running Player.java");
+	}
+
+	Player(Space trailers){
+		currLocation = trailers;
 	}
 
 	// Move: Player can move to an adjacent scene
