@@ -3,11 +3,11 @@
 //	They contain Roles and is where Players can work on Roles
 */
 
-public class Scene extends Space{
+public class Scene implements Space{
 	private Role untakenRoles[];
 	private Role takenRoles[];
-	private Card card;
-	private int shots;
+	public Card card;
+	public int shots;
 
 	Scene(Card setCard, int shotAmt){
 		card = setCard;

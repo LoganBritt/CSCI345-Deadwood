@@ -4,12 +4,9 @@
 */
 
 
-public class Space{
-	boolean isTrailers;
-	Space neighborSpaces[];
-        public static void main(String[] args){
-                System.out.println("Running Space.java");
-        }
+interface Space{
+	public boolean isTrailers = false;
+	public Space neighborSpaces[] = null;
 
 	
 }

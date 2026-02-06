@@ -4,7 +4,7 @@
 //      No default values are needed, therefore we decided we don't need an added default constructor
 */
 
-public class Casting extends Space{
+public class Casting implements Space{
 
         private int[] moneyCostSet = {4, 10, 18, 28, 40};
         private int[] creditCostSet = {5, 10, 15, 20, 25};
