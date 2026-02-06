@@ -5,8 +5,21 @@
 
 
 public class Deck{
+
+        private int remainingCards = 40;
+        private Card[] cardSet;
         public static void main(String[] args){
                 System.out.println("Running Deck.java");
+        }
+
+        //adds a card to the deck
+        public void addCard(Card addedCard){
+                 
+        }
+
+        //takes a card from the deck
+        public Card takeCard(){
+                return null;
         }
 
 }
