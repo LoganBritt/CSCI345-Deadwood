@@ -3,7 +3,7 @@
 //	They contain Roles and is where Players can work on Roles
 */
 
-public class Scene{
+public class Scene extends Space{
         public static void main(String[] args){
                 System.out.println("Running Scene.java");
         }
