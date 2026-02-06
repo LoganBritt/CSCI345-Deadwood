@@ -7,12 +7,12 @@ import java.util.Random;
 import java.util.Arrays;
 
 public class GameManager{
-	private BoardManager bm;
-	private UIManager ui;
-	private int day;
-	private Player[] playerListOrder;
-	private int playerAmt;
-	private int playerIdx = 0;
+	private static BoardManager bm;
+	private static UIManager ui;
+	private static int day;
+	private static Player[] playerListOrder;
+	private static int playerAmt;
+	private static int playerIdx = 0;
 
         public static void main(String[] args){
                 System.out.println("Running GameManager.java");
@@ -23,19 +23,12 @@ public class GameManager{
 	public static void startGame(){
 		int[] diceReturn = rollDice(5);
 		System.out.println("Rolling 5 dice:");
-		System.out.print("[");
-		for(int i = 0; i < 5; i++){
-			System.out.print(diceReturn[i]);
-			System.out.print(", ");
-		}
-		System.out.println("]");
+		printArray(diceReturn);
 	}
 
-	public int getDay(){
-		return day;
-	}
-
-	public void changeTurn(){
+	//Moves the turn order up one
+	//Reset index if at the end
+	public static void changeTurn(){
 		if(playerIdx+1 == playerAmt){
 			playerIdx = 0;
 		}else{
@@ -43,26 +36,34 @@ public class GameManager{
 		}
 	}
 
-	public Player getActivePlayer(){
-		return playerListOrder[playerIdx];
-	}
+	//Gives bonuses to players according to their assigned rank
+        //They are distributed highest rank first, to lowest, then back to highest again
+        public static void distributeBonuses(Player[] bonusPlayers, Space scene){
+		
 
-	public Player[] getPlayerList(){
-		return playerListOrder;
-	}
+        }
 
-	public void distributeBonuses(Player[] bonusPlayers, int budget){
+        //Creates an array of random sorted ints between 1 and 6 (Inclusive)
+        public static int[] rollDice(int dieAmt){
+                Random rand = new Random();
+                int[] retVals = new int[dieAmt];
+                for(int i = 0; i < dieAmt; i++){
+                        retVals[i] = rand.nextInt(1, 7);
+                }
+                Arrays.sort(retVals);
+                return retVals;
+        }
+	public static Player getActivePlayer(){return playerListOrder[playerIdx];}
+	public static Player[] getPlayerList(){return playerListOrder;}
+	public static int getDay(){return day;}
 
-	}
-
-	public static int[] rollDice(int dieAmt){
-		Random rand = new Random();
-		int[] retVals = new int[dieAmt];
-		for(int i = 0; i < dieAmt; i++){
-			retVals[i] = rand.nextInt(1, 7);
-		}
-		Arrays.sort(retVals);
-		return retVals;
+	private static void printArray(int[] arr){
+		System.out.print("[");
+                for(int i = 0; i < arr.length; i++){
+                        System.out.print(arr[i]);
+                        System.out.print(", ");
+                }
+                System.out.println("]");
 	}
 
 }

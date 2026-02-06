@@ -22,4 +22,7 @@ public class Deck{
                 return null;
         }
 
+	//Returns the amount of remaining cards
+	public int getCardAmt(){ return remainingCards;}
+
 }
