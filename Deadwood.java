@@ -11,7 +11,6 @@ public class Deadwood {
 		System.out.println("Beginning other files for initialization");
 		System.out.println("------------------------------------------------------");
 		// startUpFiles(args);
-		GameManager.startGame();
 	}
 
 	private static void startUpFiles(String[] args) {

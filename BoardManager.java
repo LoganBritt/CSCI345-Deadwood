@@ -34,7 +34,7 @@ public class BoardManager {
 	}
 
 	// Resets the board for the next day
-	public void resetBoard() {
+	public static void resetBoard() {
 	}
 
 	// Resets the players' position

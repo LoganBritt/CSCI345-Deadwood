@@ -18,14 +18,6 @@ public class GameManager {
 		System.out.println("Running GameManager.java");
 	}
 
-	// Is called to start the game
-	// Creates the objects for the game to play with
-	public static void startGame() {
-		int[] diceReturn = rollDice(5);
-		System.out.println("Rolling 5 dice:");
-		printArray(diceReturn);
-	}
-
 	// Moves the turn order up one
 	// Reset index if at the end
 	public static void changeTurn() {
@@ -39,8 +31,24 @@ public class GameManager {
 	// Gives bonuses to players according to their assigned rank
 	// They are distributed highest rank first, to lowest, then back to highest
 	// again
-	public static void distributeBonuses(Player[] bonusPlayers, Space scene) {
-
+	public static void distributeBonuses(Player[] bonusPlayers, Space space) {
+		// Bonus for Off Card
+		Role[] list = space.getTakenRoles();
+		for (int i = 0; i < list.length; i++) {
+			list[i].getPlayer().dollars += list[i].getRank();
+		}
+		// Bonus for On Card
+		Card card = space.getCard();
+		Role[] onCard = card.getRoles();
+		int[] diceRolled = rollDice(card.getBudget());
+		for (int i = 0, j = 0; i < card.getBudget(); i++, j++) {
+			if (j == onCard.length) {
+				j = 0;
+			}
+			if (onCard[j].isTaken()) {
+				onCard[j].getPlayer().dollars += diceRolled[i];
+			}
+		}
 	}
 
 	// Creates an array of random sorted ints between 1 and 6 (Inclusive)
@@ -76,4 +84,8 @@ public class GameManager {
 		System.out.println("]");
 	}
 
+	public void endDay() {
+		day++;
+		BoardManager.resetBoard();
+	}
 }

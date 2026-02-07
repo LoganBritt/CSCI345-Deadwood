@@ -12,4 +12,6 @@ public abstract class Space {
 	public abstract int getShots();
 
 	public abstract Card getCard();
+
+	public abstract Role[] getTakenRoles();
 }

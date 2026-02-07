@@ -40,4 +40,8 @@ public class Card {
                 return budget;
         }
 
+        public Role[] getRoles() {
+                return roles;
+        }
+
 }

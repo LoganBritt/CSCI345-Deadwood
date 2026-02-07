@@ -29,7 +29,7 @@ public class Role {
         }
 
         // checks to see if the role is taken
-        private boolean isTaken() {
+        public boolean isTaken() {
                 return true;
         }
 
@@ -41,6 +41,10 @@ public class Role {
         // returns the playerHere
         public Player getPlayer() {
                 return playerHere;
+        }
+
+        public int getRank() {
+                return rank;
         }
 
 }
