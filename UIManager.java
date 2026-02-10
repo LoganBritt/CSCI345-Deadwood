@@ -89,7 +89,7 @@ public class UIManager {
 
 					}
 					break;
-				case "End Game**":
+				case "End Game":
 					GameManager.endGame();
 					break;
 				default:
