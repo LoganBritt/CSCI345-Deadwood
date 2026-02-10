@@ -5,6 +5,10 @@
 
 public abstract class Space {
 	public boolean isTrailers = false;
+	public String name;
 	public Space neighborSpaces[] = null;
 
+	public void printNeighbors(){
+		System.out.println("Neighbors:");
+	}
 }

@@ -55,6 +55,7 @@ public class UIManager {
 
 	private static void startGameplay(){
 		Scanner in = new Scanner(System.in);
+		Player actvPlayer = GameManager.getActivePlayer();
 		while(GameManager.getDay() != 0){
 			System.out.println();
 			System.out.println("Player " + (GameManager.getActvPlyrIdx() + 1) +", what do you want to do?");
@@ -63,6 +64,27 @@ public class UIManager {
 				case "Help":
 					printHelp();
 					break;
+				case "Stats":
+					printStats(actvPlayer);
+					break;
+				case "Stats All":
+					printStats(null);
+					break;
+				case "Space":
+					Space currSpace = actvPlayer.currLocation;
+					if(currSpace instanceof Trailers){
+						System.out.println("You are at the Trailers");
+						currSpace.printNeighbors();
+					}else if(currSpace instanceof Casting){
+						System.out.println("You are at the Casting Office");
+						currSpace.printNeighbors();
+						System.out.println("You can see exchange rates by typing 'Exchange Info'");
+					}else{
+						Scene scene = (Scene) currSpace;
+						System.out.println("You are at " + scene.getName());
+
+					}
+					break;
 				case "End Game**":
 					GameManager.endGame();
 					break;
@@ -70,6 +92,7 @@ public class UIManager {
 					System.out.println("I'm sorry, I didn't understand that.");
 					System.out.println("Some actions are not fully implemented. Deadwood is still in development");
 					System.out.println("Please try again, or type 'Help' for input options");
+					break;
 
 			}
 		}
