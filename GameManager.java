@@ -19,7 +19,7 @@ public class GameManager {
 	// Moves the turn order up one
 	// Reset index if at the end
 	public static void changeTurn() {
-		if (playerIdx + 1 == playerAmt) {
+		if (playerIdx == playerAmt - 1) {
 			playerIdx = 0;
 		} else {
 			playerIdx++;
