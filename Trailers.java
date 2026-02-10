@@ -1,1 +1,2 @@
-public class Trailers extends Space{}
+public class Trailers extends Space {
+}
