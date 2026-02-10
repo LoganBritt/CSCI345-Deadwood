@@ -119,6 +119,7 @@ public class GameManager {
 		BoardManager.resetBoard();
 	}
 
+	//Ends the game
 	public static void endGame(){
 		day = 0;
 		System.out.println("Game Over");

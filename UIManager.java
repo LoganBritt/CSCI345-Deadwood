@@ -24,9 +24,26 @@ public class UIManager {
 		//Player setting
 		System.out.println("How many people will be playing today? (2-8 Players Only)");
 		int playerNumInput = Integer.parseInt(promptInput(terminalIn));
-		if(playerNumInput >= 2 && playerNumInput <= 8){
-			System.out.println("Understood! " + playerNumInput + " players.");
+		int numInputFail = 0;
+		while(playerNumInput < 2 || playerNumInput > 8){
+			if(numInputFail != 2 && numInputFail != 5){
+				System.out.println("I'm sorry, that's outside the boundaries (2-8 Players Only). Please try again:");
+				numInputFail++;
+			}else if (numInputFail == 5){
+				System.out.println("Nope, not doing this");
+				System.out.println("Bye.");
+				System.exit(0);
+			}else{
+				System.out.println("Seriously, dude. 2 to 8 players. Including 2 and 8");
+				System.out.println("That means you can choose 2, 3, 4, 5, 6, 7, or 8 players");
+				System.out.println("Not 1, not 15, not any negative or decimal number");
+				System.out.println("2 through 8, got it?");
+				System.out.println("You had better got it");
+				numInputFail++;
+			}
+			playerNumInput = Integer.parseInt(promptInput(terminalIn));
 		}
+		System.out.println("Understood! " + playerNumInput + " players.");
 
 		GameManager.setPlayerAmt(playerNumInput);
 		GameManager.createPlayers();
@@ -82,6 +99,7 @@ public class UIManager {
 	}
 
 	private static String promptInput(Scanner input){
+		System.out.println();
 		System.out.print(">>");
 		return input.nextLine();
 	}
