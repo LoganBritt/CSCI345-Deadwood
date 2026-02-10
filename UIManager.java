@@ -56,6 +56,7 @@ public class UIManager {
 	private static void startGameplay(){
 		Scanner in = new Scanner(System.in);
 		while(GameManager.getDay() != 0){
+			System.out.println();
 			System.out.println("Player " + (GameManager.getActvPlyrIdx() + 1) +", what do you want to do?");
 			String input = promptInput(in);
 			switch(input){
@@ -67,6 +68,7 @@ public class UIManager {
 					break;
 				default:
 					System.out.println("I'm sorry, I didn't understand that.");
+					System.out.println("Some actions are not fully implemented. Deadwood is still in development");
 					System.out.println("Please try again, or type 'Help' for input options");
 
 			}
@@ -74,8 +76,20 @@ public class UIManager {
 	}
 
 	private static void printHelp(){
-		System.out.println("This is all in development, the help function right now is only for testing.");
-		System.out.println("Please try again when Deadwood is completed");
+		System.out.println("Game Actions:");
+		System.out.println("* Help (Ex 'Help'): This shows the action menu. You're seeing it now.");
+		System.out.println("* Stats (Ex 'Stats'): This shows the stats for the active player, including space, role, money, credits, rank, etc");
+		System.out.println("* Stats All (Ex 'Stats All'): This shows the stats listed above for all players");
+		System.out.println("* Space (Ex 'Space'): Presents info about the space you're at");
+		System.out.println("* Card (Ex 'Card'): Presents info about the card at the scene you're at");
+		System.out.println("* Roles (Ex 'Roles'): Presents info about the roles on the scene you're at and the roles on the card at that scene");
+		System.out.println("* Move + place name (Ex 'Move Jail'): This moves your player from the space you're on to another neighboring it. You can only move once a turn, and only if you're not at a role");
+		System.out.println("* Act (Ex 'Act'): This causes your player to act. Act only if you have not acted this turn and if you have taken a role");
+		System.out.println("* Exchange + rank number (Ex 'Exchange 4'): This causes your player to make an exchange. Exchange only at the Casting Office");
+		System.out.println("* Exchage Info (Ex 'Exchange Info'): Provides info about the costs for each rank exchange");
+		System.out.println("* Take Role + role name (Ex 'Take Role Squeaking Boy'): This allows your player to take a new role. You can only take a new role that isn't taken and if you do not have a role");
+		System.out.println("* End turn (Ex 'End turn'): Ends your turn");
+		System.out.println("* End game (Ex 'End game'): Ends the game early");
 	}
 
 	public static void printStats(Player player){
@@ -99,7 +113,6 @@ public class UIManager {
 	}
 
 	private static String promptInput(Scanner input){
-		System.out.println();
 		System.out.print(">>");
 		return input.nextLine();
 	}
