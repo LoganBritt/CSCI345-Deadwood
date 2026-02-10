@@ -10,7 +10,7 @@ public class Deadwood {
 
 		System.out.println("Beginning other files for initialization");
 		System.out.println("------------------------------------------------------");
-		// startUpFiles(args);
+		startUpFiles(args);
 	}
 
 	private static void startUpFiles(String[] args) {
@@ -25,5 +25,7 @@ public class Deadwood {
 		Card.main(args);
 		UIManager.main(args);
 		Window.main(args);
+
+		UIManager.startGame();
 	}
 }

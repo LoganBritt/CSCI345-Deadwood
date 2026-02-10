@@ -7,11 +7,4 @@ public abstract class Space {
 	public boolean isTrailers = false;
 	public Space neighborSpaces[] = null;
 
-	public abstract void setShots(int newShots);
-
-	public abstract int getShots();
-
-	public abstract Card getCard();
-
-	public abstract Role[] getTakenRoles();
 }

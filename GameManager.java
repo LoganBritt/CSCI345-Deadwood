@@ -7,8 +7,6 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class GameManager {
-	private static BoardManager bm;
-	private static UIManager ui;
 	private static int day;
 	private static Player[] playerListOrder;
 	private static int playerAmt;
@@ -74,6 +72,28 @@ public class GameManager {
 		return day;
 	}
 
+	public static void setPlayerAmt(int amt){
+		playerAmt = amt;
+	}
+
+	//Create each player object
+	//Also sets the day depending on how many players are playing
+	//Precondition: Days is set and the trailers are an object to set to
+	public static void createPlayers(){
+		if(playerAmt < 4){ day = 3}else{day = 4}
+		for(int i = 0; i < playerAmt; i++){
+			if(playerAmt < 5){
+				playerListOrder[i] = new Player();
+			}else if(playerAmt < 6){
+				playerListOrder[i] = new Player(2, 0);
+			}else if(playerAmt < 7){
+				playerListOrder[i] = new Player(4, 0);
+			}else{
+				playerListOrder[i] = new Player(0, 2);
+			}
+		}
+	}
+
 	// This we are using for testing
 	private static void printArray(int[] arr) {
 		System.out.print("[");
@@ -84,7 +104,8 @@ public class GameManager {
 		System.out.println("]");
 	}
 
-	public void endDay() {
+	//Move on to the next day
+	public static void endDay() {
 		day++;
 		BoardManager.resetBoard();
 	}

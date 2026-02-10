@@ -5,12 +5,12 @@
 */
 
 import java.awt.image.BufferedImage;
-
+import java.util.ArrayList;
 public class Board {
-	private Space[] spaces;
+	private ArrayList<Space> spaces;
 	private BufferedImage background;
 
-	Board(BufferedImage newBackground, Space[] spaceSet) {
+	Board(BufferedImage newBackground, ArrayList<Space> spaceSet) {
 		spaces = spaceSet;
 		background = newBackground;
 	}
@@ -23,7 +23,7 @@ public class Board {
 		return background;
 	}
 
-	public Space[] getSpaceList() {
+	public ArrayList<Space> getSpaceList() {
 		return spaces;
 	}
 

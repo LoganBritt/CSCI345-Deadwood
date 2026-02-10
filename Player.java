@@ -9,19 +9,26 @@
 import java.util.Random;
 
 public class Player {
-
-	public int dollars;
-	public int credits;
+	public int dollars = 0;
+	public int credits = 0;
 	public int rank = 1;
-	public int rehearseTokens;
+	public int rehearseTokens = 0;
 	public Space currLocation;
 
 	public static void main(String[] args) {
 		System.out.println("Running Player.java");
 	}
 
-	Player(Space trailers) {
-		currLocation = trailers;
+	//For 2-4 player games
+	Player() {
+		currLocation = BoardManager.getTrailers();
+	}
+
+	//For 5-8 player games
+	Player(Space trailers, int creditUpgrade, int rankUpgrade){
+		currLocation = BoardManager.getTrailers();
+		credits = creditUpgrade;
+		rank = rankUpgrade;
 	}
 
 	// Move: Player can move to an adjacent scene
