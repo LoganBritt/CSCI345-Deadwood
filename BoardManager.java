@@ -48,13 +48,22 @@ public class BoardManager {
 	public static void removeCard(Space space) {
 	}
 
+	public static void createDeck(){
+		Deck newDeck = new Deck();
+		for(int i = 0; i < newDeck.getCardAmt(); i++){
+			Card newCard = new Card(3, null);
+			newDeck.addCard(newCard);
+		}
+	}
+
 	public static void createBoard(){
 		ArrayList<Space> spaces = new ArrayList<Space>();
 		board = new Board(null, spaces);
 		for(int i = 0; i < 12; i++){
 			if(i == 0){
-				spaces.add(new Space(true));
+				spaces.add(new Trailers());
 				trailers = spaces.get(0);
+				trailers.isTrailers = true;
 			}else if(i == 11){
 				spaces.add(new Casting());
 			}else{

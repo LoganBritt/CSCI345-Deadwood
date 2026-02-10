@@ -25,7 +25,7 @@ public class Player {
 	}
 
 	//For 5-8 player games
-	Player(Space trailers, int creditUpgrade, int rankUpgrade){
+	Player(int creditUpgrade, int rankUpgrade){
 		currLocation = BoardManager.getTrailers();
 		credits = creditUpgrade;
 		rank = rankUpgrade;
@@ -39,25 +39,27 @@ public class Player {
 	// Act: Player can choose to act, depending on success or fail, the player will
 	// revieve rewards for working on/off card
 	public void act(boolean onCard) {
+		Scene activeScene = null;
+		if(currLocation instanceof Scene){ activeScene = (Scene) currLocation;}
 		Random r = new Random();
 		int roll = r.nextInt(1, 7);
-		int budget = currLocation.getCard().getBudget();
+		int budget = activeScene.getCard().getBudget();
+		if(activeScene != null){
+			if (roll + rehearseTokens >= budget) {
+				activeScene.setShots(activeScene.getShots() - 1);
+				clearTokens();
+				if (onCard) {
+					credits += 2;
+				} else {
+					dollars++;
+					credits++;
+				}
+			}
 
-		if (roll + rehearseTokens >= budget) {
-			currLocation.setShots(currLocation.getShots() - 1);
-			clearTokens();
-			if (onCard) {
-				credits += 2;
-			} else {
+			else if (!onCard) {
 				dollars++;
-				credits++;
 			}
 		}
-
-		else if (!onCard) {
-			dollars++;
-		}
-
 	}
 
 	// Rehearse: Adds practice chip to the die, gives +1 to all die rolls

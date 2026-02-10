@@ -15,6 +15,9 @@ public class UIManager {
 
 		Scanner terminalIn = new Scanner(System.in);
 
+		//Deck setup
+		BoardManager.createDeck();
+
 		//Board setup
 		BoardManager.createBoard();
 
@@ -25,10 +28,57 @@ public class UIManager {
 			System.out.println("Understood! " + playerNumInput + " players.");
 		}
 
-		BoardManager.setPlayerAmt(playerNameInput);
-		BoardManager.createPlayers();
-		//
+		GameManager.setPlayerAmt(playerNumInput);
+		GameManager.createPlayers();
 
+		//Code for beginning actual gameplay
+		startGameplay();
+
+	}
+
+	private static void startGameplay(){
+		Scanner in = new Scanner(System.in);
+		while(GameManager.getDay() != 0){
+			System.out.println("Player " + (GameManager.getActvPlyrIdx() + 1) +", what do you want to do?");
+			String input = promptInput(in);
+			switch(input){
+				case "Help":
+					printHelp();
+					break;
+				case "End Game**":
+					GameManager.endGame();
+					break;
+				default:
+					System.out.println("I'm sorry, I didn't understand that.");
+					System.out.println("Please try again, or type 'Help' for input options");
+
+			}
+		}
+	}
+
+	private static void printHelp(){
+		System.out.println("This is all in development, the help function right now is only for testing.");
+		System.out.println("Please try again when Deadwood is completed");
+	}
+
+	public static void printStats(Player player){
+		System.out.println("Printing player stats:");
+		if(player == null){
+			Player[] players = GameManager.getPlayerList();
+			for(int i = 0; i < players.length; i++){
+				System.out.println("Player " + (i + 1) + ":");
+				System.out.println("Dollars: " + players[i].dollars);
+				System.out.println("Credits: " + players[i].credits);
+				System.out.println("Rank: " + players[i].rank);
+				System.out.println();
+			}
+		}else{
+			System.out.println("Player " + (GameManager.getActvPlyrIdx() + 1) + ":");
+                        System.out.println("Dollars: " + player.dollars);
+                        System.out.println("Credits: " + player.credits);
+                        System.out.println("Rank: " + player.rank);
+                        System.out.println();
+		}
 	}
 
 	private static String promptInput(Scanner input){

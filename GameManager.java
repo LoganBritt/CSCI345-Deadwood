@@ -30,13 +30,16 @@ public class GameManager {
 	// They are distributed highest rank first, to lowest, then back to highest
 	// again
 	public static void distributeBonuses(Player[] bonusPlayers, Space space) {
+		Scene scene = null;
+		if(space instanceof Scene){ scene = (Scene) space;}
+
 		// Bonus for Off Card
-		Role[] list = space.getTakenRoles();
+		Role[] list = scene.getTakenRoles();
 		for (int i = 0; i < list.length; i++) {
 			list[i].getPlayer().dollars += list[i].getRank();
 		}
 		// Bonus for On Card
-		Card card = space.getCard();
+		Card card = scene.getCard();
 		Role[] onCard = card.getRoles();
 		int[] diceRolled = rollDice(card.getBudget());
 		for (int i = 0, j = 0; i < card.getBudget(); i++, j++) {
@@ -64,6 +67,10 @@ public class GameManager {
 		return playerListOrder[playerIdx];
 	}
 
+	public static int getActvPlyrIdx(){
+		return playerIdx;
+	}
+
 	public static Player[] getPlayerList() {
 		return playerListOrder;
 	}
@@ -80,7 +87,9 @@ public class GameManager {
 	//Also sets the day depending on how many players are playing
 	//Precondition: Days is set and the trailers are an object to set to
 	public static void createPlayers(){
-		if(playerAmt < 4){ day = 3}else{day = 4}
+		playerListOrder = new Player[playerAmt];
+
+		if(playerAmt < 4){ day = 3;}else{day = 4;}
 		for(int i = 0; i < playerAmt; i++){
 			if(playerAmt < 5){
 				playerListOrder[i] = new Player();
@@ -108,5 +117,12 @@ public class GameManager {
 	public static void endDay() {
 		day++;
 		BoardManager.resetBoard();
+	}
+
+	public static void endGame(){
+		day = 0;
+		System.out.println("Game Over");
+		UIManager.printStats(null);
+		System.out.println("Thanks for playing");
 	}
 }
