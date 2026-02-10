@@ -54,7 +54,7 @@ public class Scene extends Space {
 		shots = newShots;
 	}
 
-	public String getName(){
+	public String getName() {
 		return this.name;
 	}
 }

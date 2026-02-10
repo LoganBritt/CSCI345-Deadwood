@@ -4,6 +4,7 @@
 */
 
 import java.util.ArrayList;
+
 public class BoardManager {
 	private static Board board;
 	private static Deck deck;
@@ -18,8 +19,8 @@ public class BoardManager {
 		trailers = trailrs;
 	}
 
-	//Returns the object that is set to the trailers object
-	public static Space getTrailers(){
+	// Returns the object that is set to the trailers object
+	public static Space getTrailers() {
 		return trailers;
 	}
 
@@ -48,25 +49,25 @@ public class BoardManager {
 	public static void removeCard(Space space) {
 	}
 
-	public static void createDeck(){
+	public static void createDeck() {
 		Deck newDeck = new Deck();
-		for(int i = 0; i < newDeck.getCardAmt(); i++){
+		for (int i = 0; i < newDeck.getCardAmt(); i++) {
 			Card newCard = new Card(3, null);
 			newDeck.addCard(newCard);
 		}
 	}
 
-	public static void createBoard(){
+	public static void createBoard() {
 		ArrayList<Space> spaces = new ArrayList<Space>();
 		board = new Board(null, spaces);
-		for(int i = 0; i < 12; i++){
-			if(i == 0){
+		for (int i = 0; i < 12; i++) {
+			if (i == 0) {
 				spaces.add(new Trailers());
 				trailers = spaces.get(0);
 				trailers.isTrailers = true;
-			}else if(i == 11){
+			} else if (i == 11) {
 				spaces.add(new Casting());
-			}else{
+			} else {
 				spaces.add(new Scene(null, 0));
 			}
 		}

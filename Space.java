@@ -8,7 +8,7 @@ public abstract class Space {
 	public String name;
 	public Space neighborSpaces[] = null;
 
-	public void printNeighbors(){
+	public void printNeighbors() {
 		System.out.println("Neighbors:");
 	}
 }

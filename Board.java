@@ -6,6 +6,7 @@
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+
 public class Board {
 	private ArrayList<Space> spaces;
 	private BufferedImage background;

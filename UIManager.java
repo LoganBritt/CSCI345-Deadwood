@@ -1,3 +1,4 @@
+
 /*
 //	UIManager manages the functionality for interacting with the UI and what that interaction
 //	does for the game
@@ -8,32 +9,33 @@
 //	The code for beginning deadwood is stored in Deadwood.java, and can be played by running Deadwood.java
 */
 import java.util.Scanner;
+
 public class UIManager {
-	public static void startGame(){
+	public static void startGame() {
 		System.out.println("Starting Deadwood...");
 		System.out.println("Welcome to Deadwood!");
 
 		Scanner terminalIn = new Scanner(System.in);
 
-		//Deck setup
+		// Deck setup
 		BoardManager.createDeck();
 
-		//Board setup
+		// Board setup
 		BoardManager.createBoard();
 
-		//Player setting
+		// Player setting
 		System.out.println("How many people will be playing today? (2-8 Players Only)");
 		int playerNumInput = Integer.parseInt(promptInput(terminalIn));
 		int numInputFail = 0;
-		while(playerNumInput < 2 || playerNumInput > 8){
-			if(numInputFail != 2 && numInputFail != 5){
+		while (playerNumInput < 2 || playerNumInput > 8) {
+			if (numInputFail != 2 && numInputFail != 5) {
 				System.out.println("I'm sorry, that's outside the boundaries (2-8 Players Only). Please try again:");
 				numInputFail++;
-			}else if (numInputFail == 5){
+			} else if (numInputFail == 5) {
 				System.out.println("Nope, not doing this");
 				System.out.println("Bye.");
 				System.exit(0);
-			}else{
+			} else {
 				System.out.println("Seriously, dude. 2 to 8 players. Including 2 and 8");
 				System.out.println("That means you can choose 2, 3, 4, 5, 6, 7, or 8 players");
 				System.out.println("Not 1, not 15, not any negative or decimal number");
@@ -48,19 +50,19 @@ public class UIManager {
 		GameManager.setPlayerAmt(playerNumInput);
 		GameManager.createPlayers();
 
-		//Code for beginning actual gameplay
+		// Code for beginning actual gameplay
 		startGameplay();
 
 	}
 
-	private static void startGameplay(){
+	private static void startGameplay() {
 		Scanner in = new Scanner(System.in);
 		Player actvPlayer = GameManager.getActivePlayer();
-		while(GameManager.getDay() != 0){
+		while (GameManager.getDay() != 0) {
 			System.out.println();
-			System.out.println("Player " + (GameManager.getActvPlyrIdx() + 1) +", what do you want to do?");
+			System.out.println("Player " + (GameManager.getActvPlyrIdx() + 1) + ", what do you want to do?");
 			String input = promptInput(in);
-			switch(input){
+			switch (input) {
 				case "Help":
 					printHelp();
 					break;
@@ -76,14 +78,14 @@ public class UIManager {
 					break;
 				case "Space":
 					Space currSpace = actvPlayer.currLocation;
-					if(currSpace instanceof Trailers){
+					if (currSpace instanceof Trailers) {
 						System.out.println("You are at the Trailers");
 						currSpace.printNeighbors();
-					}else if(currSpace instanceof Casting){
+					} else if (currSpace instanceof Casting) {
 						System.out.println("You are at the Casting Office");
 						currSpace.printNeighbors();
 						System.out.println("You can see exchange rates by typing 'Exchange Info'");
-					}else{
+					} else {
 						Scene scene = (Scene) currSpace;
 						System.out.println("You are at " + scene.getName());
 
@@ -102,56 +104,56 @@ public class UIManager {
 		}
 	}
 
-	private static void printHelp(){
+	private static void printHelp() {
 		System.out.println("Game Actions:");
 		System.out.println("* Help (Ex 'Help'): This shows the action menu. You're seeing it now.");
-		System.out.println("* Stats (Ex 'Stats'): This shows the stats for the active player, including space, role, money, credits, rank, etc");
+		System.out.println(
+				"* Stats (Ex 'Stats'): This shows the stats for the active player, including space, role, money, credits, rank, etc");
 		System.out.println("* Stats All (Ex 'Stats All'): This shows the stats listed above for all players");
 		System.out.println("* Space (Ex 'Space'): Presents info about the space you're at");
 		System.out.println("* Card (Ex 'Card'): Presents info about the card at the scene you're at");
-		System.out.println("* Roles (Ex 'Roles'): Presents info about the roles on the scene you're at and the roles on the card at that scene");
-		System.out.println("* Move + place name (Ex 'Move Jail'): This moves your player from the space you're on to another neighboring it. You can only move once a turn, and only if you're not at a role");
-		System.out.println("* Act (Ex 'Act'): This causes your player to act. Act only if you have not acted this turn and if you have taken a role");
-		System.out.println("* Exchange + rank number (Ex 'Exchange 4'): This causes your player to make an exchange. Exchange only at the Casting Office");
+		System.out.println(
+				"* Roles (Ex 'Roles'): Presents info about the roles on the scene you're at and the roles on the card at that scene");
+		System.out.println(
+				"* Move + place name (Ex 'Move Jail'): This moves your player from the space you're on to another neighboring it. You can only move once a turn, and only if you're not at a role");
+		System.out.println(
+				"* Act (Ex 'Act'): This causes your player to act. Act only if you have not acted this turn and if you have taken a role");
+		System.out.println(
+				"* Exchange + rank number (Ex 'Exchange 4'): This causes your player to make an exchange. Exchange only at the Casting Office");
 		System.out.println("* Exchage Info (Ex 'Exchange Info'): Provides info about the costs for each rank exchange");
-		System.out.println("* Take Role + role name (Ex 'Take Role Squeaking Boy'): This allows your player to take a new role. You can only take a new role that isn't taken and if you do not have a role");
+		System.out.println(
+				"* Take Role + role name (Ex 'Take Role Squeaking Boy'): This allows your player to take a new role. You can only take a new role that isn't taken and if you do not have a role");
 		System.out.println("* End turn (Ex 'End turn'): Ends your turn");
 		System.out.println("* End game (Ex 'End game'): Ends the game early");
 	}
 
-	public static void printStats(Player player){
+	public static void printStats(Player player) {
 		System.out.println("Printing player stats:");
-		if(player == null){
+		if (player == null) {
 			Player[] players = GameManager.getPlayerList();
-			for(int i = 0; i < players.length; i++){
+			for (int i = 0; i < players.length; i++) {
 				System.out.println("Player " + (i + 1) + ":");
 				System.out.println("Dollars: " + players[i].dollars);
 				System.out.println("Credits: " + players[i].credits);
 				System.out.println("Rank: " + players[i].rank);
 				System.out.println();
 			}
-		}else{
+		} else {
 			System.out.println("Player " + (GameManager.getActvPlyrIdx() + 1) + ":");
-                        System.out.println("Dollars: " + player.dollars);
-                        System.out.println("Credits: " + player.credits);
-                        System.out.println("Rank: " + player.rank);
-                        System.out.println();
+			System.out.println("Dollars: " + player.dollars);
+			System.out.println("Credits: " + player.credits);
+			System.out.println("Rank: " + player.rank);
+			System.out.println();
 		}
 	}
 
-	private static String promptInput(Scanner input){
+	private static String promptInput(Scanner input) {
 		System.out.print(">>");
 		return input.nextLine();
 	}
 
-
-
-
-
-
-
-
-	//The following functions are for visual UI implementation and will not be used in the terminal version of Deadwood
+	// The following functions are for visual UI implementation and will not be used
+	// in the terminal version of Deadwood
 	public static void main(String[] args) {
 		System.out.println("Running UIManager.java");
 	}

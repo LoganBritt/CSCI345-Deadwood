@@ -19,13 +19,13 @@ public class Player {
 		System.out.println("Running Player.java");
 	}
 
-	//For 2-4 player games
+	// For 2-4 player games
 	Player() {
 		currLocation = BoardManager.getTrailers();
 	}
 
-	//For 5-8 player games
-	Player(int creditUpgrade, int rankUpgrade){
+	// For 5-8 player games
+	Player(int creditUpgrade, int rankUpgrade) {
 		currLocation = BoardManager.getTrailers();
 		credits = creditUpgrade;
 		rank = rankUpgrade;
@@ -40,11 +40,13 @@ public class Player {
 	// revieve rewards for working on/off card
 	public void act(boolean onCard) {
 		Scene activeScene = null;
-		if(currLocation instanceof Scene){ activeScene = (Scene) currLocation;}
+		if (currLocation instanceof Scene) {
+			activeScene = (Scene) currLocation;
+		}
 		Random r = new Random();
 		int roll = r.nextInt(1, 7);
 		int budget = activeScene.getCard().getBudget();
-		if(activeScene != null){
+		if (activeScene != null) {
 			if (roll + rehearseTokens >= budget) {
 				activeScene.setShots(activeScene.getShots() - 1);
 				clearTokens();

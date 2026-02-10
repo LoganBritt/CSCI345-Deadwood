@@ -31,7 +31,9 @@ public class GameManager {
 	// again
 	public static void distributeBonuses(Player[] bonusPlayers, Space space) {
 		Scene scene = null;
-		if(space instanceof Scene){ scene = (Scene) space;}
+		if (space instanceof Scene) {
+			scene = (Scene) space;
+		}
 
 		// Bonus for Off Card
 		Role[] list = scene.getTakenRoles();
@@ -67,7 +69,7 @@ public class GameManager {
 		return playerListOrder[playerIdx];
 	}
 
-	public static int getActvPlyrIdx(){
+	public static int getActvPlyrIdx() {
 		return playerIdx;
 	}
 
@@ -79,25 +81,29 @@ public class GameManager {
 		return day;
 	}
 
-	public static void setPlayerAmt(int amt){
+	public static void setPlayerAmt(int amt) {
 		playerAmt = amt;
 	}
 
-	//Create each player object
-	//Also sets the day depending on how many players are playing
-	//Precondition: Days is set and the trailers are an object to set to
-	public static void createPlayers(){
+	// Create each player object
+	// Also sets the day depending on how many players are playing
+	// Precondition: Days is set and the trailers are an object to set to
+	public static void createPlayers() {
 		playerListOrder = new Player[playerAmt];
 
-		if(playerAmt < 4){ day = 3;}else{day = 4;}
-		for(int i = 0; i < playerAmt; i++){
-			if(playerAmt < 5){
+		if (playerAmt < 4) {
+			day = 3;
+		} else {
+			day = 4;
+		}
+		for (int i = 0; i < playerAmt; i++) {
+			if (playerAmt < 5) {
 				playerListOrder[i] = new Player();
-			}else if(playerAmt < 6){
+			} else if (playerAmt < 6) {
 				playerListOrder[i] = new Player(2, 0);
-			}else if(playerAmt < 7){
+			} else if (playerAmt < 7) {
 				playerListOrder[i] = new Player(4, 0);
-			}else{
+			} else {
 				playerListOrder[i] = new Player(0, 2);
 			}
 		}
@@ -113,14 +119,14 @@ public class GameManager {
 		System.out.println("]");
 	}
 
-	//Move on to the next day
+	// Move on to the next day
 	public static void endDay() {
 		day++;
 		BoardManager.resetBoard();
 	}
 
-	//Ends the game
-	public static void endGame(){
+	// Ends the game
+	public static void endGame() {
 		day = 0;
 		System.out.println("Game Over");
 		UIManager.printStats(null);
