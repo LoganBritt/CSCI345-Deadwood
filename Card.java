@@ -9,6 +9,7 @@ public class Card {
 
         private Scene scene;
         private BufferedImage background;
+	private String title = "default";
         private int budget;
         private Role[] roles;
 
@@ -44,4 +45,7 @@ public class Card {
                 return roles;
         }
 
+	public String getTitle(){
+		return title;
+	}
 }

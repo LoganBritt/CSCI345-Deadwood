@@ -62,21 +62,18 @@ public class UIManager {
 			System.out.println();
 			System.out.println("Player " + (GameManager.getActvPlyrIdx() + 1) + ", what do you want to do?");
 			String input = promptInput(in);
+			input = input.toLowerCase();
 			switch (input) {
-				case "Help":
+				case "help":
 					printHelp();
 					break;
-				case "Stats":
+				case "stats":
 					printStats(actvPlayer);
 					break;
-				case "Stats All":
+				case "stats all":
 					printStats(null);
 					break;
-				case "End Turn":
-					System.out.println("Next turn...");
-					GameManager.changeTurn();
-					break;
-				case "Space":
+				case "space":
 					Space currSpace = actvPlayer.currLocation;
 					if (currSpace instanceof Trailers) {
 						System.out.println("You are at the Trailers");
@@ -88,10 +85,38 @@ public class UIManager {
 					} else {
 						Scene scene = (Scene) currSpace;
 						System.out.println("You are at " + scene.getName());
+					}
+					break;
+				case "card":
+					if(actvPlayer.currLocation.card == null){
+						System.out.println("The space you're at does not have a card");
+					}else{
+						Card card = actvPlayer.currLocation.card;
+						
 
 					}
 					break;
-				case "End Game":
+				case "role":
+
+					break;
+				case "act":
+
+					break;
+				case "exchange info":
+					System.out.println("Exchange Info:");
+					System.out.println(" Rank |  Dollars  | Credits");
+					System.out.println("  2   |    04     |   05   ");
+					System.out.println("  3   |    10     |   10   ");
+					System.out.println("  4   |    18     |   15   ");
+					System.out.println("  5   |    28     |   20   ");
+					System.out.println("  6   |    40     |   25   ");
+					System.out.println("Remember, exchanges can only be made at the Casting Office");
+					break;
+				case "end turn":
+                                        System.out.println("Next turn...");
+                                        GameManager.changeTurn();
+                                        break;
+				case "end game":
 					GameManager.endGame();
 					break;
 				default:
@@ -113,7 +138,7 @@ public class UIManager {
 		System.out.println("* Space (Ex 'Space'): Presents info about the space you're at");
 		System.out.println("* Card (Ex 'Card'): Presents info about the card at the scene you're at");
 		System.out.println(
-				"* Roles (Ex 'Roles'): Presents info about the roles on the scene you're at and the roles on the card at that scene");
+				"* Role (Ex 'Role'): Presents info about the role you're currently working on, only if you're working on a role");
 		System.out.println(
 				"* Move + place name (Ex 'Move Jail'): This moves your player from the space you're on to another neighboring it. You can only move once a turn, and only if you're not at a role");
 		System.out.println(
