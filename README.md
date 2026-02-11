@@ -13,9 +13,14 @@ Board.java
 GameManager.java
 Player.java
 Trailer.java
+Space.java
 
 What we need: 
 UI completed by Saturday  
+    Upgrade
+    Take Role
+    Add if acted to rehearse 
+    Add Space and Role to print stats
 Board Manager, not fully but XML Parser!! 
 
 Easy to Implement (next up!):
@@ -24,10 +29,13 @@ Casting.java
 Card.java
 Deck.java
 Scene.java
-Space.java
+
 
 And after that...
 Role.java
 
+
+If time allows! 
+Fix decimal problem in player number
 
 Excluded to implement: Deadwood, Window
