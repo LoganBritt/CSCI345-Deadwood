@@ -70,6 +70,14 @@ public class BoardManager {
 			} else {
 				spaces.add(new Scene(null, 0));
 			}
+			spaces.get(i).neighborSpaces = new Space[4];
+			//This all below is for testing purposes. It will be removed in final implementation
+			if(i == 0){
+				for(int j = 0; j < 4; j++){
+					spaces.get(i).neighborSpaces[j] = new Scene(null, 3);
+					spaces.get(i).neighborSpaces[j].name = ("Space " + j);
+				}
+			}
 		}
 	}
 

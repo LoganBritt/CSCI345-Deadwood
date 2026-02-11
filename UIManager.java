@@ -101,7 +101,6 @@ public class UIManager {
 						System.out.println("'" + card.getTitle() + "'");
 						System.out.println(card.getDesc());
 						printRoles(card.getRoles());
-
 					}
 					break;
 				case "role":
@@ -145,9 +144,26 @@ public class UIManager {
 					GameManager.endGame();
 					break;
 				default:
-					System.out.println("I'm sorry, I didn't understand that.");
-					System.out.println("Some actions are not fully implemented. Deadwood is still in development");
-					System.out.println("Please try again, or type 'Help' for input options");
+					if(input.startsWith("move")){
+						String newScene;
+						newScene = cutFront(input, 1);
+						System.out.println("New scene: " + newScene);
+						actvPlayer.move(newScene);
+					}else if(input.startsWith("exchange")){
+						String newRank;
+						newRank = cutFront(input, 1);
+						System.out.println("New rank for exchange: " + newRank);
+
+					}else if(input.startsWith("take role")){
+						String newRole;
+						newRole = cutFront(input, 2);
+						System.out.println("New role: " + newRole);
+
+					}else{
+						System.out.println("I'm sorry, I didn't understand that.");
+						System.out.println("Some actions are not fully implemented. Deadwood is still in development");
+						System.out.println("Please try again, or type 'Help' for input options");
+					}
 					break;
 
 			}
@@ -212,6 +228,16 @@ public class UIManager {
 			System.out.println("Level: " + workingRole.getRank());
 			if(i+1 != roleList.length){ System.out.println();}
 		}
+	}
+
+	private static String cutFront(String input, int removed){
+		if(removed == 0){ return input;}
+		int i = 0;
+                while(input.charAt(i) != ' '){
+                	i++;
+                }
+                i++;
+                return cutFront(input.substring(i, input.length()), removed - 1);
 	}
 
 	// The following functions are for visual UI implementation and will not be used

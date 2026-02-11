@@ -33,8 +33,18 @@ public class Player {
 	}
 
 	// Move: Player can move to an adjacent scene
-	public void move(Space newLocation) {
-		currLocation = newLocation;
+	public void move(String newLocationName) {
+		Space[] neighborList = currLocation.neighborSpaces;
+		for(int i = 0; i < neighborList.length; i++){
+			System.out.println("Testing '" + newLocationName + "' against '" + neighborList[i].name);
+			if(newLocationName.equals((neighborList[i].name).toLowerCase())){
+				currLocation = neighborList[i];
+				System.out.println("Moved to " + newLocationName);
+				return;
+			}
+		}
+		System.out.println(newLocationName  + " is not a neighbor of " + currLocation.name);
+		System.out.println("To see " + currLocation.name + "'s neighbors, type 'Space'");
 	}
 
 	// Act: Player can choose to act, depending on success or fail, the player will

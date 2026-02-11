@@ -10,5 +10,8 @@ public abstract class Space {
 
 	public void printNeighbors() {
 		System.out.println("Neighbors:");
+		for(int i = 0; i < neighborSpaces.length; i++){
+			System.out.println(neighborSpaces[i].name);
+		}
 	}
 }
