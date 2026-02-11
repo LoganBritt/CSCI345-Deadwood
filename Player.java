@@ -82,6 +82,8 @@ public class Player {
 
 	// Upgrade: Pay $/Credits to upgrade
 	public void upgrade(int newRank) {
+		Casting casting = (Casting) currLocation;
+
 		rank = newRank;
 	}
 

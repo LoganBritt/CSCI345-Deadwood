@@ -136,6 +136,12 @@ public class UIManager {
 					System.out.println("  6   |    40     |   25   ");
 					System.out.println("Remember, exchanges can only be made at the Casting Office");
 					break;
+				case "rehearse":
+					actvPlayer.rehearse();
+					System.out.println("You rehearsed your lines");
+					System.out.println("You now have " + actvPlayer.rehearseTokens + " rehearsal tokens");
+					GameManager.makeActed();
+					break;
 				case "end turn":
                                         System.out.println("Next turn...");
                                         GameManager.changeTurn();
@@ -147,13 +153,12 @@ public class UIManager {
 					if(input.startsWith("move")){
 						String newScene;
 						newScene = cutFront(input, 1);
-						System.out.println("New scene: " + newScene);
 						actvPlayer.move(newScene);
 					}else if(input.startsWith("exchange")){
 						String newRank;
 						newRank = cutFront(input, 1);
 						System.out.println("New rank for exchange: " + newRank);
-
+						
 					}else if(input.startsWith("take role")){
 						String newRole;
 						newRole = cutFront(input, 2);
@@ -189,6 +194,7 @@ public class UIManager {
 		System.out.println("* Exchage Info (Ex 'Exchange Info'): Provides info about the costs for each rank exchange");
 		System.out.println(
 				"* Take Role + role name (Ex 'Take Role Squeaking Boy'): This allows your player to take a new role. You can only take a new role that isn't taken and if you do not have a role");
+		System.out.println("Rehearse (Ex 'Rehearse'): Rehearse and get a rehearsal token. You can only rehearse if you're working on a role");
 		System.out.println("* End turn (Ex 'End turn'): Ends your turn");
 		System.out.println("* End game (Ex 'End game'): Ends the game early");
 	}
@@ -202,6 +208,7 @@ public class UIManager {
 				System.out.println("Dollars: " + players[i].dollars);
 				System.out.println("Credits: " + players[i].credits);
 				System.out.println("Rank: " + players[i].rank);
+				System.out.println("Rehearsal Tokens: " + players[i].rehearseTokens);
 				System.out.println();
 			}
 		} else {
@@ -209,6 +216,7 @@ public class UIManager {
 			System.out.println("Dollars: " + player.dollars);
 			System.out.println("Credits: " + player.credits);
 			System.out.println("Rank: " + player.rank);
+			System.out.println("Rehearsal Tokens: " + player.rehearseTokens);
 			System.out.println();
 		}
 	}

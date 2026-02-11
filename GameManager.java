@@ -98,6 +98,14 @@ public class GameManager {
 		return actvPlayerMoved;
 	}
 
+	public static void makeActed(){
+		actvPlayerActed = true;
+	}
+
+	public static void makeMoved(){
+		actvPlayerMoved = true;
+	}
+
 	// Create each player object
 	// Also sets the day depending on how many players are playing
 	// Precondition: Days is set and the trailers are an object to set to
