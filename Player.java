@@ -14,6 +14,7 @@ public class Player {
 	public int rank = 1;
 	public int rehearseTokens = 0;
 	public Space currLocation;
+	public Role currRole;
 
 	public static void main(String[] args) {
 		System.out.println("Running Player.java");
@@ -43,10 +44,10 @@ public class Player {
 		if (currLocation instanceof Scene) {
 			activeScene = (Scene) currLocation;
 		}
-		Random r = new Random();
-		int roll = r.nextInt(1, 7);
-		int budget = activeScene.getCard().getBudget();
 		if (activeScene != null) {
+			Random r = new Random();
+                	int roll = r.nextInt(1, 7);
+                	int budget = activeScene.getCard().getBudget();
 			if (roll + rehearseTokens >= budget) {
 				activeScene.setShots(activeScene.getShots() - 1);
 				clearTokens();

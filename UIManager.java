@@ -63,6 +63,8 @@ public class UIManager {
 			System.out.println("Player " + (GameManager.getActvPlyrIdx() + 1) + ", what do you want to do?");
 			String input = promptInput(in);
 			input = input.toLowerCase();
+			Role workingRole = actvPlayer.currRole;
+
 			switch (input) {
 				case "help":
 					printHelp();
@@ -85,6 +87,9 @@ public class UIManager {
 					} else {
 						Scene scene = (Scene) currSpace;
 						System.out.println("You are at " + scene.getName());
+						System.out.println("Card Title: " + scene.getCard().getTitle());
+						printRoles(scene.getUntakenRoles());
+						printRoles(scene.getTakenRoles());
 					}
 					break;
 				case "card":
@@ -100,10 +105,27 @@ public class UIManager {
 					}
 					break;
 				case "role":
-
+					if(workingRole != null){
+						System.out.println("'" + workingRole.getTitle() + "'");
+                        			System.out.println("'" + workingRole.getLine() + "'");
+                        			System.out.println("Level: " + workingRole.getRank());
+					}else{
+						System.out.println("You are not currently working at a role");
+					}
 					break;
 				case "act":
-
+					if(actvPlayer.currLocation instanceof Scene){
+						Scene scene = (Scene) actvPlayer.currLocation;
+						if(workingRole == null){
+							System.out.println("You cannot act. You are not working at a role");
+						}else if(GameManager.getPlayerActed()){
+							System.out.println("You cannot act. You have already acted this turn");
+						}else{
+							actvPlayer.act(workingRole.isOnCard());
+						}
+					}else{
+						System.out.println("You are not in a place where you can act");
+					}
 					break;
 				case "exchange info":
 					System.out.println("Exchange Info:");

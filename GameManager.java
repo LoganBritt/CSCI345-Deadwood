@@ -11,6 +11,9 @@ public class GameManager {
 	private static Player[] playerListOrder;
 	private static int playerAmt;
 	private static int playerIdx = 0;
+	private static boolean actvPlayerActed = false;
+	private static boolean actvPlayerMoved = false;
+
 
 	public static void main(String[] args) {
 		System.out.println("Running GameManager.java");
@@ -24,6 +27,8 @@ public class GameManager {
 		} else {
 			playerIdx++;
 		}
+		actvPlayerActed = false;
+		actvPlayerMoved = false;
 	}
 
 	// Gives bonuses to players according to their assigned rank
@@ -83,6 +88,14 @@ public class GameManager {
 
 	public static void setPlayerAmt(int amt) {
 		playerAmt = amt;
+	}
+
+	public static boolean getPlayerActed(){
+		return actvPlayerActed;
+	}
+
+	public static boolean getPlayerMoved(){
+		return actvPlayerMoved;
 	}
 
 	// Create each player object

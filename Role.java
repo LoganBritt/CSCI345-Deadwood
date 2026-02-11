@@ -10,6 +10,7 @@ public class Role {
         private Player playerHere;
 	private String title = "nameless extra";
 	private String line = "indistinct murmuring";
+	private boolean onCard = false;
 
         public static void main(String[] args) {
                 System.out.println("Running Role.java");
@@ -61,6 +62,10 @@ public class Role {
 
 	public String getLine(){
 		return line;
+	}
+
+	public boolean isOnCard(){
+		return onCard;
 	}
 
 }
