@@ -11,6 +11,8 @@
 import java.util.Scanner;
 
 public class UIManager {
+	//This starts the game and creates the needed objects
+	// Also allows user to specify player number
 	public static void startGame() {
 		System.out.println("Starting Deadwood...");
 		System.out.println("Welcome to Deadwood!");
@@ -54,7 +56,7 @@ public class UIManager {
 		startGameplay();
 
 	}
-
+	//Main game loop
 	private static void startGameplay() {
 		Scanner in = new Scanner(System.in);
 		Player actvPlayer = GameManager.getActivePlayer();
@@ -83,7 +85,7 @@ public class UIManager {
 					} else if (currSpace instanceof Casting) {
 						System.out.println("You are at the Casting Office");
 						currSpace.printNeighbors();
-						System.out.println("You can see exchange rates by typing 'Exchange Info'");
+						System.out.println("You can see upgrade rates by typing 'Upgrade Info'");
 					} else {
 						Scene scene = (Scene) currSpace;
 						System.out.println("You are at " + scene.getName());
@@ -126,15 +128,15 @@ public class UIManager {
 						System.out.println("You are not in a place where you can act");
 					}
 					break;
-				case "exchange info":
-					System.out.println("Exchange Info:");
+				case "upgrade info":
+					System.out.println("Upgrade Info:");
 					System.out.println(" Rank |  Dollars  | Credits");
 					System.out.println("  2   |    04     |   05   ");
 					System.out.println("  3   |    10     |   10   ");
 					System.out.println("  4   |    18     |   15   ");
 					System.out.println("  5   |    28     |   20   ");
 					System.out.println("  6   |    40     |   25   ");
-					System.out.println("Remember, exchanges can only be made at the Casting Office");
+					System.out.println("Remember, upgrades can only be made at the Casting Office");
 					break;
 				case "rehearse":
 					actvPlayer.rehearse();
@@ -143,9 +145,9 @@ public class UIManager {
 					GameManager.makeActed();
 					break;
 				case "end turn":
-                                        System.out.println("Next turn...");
-                                        GameManager.changeTurn();
-                                        break;
+                    System.out.println("Next turn...");
+                    GameManager.changeTurn();
+                    break;
 				case "end game":
 					GameManager.endGame();
 					break;
@@ -154,10 +156,10 @@ public class UIManager {
 						String newScene;
 						newScene = cutFront(input, 1);
 						actvPlayer.move(newScene);
-					}else if(input.startsWith("exchange")){
+					}else if(input.startsWith("upgrade")){
 						String newRank;
 						newRank = cutFront(input, 1);
-						System.out.println("New rank for exchange: " + newRank);
+						System.out.println("New rank for upgrade: " + newRank);
 						
 					}else if(input.startsWith("take role")){
 						String newRole;
@@ -175,6 +177,7 @@ public class UIManager {
 		}
 	}
 
+	// This is a method we decided to add to have a list of all the possible actions 
 	private static void printHelp() {
 		System.out.println("Game Actions:");
 		System.out.println("* Help (Ex 'Help'): This shows the action menu. You're seeing it now.");
@@ -190,8 +193,8 @@ public class UIManager {
 		System.out.println(
 				"* Act (Ex 'Act'): This causes your player to act. Act only if you have not acted this turn and if you have taken a role");
 		System.out.println(
-				"* Exchange + rank number (Ex 'Exchange 4'): This causes your player to make an exchange. Exchange only at the Casting Office");
-		System.out.println("* Exchage Info (Ex 'Exchange Info'): Provides info about the costs for each rank exchange");
+				"* Upgrade + rank number (Ex 'Upgrade 4'): This causes your player to make an upgrade. Upgrade only at the Casting Office");
+		System.out.println("* Exchage Info (Ex 'Upgrade Info'): Provides info about the costs for each rank upgrade");
 		System.out.println(
 				"* Take Role + role name (Ex 'Take Role Squeaking Boy'): This allows your player to take a new role. You can only take a new role that isn't taken and if you do not have a role");
 		System.out.println("Rehearse (Ex 'Rehearse'): Rehearse and get a rehearsal token. You can only rehearse if you're working on a role");
@@ -199,6 +202,9 @@ public class UIManager {
 		System.out.println("* End game (Ex 'End game'): Ends the game early");
 	}
 
+	// Prints the Player's dollars/credits/rank/rehearsal tokens. 
+	// Will also print the space, role
+	// If the player object is null, then ALL of the players' stats will be printed
 	public static void printStats(Player player) {
 		System.out.println("Printing player stats:");
 		if (player == null) {
@@ -221,11 +227,13 @@ public class UIManager {
 		}
 	}
 
+	// Regular prompting for the input, just visually aesthetic 
 	private static String promptInput(Scanner input) {
 		System.out.print(">>");
 		return input.nextLine();
 	}
 
+	// This prints all the info of all the roles that are currently in roleList
 	private static void printRoles(Role[] roleList){
 		System.out.println("Roles:");
 		Role workingRole;
@@ -238,6 +246,7 @@ public class UIManager {
 		}
 	}
 
+	// Cuts off the first removed words from the input string to get the arguments
 	private static String cutFront(String input, int removed){
 		if(removed == 0){ return input;}
 		int i = 0;
