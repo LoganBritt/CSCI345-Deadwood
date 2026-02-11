@@ -88,11 +88,14 @@ public class UIManager {
 					}
 					break;
 				case "card":
-					if(actvPlayer.currLocation.card == null){
+					if(actvPlayer.currLocation instanceof Trailers || actvPlayer.currLocation instanceof Casting){
 						System.out.println("The space you're at does not have a card");
 					}else{
-						Card card = actvPlayer.currLocation.card;
-						
+						Scene scene = (Scene) actvPlayer.currLocation;
+						Card card = scene.getCard();
+						System.out.println("'" + card.getTitle() + "'");
+						System.out.println(card.getDesc());
+						printRoles(card.getRoles());
 
 					}
 					break;
@@ -175,6 +178,18 @@ public class UIManager {
 	private static String promptInput(Scanner input) {
 		System.out.print(">>");
 		return input.nextLine();
+	}
+
+	private static void printRoles(Role[] roleList){
+		System.out.println("Roles:");
+		Role workingRole;
+		for(int i = 0; i < roleList.length; i++){
+			workingRole = roleList[i];
+			System.out.println("'" + workingRole.getTitle() + "'");
+			System.out.println("'" + workingRole.getLine() + "'");
+			System.out.println("Level: " + workingRole.getRank());
+			if(i+1 != roleList.length){ System.out.println();}
+		}
 	}
 
 	// The following functions are for visual UI implementation and will not be used

@@ -6,8 +6,10 @@
 
 public class Role {
 
-        private int rank;
+        private int rank = 1;
         private Player playerHere;
+	private String title = "nameless extra";
+	private String line = "indistinct murmuring";
 
         public static void main(String[] args) {
                 System.out.println("Running Role.java");
@@ -16,6 +18,12 @@ public class Role {
         Role(int newRank) {
                 rank = newRank;
         }
+
+	Role(int newRank, String newTitle, String newLine){
+		rank = newRank;
+		title = newTitle;
+		line = newLine;
+	}
 
         // checks to see if a player can take the role
         public boolean canTake(Player player) {
@@ -46,5 +54,13 @@ public class Role {
         public int getRank() {
                 return rank;
         }
+
+	public String getTitle(){
+		return title;
+	}
+
+	public String getLine(){
+		return line;
+	}
 
 }

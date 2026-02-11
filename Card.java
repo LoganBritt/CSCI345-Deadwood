@@ -6,10 +6,10 @@
 import java.awt.image.BufferedImage;
 
 public class Card {
-
         private Scene scene;
         private BufferedImage background;
 	private String title = "default";
+	private String desc = "This card has no decription";
         private int budget;
         private Role[] roles;
 
@@ -21,6 +21,13 @@ public class Card {
                 budget = cardBudget;
                 roles = roleList;
         }
+
+	Card(int cardBudget, Role[] roleList, String newTitle, String newDesc){
+		budget = cardBudget;
+		roles = roleList;
+		title = newTitle;
+		desc = newDesc;
+	}
 
         // gets the current scene
         public Scene getScene() {
@@ -47,5 +54,9 @@ public class Card {
 
 	public String getTitle(){
 		return title;
+	}
+
+	public String getDesc(){
+		return desc;
 	}
 }
