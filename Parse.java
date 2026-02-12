@@ -51,8 +51,8 @@ public class Parse {
             workingCard.setTitle(cardName);
             // System.out.println("Card Names: " + cardName);
             String img = card.getAttributes().getNamedItem("img").getNodeValue();
-            // TODO figure out how the Buffered Image works...
             // String.out.println("Card Image: " + img);
+            workingCard.setBackground(img);
             int budget = Integer.parseInt(card.getAttributes().getNamedItem("budget").getNodeValue());
             // String.out.println("Card Budget: " + budget);
             workingCard.setBudget(budget);

@@ -3,11 +3,12 @@
 //	This is the Class for the Card object that houses card roles and info
 //	There should be 40 of these at any time and belong to the Deck object
 */
-import java.awt.image.BufferedImage;
+// This import we no longer need, but if we decide we need it again I wanted to leave it in
+// import java.awt.image.BufferedImage;
 
 public class Card {
         private Scene scene;
-        private BufferedImage background;
+        private String background;
         private String title = "default";
         private String desc = "This card has no decription";
         private int budget;
@@ -88,12 +89,12 @@ public class Card {
         }
 
         // gets the background
-        public BufferedImage getBackground() {
+        public String getBackground() {
                 return background;
         }
 
         // sets the background
-        public void setBackground(BufferedImage newBackground) {
+        public void setBackground(String newBackground) {
                 background = newBackground;
         }
 
