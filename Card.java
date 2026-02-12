@@ -8,8 +8,8 @@ import java.awt.image.BufferedImage;
 public class Card {
         private Scene scene;
         private BufferedImage background;
-	private String title = "default";
-	private String desc = "This card has no decription";
+        private String title = "default";
+        private String desc = "This card has no decription";
         private int budget;
         private Role[] roles;
         private int sceneNum;
@@ -17,6 +17,9 @@ public class Card {
         private int y;
         private int h;
         private int w;
+        private String roleName = "";
+        private String roleLine = "";
+        private int level;
 
         public static void main(String[] args) {
                 System.out.println("Running Card.java");
@@ -27,12 +30,12 @@ public class Card {
                 roles = roleList;
         }
 
-	Card(int cardBudget, Role[] roleList, String newTitle, String newDesc){
-		budget = cardBudget;
-		roles = roleList;
-		title = newTitle;
-		desc = newDesc;
-	}
+        Card(int cardBudget, Role[] roleList, String newTitle, String newDesc) {
+                budget = cardBudget;
+                roles = roleList;
+                title = newTitle;
+                desc = newDesc;
+        }
 
         // gets the current scene
         public Scene getScene() {
@@ -49,23 +52,128 @@ public class Card {
 
         }
 
+        // gets the budget of the card
         public int getBudget() {
                 return budget;
         }
 
+        // sets the budget to the budget of the card
+        public void setBudget(int newBudget) {
+                budget = newBudget;
+        }
+
+        // returns the roles from the role list
         public Role[] getRoles() {
                 return roles;
         }
 
-	public String getTitle(){
-		return title;
-	}
+        // gets the title of the card
+        public String getTitle() {
+                return title;
+        }
 
-        public void setTitle(String newTitle){
+        // sets the title of the card
+        public void setTitle(String newTitle) {
                 title = newTitle;
         }
 
-	public String getDesc(){
-		return desc;
-	}
+        // gets the scene description
+        public String getDesc() {
+                return desc;
+        }
+
+        // sets the scene description
+        public void setDesc(String newDesc) {
+                desc = newDesc;
+        }
+
+        // gets the background
+        public BufferedImage getBackground() {
+                return background;
+        }
+
+        // sets the background
+        public void setBackground(BufferedImage newBackground) {
+                background = newBackground;
+        }
+
+        // gets the number of the scene
+        public int getSceneNumber() {
+                return sceneNum;
+        }
+
+        // gets sets the number of the scene
+        public void setSceneNumber(int newNum) {
+                sceneNum = newNum;
+        }
+
+        // Gets the level of the role
+        public int getLevel() {
+                return level;
+        }
+
+        // Sets the level of the role
+        public void setLevel(int newLevel) {
+                level = newLevel;
+        }
+
+        // gets the X value of the role
+        public int getX() {
+                return x;
+        }
+
+        // sets the X value of the role
+        public void setX(int newX) {
+                x = newX;
+        }
+
+        // gets the Y value of the role
+        public int getY() {
+                return y;
+        }
+
+        // sets the Y value of the role
+        public void setY(int newY) {
+                y = newY;
+        }
+
+        // gets the H value of the role
+        public int getH() {
+                return h;
+        }
+
+        // sets the H value of the role
+        public void setH(int newH) {
+                h = newH;
+        }
+
+        // gets the W value of the role
+        public int getW() {
+                return w;
+        }
+
+        // Sets the W value of the role
+        public void setW(int newW) {
+                w = newW;
+        }
+
+        // gets the Role Name
+        public String getRoleName() {
+                return roleName;
+        }
+
+        // Sets the Role Name
+        public void setRoleName(String newRoleName) {
+                roleName = newRoleName;
+        }
+
+        // gets the role line
+        public String getRoleLine() {
+                return roleLine;
+        }
+
+        // sets the Role Line
+        public void setRoleLine(String newRoleLine) {
+                roleLine = newRoleLine;
+        }
 }
