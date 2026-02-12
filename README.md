@@ -25,6 +25,7 @@ Board Manager, not fully but XML Parser!!
 
 Easy to Implement (next up!):
 
+Parser.java
 Casting.java
 Card.java
 Deck.java
