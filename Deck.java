@@ -27,4 +27,8 @@ public class Deck {
                 return remainingCards;
         }
 
+        public Card[] getCardSet(){
+                return cardSet;
+        }
+
 }

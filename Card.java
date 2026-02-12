@@ -12,6 +12,11 @@ public class Card {
 	private String desc = "This card has no decription";
         private int budget;
         private Role[] roles;
+        private int sceneNum;
+        private int x;
+        private int y;
+        private int h;
+        private int w;
 
         public static void main(String[] args) {
                 System.out.println("Running Card.java");
@@ -55,6 +60,10 @@ public class Card {
 	public String getTitle(){
 		return title;
 	}
+
+        public void setTitle(String newTitle){
+                title = newTitle;
+        }
 
 	public String getDesc(){
 		return desc;

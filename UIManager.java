@@ -209,7 +209,7 @@ public class UIManager {
 				"* Act (Ex 'Act'): This causes your player to act. Act only if you have not acted this turn and if you have taken a role");
 		System.out.println(
 				"* Upgrade + rank number (Ex 'Upgrade 4'): This causes your player to make an upgrade. Upgrade only at the Casting Office");
-		System.out.println("* Exchage Info (Ex 'Upgrade Info'): Provides info about the costs for each rank upgrade");
+		System.out.println("* Upgrade Info (Ex 'Upgrade Info'): Provides info about the costs for each rank upgrade");
 		System.out.println(
 				"* Take Role + role name (Ex 'Take Role Squeaking Boy'): This allows your player to take a new role. You can only take a new role that isn't taken and if you do not have a role");
 		System.out.println("Rehearse (Ex 'Rehearse'): Rehearse and get a rehearsal token. You can only rehearse if you're working on a role");
