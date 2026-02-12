@@ -27,7 +27,7 @@ public class UIManager {
 
 		// Player setting
 		System.out.println("How many people will be playing today? (2-8 Players Only)");
-		int playerNumInput = Integer.parseInt(promptInput(terminalIn));
+		int playerNumInput = (int) Float.parseFloat(promptInput(terminalIn));
 		int numInputFail = 0;
 		while (playerNumInput < 2 || playerNumInput > 8) {
 			if (numInputFail != 2 && numInputFail != 5) {
@@ -51,7 +51,7 @@ public class UIManager {
 
 		GameManager.setPlayerAmt(playerNumInput);
 		GameManager.createPlayers();
-
+(int) Float.parseFloat(promptInput(terminalIn));
 		// Code for beginning actual gameplay
 		startGameplay();
 
@@ -145,9 +145,9 @@ public class UIManager {
 					GameManager.makeActed();
 					break;
 				case "end turn":
-                    System.out.println("Next turn...");
-                    GameManager.changeTurn();
-                    break;
+		                        System.out.println("Next turn...");
+                    			GameManager.changeTurn();
+                    			break;
 				case "end game":
 					GameManager.endGame();
 					break;
@@ -160,12 +160,28 @@ public class UIManager {
 						String newRank;
 						newRank = cutFront(input, 1);
 						System.out.println("New rank for upgrade: " + newRank);
-						
+
+						System.out.println("How would you like to pay?");
+						System.out.println("(C)redits or (D)ollars?");
+						String paymentType = promptInput();
+						if(!(paymentType.toLowerCase().equals("c") || paymentType.toLowerCase().equals("d") || paymentType.toLowerCase().startsWith("dollars") || paymentTye.toLowerCase().startsWith("credits"))){
+							System.out.println("I'm sorry. " + paymentType + " is a viable form of payment");
+						}else{
+							paymentType = paymentType.toLowerCase();
+							boolean usingMoney;
+							if(paymentType.equals("c") || paymentType.startsWith("credits")){
+								usingMoney = false;
+							}else{
+								usingMoney = true;
+							}
+							System.out.println("Got it. You're paying with " + paymentType);
+							player.upgrade((int) Float.parseFloat(newRank), usingMoney);
+						}
 					}else if(input.startsWith("take role")){
 						String newRole;
 						newRole = cutFront(input, 2);
 						System.out.println("New role: " + newRole);
-
+						
 					}else{
 						System.out.println("I'm sorry, I didn't understand that.");
 						System.out.println("Some actions are not fully implemented. Deadwood is still in development");

@@ -15,12 +15,12 @@ public class Casting extends Space {
 
         // returns the money cost of the selected rank
         public int moneyCost(int rank) {
-                return 0;
+                return moneyCostSet[rank];
         }
 
         // returns the credit cost of the selected rank
         public int creditCost(int rank) {
-                return 0;
+                return creditCostSet[rank];
         }
 
 }

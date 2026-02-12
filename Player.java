@@ -81,10 +81,30 @@ public class Player {
 	}
 
 	// Upgrade: Pay $/Credits to upgrade
-	public void upgrade(int newRank) {
+	public void upgrade(int newRank, boolean useDollars) {
 		Casting casting = (Casting) currLocation;
-
-		rank = newRank;
+		int exchangeRef = 0;
+		if(useDollars){
+			exchangeRef = casting.moneyCost(newRank - 2);
+			if(exchangeRef <= dollars){
+				System.out.println("Making exchange...");
+				dollars -= exchangeRef;
+				rank = newRank;
+			}else{
+				System.out.println("I'm sorry. You do not have enough dollars to afford that upgrade");
+				System.out.println("Please try again when you have " + exchangeRef + " dollars");
+			}
+		}else{
+			exchangeRef = casting.creditCost(newRank - 2);
+                        if(exchangeRef <= credits){
+                                System.out.println("Making exchange...");
+                                credits -= exchangeRef;
+                                rank = newRank;
+                        }else{
+                                System.out.println("I'm sorry. You do not have enough credits to afford that upgrade");
+                                System.out.println("Please try again when you have " + exchangeRef + " credits");
+                        }
+		}
 	}
 
 	private void clearTokens() {
