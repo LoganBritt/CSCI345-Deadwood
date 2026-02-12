@@ -51,7 +51,6 @@ public class UIManager {
 
 		GameManager.setPlayerAmt(playerNumInput);
 		GameManager.createPlayers();
-(int) Float.parseFloat(promptInput(terminalIn));
 		// Code for beginning actual gameplay
 		startGameplay();
 
@@ -163,8 +162,8 @@ public class UIManager {
 
 						System.out.println("How would you like to pay?");
 						System.out.println("(C)redits or (D)ollars?");
-						String paymentType = promptInput();
-						if(!(paymentType.toLowerCase().equals("c") || paymentType.toLowerCase().equals("d") || paymentType.toLowerCase().startsWith("dollars") || paymentTye.toLowerCase().startsWith("credits"))){
+						String paymentType = promptInput(in);
+						if(!(paymentType.toLowerCase().equals("c") || paymentType.toLowerCase().equals("d") || paymentType.toLowerCase().startsWith("dollars") || paymentType.toLowerCase().startsWith("credits"))){
 							System.out.println("I'm sorry. " + paymentType + " is a viable form of payment");
 						}else{
 							paymentType = paymentType.toLowerCase();
@@ -175,7 +174,7 @@ public class UIManager {
 								usingMoney = true;
 							}
 							System.out.println("Got it. You're paying with " + paymentType);
-							player.upgrade((int) Float.parseFloat(newRank), usingMoney);
+							actvPlayer.upgrade((int) Float.parseFloat(newRank), usingMoney);
 						}
 					}else if(input.startsWith("take role")){
 						String newRole;
