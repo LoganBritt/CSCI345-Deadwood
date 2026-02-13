@@ -303,10 +303,19 @@ public class UIManager {
 			System.out.println("Please try again tomorrow");
 			return;
 		}
+		//Checking scene roles
 		Role[] untakenRoles = scene.getUntakenRoles();
 		Role foundRole = null;
 		for(int i = 0; i < untakenRoles.length; i++){
 			if(untakenRoles[i] != null && untakenRoles[i].getTitle().equals(newRole)){
+				foundRole = untakenRoles[i];
+			}
+		}
+		//Checking card roles
+		Card card = scene.getCard();
+		untakenRoles = card.getRoles();
+		for(int i = 0; i < untakenRoles.length; i++){
+			if(untakenRoles[i].canTake(player) && untakenRoles[i].getTitle().equals(newRole)){
 				foundRole = untakenRoles[i];
 			}
 		}
