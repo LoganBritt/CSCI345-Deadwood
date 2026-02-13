@@ -7,6 +7,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import java.util.ArrayList;
 //import java.io.File;
 
 public class Parse {
@@ -43,7 +45,7 @@ public class Parse {
             System.out.println("XML Parse Failure");
         }
         Element root = d.getDocumentElement();
-        NodeList cards = root.getElementsByTagName("cards");
+        NodeList cards = root.getElementsByTagName("card");
         for (int i = 0; i < cards.getLength(); i++) {
             Card workingCard = deck.getCardSet()[i];
             Node card = cards.item(i);
@@ -101,8 +103,45 @@ public class Parse {
     }
 
     // parseBoard method parses the board and returns the values
-    public static Board parseBoard(Board board) {
-        return board;
+
+    public void parseBoard(Board board) {
+        Document doc = null;
+        try {
+            doc = getDocFromFile("board.xml");
+        } catch (Exception e) {
+            System.out.println("XML Parse Failure");
+        }
+        Element boardRoot = doc.getDocumentElement();
+        NodeList boardList = boardRoot.getElementsByTagName("set");
+        for (int i = 0; i < boardList.getLength(); i++) {
+            Node spaceItem = boardList.item(i);
+            ArrayList<Space> spaceList = board.getSpaceList();
+            Space workingSpace = spaceList.get(i + 1);
+            Scene workingScene = (Scene) workingSpace;
+            if (i < 10) {
+                String setName = spaceItem.getAttributes().getNamedItem("name").getNodeValue();
+                workingScene.setName(setName);
+
+                NodeList neighbors = spaceItem.getChildNodes();
+                for (int j = 0; j < neighbors.getLength(); j++) {
+                    Node sub = neighbors.item(j);
+                    String neighborName = sub.getAttributes().getNamedItem("name").getNodeValue();
+                    
+                }
+                // area code
+            }
+            else if (i == 10){
+                //trailers
+                workingSpace = spaceList.get(0);
+            }
+            else if (i == 11){
+                //casting office
+                workingSpace = spaceList.get(12);
+
+            }
+
+        }
+
     }
 
 }

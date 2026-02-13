@@ -8,7 +8,8 @@ public class Scene extends Space {
 	private Role takenRoles[];
 	private Card card;
 	private int shots;
-
+	private String name; 
+	
 	Scene(Card setCard, int shotAmt) {
 		card = setCard;
 		shots = shotAmt;
@@ -56,5 +57,9 @@ public class Scene extends Space {
 
 	public String getName() {
 		return this.name;
+	}
+
+	public void setName(String newName){
+		name = newName;
 	}
 }

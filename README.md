@@ -14,6 +14,9 @@ GameManager.java
 Player.java
 Trailer.java
 Space.java
+Card.java
+Deck.java
+
 
 What we need: 
 UI completed by Saturday  
@@ -21,14 +24,13 @@ UI completed by Saturday
     Take Role
     Add if acted to rehearse 
     Add Space and Role to print stats
-Board Manager, not fully but XML Parser!! 
+XML Parser
+Board Manager
 
 Easy to Implement (next up!):
 
 Parser.java
 Casting.java
-Card.java
-Deck.java
 Scene.java
 
 
