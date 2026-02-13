@@ -96,16 +96,12 @@ public class UIManager {
 					}else if(input.startsWith("upgrade")){
 						printUpgrade(actvPlayer, input);
 					}else if(input.startsWith("take role")){
-						String newRole;
-						newRole = cutFront(input, 2);
-						System.out.println("New role: " + newRole);
-						
+						printRoleChange(actvPlayer, input);
 					}else{
 						System.out.println("I'm sorry, I didn't understand that.");
 						System.out.println("Some actions are not fully implemented. Deadwood is still in development");
 						System.out.println("Please try again, or type 'Help' for input options");
-					}System.out.println("Next turn...");
-                                        GameManager.changeTurn();
+					}
 					break;
 
 			}
@@ -132,7 +128,7 @@ public class UIManager {
 		System.out.println("* Upgrade Info (Ex 'Upgrade Info'): Provides info about the costs for each rank upgrade");
 		System.out.println(
 				"* Take Role + role name (Ex 'Take Role Squeaking Boy'): This allows your player to take a new role. You can only take a new role that isn't taken and if you do not have a role");
-		System.out.println("Rehearse (Ex 'Rehearse'): Rehearse and get a rehearsal token. You can only rehearse if you're working on a role");
+		System.out.println("* Rehearse (Ex 'Rehearse'): Rehearse and get a rehearsal token. You can only rehearse if you're working on a role");
 		System.out.println("* End turn (Ex 'End turn'): Ends your turn");
 		System.out.println("* End game (Ex 'End game'): Ends the game early");
 	}
@@ -290,6 +286,44 @@ public class UIManager {
                 boolean usingMoney = (paymentType.equals("d") || paymentType.startsWith("credits"));
                 System.out.println("Got it. You're paying with " + paymentType);
                 actvPlayer.upgrade((int) Float.parseFloat(newRank), usingMoney);
+	}
+
+	// Prints everything the player needs to see in regards to taking a new role
+	private static void printRoleChange(Player player, String input){
+		String newRole;
+                newRole = cutFront(input, 2);
+                System.out.println("New role: " + newRole);
+		if(player.currLocation instanceof Casting || player.currLocation instanceof Trailers){
+			System.out.println("There are no roles at the place you're at");
+			return;
+		}
+		Scene scene = (Scene) player.currLocation;
+		if(scene.sceneComplete()){
+			System.out.println("This scene has already finished shooting for the day");
+			System.out.println("Please try again tomorrow");
+			return;
+		}
+		Role[] untakenRoles = scene.getUntakenRoles();
+		Role foundRole = null;
+		for(int i = 0; i < untakenRoles.length; i++){
+			if(untakenRoles[i] != null && untakenRoles[i].getTitle().equals(newRole)){
+				foundRole = untakenRoles[i];
+			}
+		}
+		if(foundRole == null){
+			System.out.println("Either the role you entered is not on this scene or is already taken by another player.");
+			System.out.println("Please try again or try to take another role");
+			return;
+		}
+		if(foundRole.getRank() > player.rank){
+			System.out.println("You are not experienced enough to take this role");
+			System.out.println("You must upgrade your rank in the Casting Office to at least " + foundRole.getRank());
+			return;
+		}
+		player.currRole = foundRole;
+		foundRole.setPlayer(player);
+		
+
 	}
 
 	// Prints everything the player will need to see whne the turn is ended

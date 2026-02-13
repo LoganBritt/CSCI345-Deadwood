@@ -28,23 +28,20 @@ public class Role {
 
         // checks to see if a player can take the role
         public boolean canTake(Player player) {
-                return true;
-        }
+		if(playerHere != null){ return false;}
+		if(player.rank <= rank) { return false;}
 
-        // compares the rank of the role to the rank of the player
-        // helper method to canTake()
-        private boolean levelCompare(int compareRank) {
                 return true;
         }
 
         // checks to see if the role is taken
         public boolean isTaken() {
-                return true;
+                return (playerHere != null);
         }
 
         // sets the playerHere to player
         public void setPlayer(Player player) {
-
+		playerHere = player;
         }
 
         // returns the playerHere
