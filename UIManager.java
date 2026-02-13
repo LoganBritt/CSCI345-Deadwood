@@ -28,12 +28,22 @@ public class UIManager {
 
 		// Player setting
 		System.out.println("How many people will be playing today? (2-8 Players Only)");
-		int playerNumInput = (int) Float.parseFloat(promptInput(terminalIn));
+		int glitchInt = 0;
+		int playerNumInput = 0;
 		int numInputFail = 0;
 		while (playerNumInput < 2 || playerNumInput > 8) {
+			System.out.print(">>");
+			while(!(terminalIn.hasNextInt())){
+				if(glitchInt == 0){ glitchInt = 1;
+	                        	System.out.println("I'm sorry. That's not a number");
+	                        	System.out.print(">> ");
+	                        	terminalIn.nextLine();
+				}else{ glitchInt = 0;}
+	                }
+	                playerNumInput = terminalIn.nextInt();
 			if (numInputFail != 2 && numInputFail != 5) {
 				System.out.println("I'm sorry, that's outside the boundaries (2-8 Players Only). Please try again:");
-				numInputFail++;
+//				numInputFail++;
 			} else if (numInputFail == 5) {
 				System.out.println("Nope, not doing this");
 				System.out.println("Bye.");
@@ -44,9 +54,8 @@ public class UIManager {
 				System.out.println("Not 1, not 15, not any negative or decimal number");
 				System.out.println("2 through 8, got it?");
 				System.out.println("You had better got it");
-				numInputFail++;
+//				numInputFail++;
 			}
-			playerNumInput = Integer.parseInt(promptInput(terminalIn));
 		}
 		System.out.println("Understood! " + playerNumInput + " players.");
 
@@ -95,7 +104,8 @@ public class UIManager {
 						System.out.println("I'm sorry, I didn't understand that.");
 						System.out.println("Some actions are not fully implemented. Deadwood is still in development");
 						System.out.println("Please try again, or type 'Help' for input options");
-					}
+					}System.out.println("Next turn...");
+                                        GameManager.changeTurn();
 					break;
 
 			}
