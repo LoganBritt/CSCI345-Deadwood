@@ -21,6 +21,7 @@ public class Scene extends Space {
 
 	// Sets the card to a new card
 	public void setCard(Card newCard) {
+		card = newCard;
 	}
 
 	// Changes a role from the untaken array to the taken array

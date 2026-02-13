@@ -16,18 +16,17 @@ Trailer.java
 Space.java
 Card.java
 Deck.java
+Casting.java
+UIManager.java (For terminal UI)
 
 
-What we need: 
-UI completed by Saturday  
-    Take Role
+What we need:
 XML Parser
 Board Manager
 
 Easy to Implement (next up!):
 
 Parser.java
-Casting.java
 Scene.java
 
 
