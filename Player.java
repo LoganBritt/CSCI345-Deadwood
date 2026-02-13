@@ -82,6 +82,11 @@ public class Player {
 
 	// Upgrade: Pay $/Credits to upgrade
 	public void upgrade(int newRank, boolean useDollars) {
+		if(!(currLocation instanceof Casting)){
+			System.out.println("Sorry, you can't make an exchange here.");
+			System.out.println("Please move to the Casting Office to make an exchange");
+			return;
+		}
 		Casting casting = (Casting) currLocation;
 		int exchangeRef = 0;
 		if(useDollars){

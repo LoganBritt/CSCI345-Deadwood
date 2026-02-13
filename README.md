@@ -20,10 +20,7 @@ Deck.java
 
 What we need: 
 UI completed by Saturday  
-    Upgrade
     Take Role
-    Add if acted to rehearse 
-    Add Space and Role to print stats
 XML Parser
 Board Manager
 

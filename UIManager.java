@@ -11,13 +11,14 @@
 import java.util.Scanner;
 
 public class UIManager {
+	private static Scanner terminalIn;
 	//This starts the game and creates the needed objects
 	// Also allows user to specify player number
 	public static void startGame() {
 		System.out.println("Starting Deadwood...");
 		System.out.println("Welcome to Deadwood!");
 
-		Scanner terminalIn = new Scanner(System.in);
+		terminalIn = new Scanner(System.in);
 
 		// Deck setup
 		BoardManager.createDeck();
@@ -57,125 +58,34 @@ public class UIManager {
 	}
 	//Main game loop
 	private static void startGameplay() {
-		Scanner in = new Scanner(System.in);
+		terminalIn = new Scanner(System.in);
 		Player actvPlayer = GameManager.getActivePlayer();
 		while (GameManager.getDay() != 0) {
 			System.out.println();
 			System.out.println("Player " + (GameManager.getActvPlyrIdx() + 1) + ", what do you want to do?");
-			String input = promptInput(in);
+			String input = promptInput(terminalIn);
 			input = input.toLowerCase();
 			Role workingRole = actvPlayer.currRole;
 
 			switch (input) {
-				case "help":
-					printHelp();
-					break;
-				case "stats":
-					printStats(actvPlayer);
-					break;
-				case "stats all":
-					printStats(null);
-					break;
-				case "space":
-					Space currSpace = actvPlayer.currLocation;
-					if (currSpace instanceof Trailers) {
-						System.out.println("You are at the Trailers");
-						currSpace.printNeighbors();
-					} else if (currSpace instanceof Casting) {
-						System.out.println("You are at the Casting Office");
-						currSpace.printNeighbors();
-						System.out.println("You can see upgrade rates by typing 'Upgrade Info'");
-					} else {
-						Scene scene = (Scene) currSpace;
-						System.out.println("You are at " + scene.getName());
-						System.out.println("Card Title: " + scene.getCard().getTitle());
-						printRoles(scene.getUntakenRoles());
-						printRoles(scene.getTakenRoles());
-					}
-					break;
-				case "card":
-					if(actvPlayer.currLocation instanceof Trailers || actvPlayer.currLocation instanceof Casting){
-						System.out.println("The space you're at does not have a card");
-					}else{
-						Scene scene = (Scene) actvPlayer.currLocation;
-						Card card = scene.getCard();
-						System.out.println("'" + card.getTitle() + "'");
-						System.out.println(card.getDesc());
-						printRoles(card.getRoles());
-					}
-					break;
-				case "role":
-					if(workingRole != null){
-						System.out.println("'" + workingRole.getTitle() + "'");
-                        			System.out.println("'" + workingRole.getLine() + "'");
-                        			System.out.println("Level: " + workingRole.getRank());
-					}else{
-						System.out.println("You are not currently working at a role");
-					}
-					break;
-				case "act":
-					if(actvPlayer.currLocation instanceof Scene){
-						Scene scene = (Scene) actvPlayer.currLocation;
-						if(workingRole == null){
-							System.out.println("You cannot act. You are not working at a role");
-						}else if(GameManager.getPlayerActed()){
-							System.out.println("You cannot act. You have already acted this turn");
-						}else{
-							actvPlayer.act(workingRole.isOnCard());
-						}
-					}else{
-						System.out.println("You are not in a place where you can act");
-					}
-					break;
-				case "upgrade info":
-					System.out.println("Upgrade Info:");
-					System.out.println(" Rank |  Dollars  | Credits");
-					System.out.println("  2   |    04     |   05   ");
-					System.out.println("  3   |    10     |   10   ");
-					System.out.println("  4   |    18     |   15   ");
-					System.out.println("  5   |    28     |   20   ");
-					System.out.println("  6   |    40     |   25   ");
-					System.out.println("Remember, upgrades can only be made at the Casting Office");
-					break;
-				case "rehearse":
-					actvPlayer.rehearse();
-					System.out.println("You rehearsed your lines");
-					System.out.println("You now have " + actvPlayer.rehearseTokens + " rehearsal tokens");
-					GameManager.makeActed();
-					break;
-				case "end turn":
-		                        System.out.println("Next turn...");
-                    			GameManager.changeTurn();
-                    			break;
-				case "end game":
-					GameManager.endGame();
-					break;
+				case "help": printHelp(); break;
+				case "stats": printStats(actvPlayer); break;
+				case "stats all": printStats(null); break;
+				case "space": printSpace(actvPlayer); break;
+				case "card": printCard(actvPlayer); break;
+				case "role": printPlayerRole(actvPlayer); break;
+				case "act": printAct(actvPlayer); break;
+				case "upgrade info": printUpgradeInfo(); break;
+				case "rehearse": printRehearse(actvPlayer); break;
+				case "end turn": printEndTurn(); break;
+				case "end game": GameManager.endGame(); break;
 				default:
 					if(input.startsWith("move")){
 						String newScene;
 						newScene = cutFront(input, 1);
 						actvPlayer.move(newScene);
 					}else if(input.startsWith("upgrade")){
-						String newRank;
-						newRank = cutFront(input, 1);
-						System.out.println("New rank for upgrade: " + newRank);
-
-						System.out.println("How would you like to pay?");
-						System.out.println("(C)redits or (D)ollars?");
-						String paymentType = promptInput(in);
-						if(!(paymentType.toLowerCase().equals("c") || paymentType.toLowerCase().equals("d") || paymentType.toLowerCase().startsWith("dollars") || paymentType.toLowerCase().startsWith("credits"))){
-							System.out.println("I'm sorry. " + paymentType + " is a viable form of payment");
-						}else{
-							paymentType = paymentType.toLowerCase();
-							boolean usingMoney;
-							if(paymentType.equals("c") || paymentType.startsWith("credits")){
-								usingMoney = false;
-							}else{
-								usingMoney = true;
-							}
-							System.out.println("Got it. You're paying with " + paymentType);
-							actvPlayer.upgrade((int) Float.parseFloat(newRank), usingMoney);
-						}
+						printUpgrade(actvPlayer, input);
 					}else if(input.startsWith("take role")){
 						String newRole;
 						newRole = cutFront(input, 2);
@@ -208,7 +118,7 @@ public class UIManager {
 		System.out.println(
 				"* Act (Ex 'Act'): This causes your player to act. Act only if you have not acted this turn and if you have taken a role");
 		System.out.println(
-				"* Upgrade + rank number (Ex 'Upgrade 4'): This causes your player to make an upgrade. Upgrade only at the Casting Office");
+				"* Upgrade + new rank (Ex 'Upgrade 4'): This causes your player to make an upgrade. Upgrade only at the Casting Office");
 		System.out.println("* Upgrade Info (Ex 'Upgrade Info'): Provides info about the costs for each rank upgrade");
 		System.out.println(
 				"* Take Role + role name (Ex 'Take Role Squeaking Boy'): This allows your player to take a new role. You can only take a new role that isn't taken and if you do not have a role");
@@ -226,6 +136,8 @@ public class UIManager {
 			Player[] players = GameManager.getPlayerList();
 			for (int i = 0; i < players.length; i++) {
 				System.out.println("Player " + (i + 1) + ":");
+				System.out.println("You are at the " + players[i].currLocation.name);
+				if(players[i].currRole != null){ System.out.println("Current role: " + players[i].currRole.getTitle());}
 				System.out.println("Dollars: " + players[i].dollars);
 				System.out.println("Credits: " + players[i].credits);
 				System.out.println("Rank: " + players[i].rank);
@@ -234,12 +146,146 @@ public class UIManager {
 			}
 		} else {
 			System.out.println("Player " + (GameManager.getActvPlyrIdx() + 1) + ":");
+			System.out.println("You are at the " + player.currLocation.name);
+			if(player.currRole != null){ System.out.println("Current role: " + player.currRole.getTitle());}
 			System.out.println("Dollars: " + player.dollars);
 			System.out.println("Credits: " + player.credits);
 			System.out.println("Rank: " + player.rank);
 			System.out.println("Rehearsal Tokens: " + player.rehearseTokens);
 			System.out.println();
 		}
+	}
+
+	// Prints everything the player will need to see with the 'Space' command
+	private static void printSpace(Player actvPlayer){
+		Space currSpace = actvPlayer.currLocation;
+                if (currSpace instanceof Trailers) {
+                        System.out.println("You are at the Trailers");
+                        currSpace.printNeighbors();
+                } else if (currSpace instanceof Casting) {
+                        System.out.println("You are at the Casting Office");
+                        currSpace.printNeighbors();
+                        System.out.println("You can see upgrade rates by typing 'Upgrade Info'");
+                } else {
+                        Scene scene = (Scene) currSpace;
+                        System.out.println("You are at " + scene.getName());
+                        System.out.println("Card Title: " + scene.getCard().getTitle());
+                        printRoles(scene.getUntakenRoles());
+                	printRoles(scene.getTakenRoles());
+                }
+	}
+
+	// Prints everything the player will need to know about the card of the scene they're one
+	private static void printCard(Player actvPlayer){
+		if(actvPlayer.currLocation instanceof Trailers || actvPlayer.currLocation instanceof Casting){
+                        System.out.println("You're not at a scene. Only scenes have cards");
+			return;
+                }
+		Scene scene = (Scene) actvPlayer.currLocation;
+		if(scene.getCard() == null){
+			System.out.println("This scene is fininshed shooting for the day");
+			System.out.println("There is no card because of that");
+			System.out.println("Please check again tomorrow");
+			return;
+		}
+                Card card = scene.getCard();
+                System.out.println("'" + card.getTitle() + "'");
+                System.out.println(card.getDesc());
+        	printRoles(card.getRoles());
+	}
+
+	// Prints all the info the player needs to know about the role they're working on
+	private static void printPlayerRole(Player actvPlayer){
+		Role workingRole = actvPlayer.currRole;
+		if(workingRole == null){
+			System.out.println("You are not currently working at a role");
+			return;
+		}
+                System.out.println("'" + workingRole.getTitle() + "'");
+                System.out.println("'" + workingRole.getLine() + "'");
+                System.out.println("Level: " + workingRole.getRank());
+	}
+
+	// Prints everything the player needs to see for acting
+	private static void printAct(Player actvPlayer){
+		Role workingRole = actvPlayer.currRole;
+		if(actvPlayer.currLocation instanceof Scene){
+                	Scene scene = (Scene) actvPlayer.currLocation;
+                        if(workingRole == null){
+                        	System.out.println("You cannot act. You are not working at a role");
+				return;
+                        }
+			if(GameManager.getPlayerActed()){
+                                System.out.println("You cannot act. You have already acted this turn");
+				System.out.println("You can only either act or rehearse once per turn");
+				return;
+                        }
+                        actvPlayer.act(workingRole.isOnCard());
+                }else{
+                        System.out.println("You are not in a place where you can act");
+                }
+
+	}
+
+	// Prints all the rank upgrade exchange rates
+	private static void printUpgradeInfo(){
+		System.out.println("Upgrade Info:");
+                System.out.println(" Rank |  Dollars  | Credits");
+                System.out.println("  2   |    04     |   05   ");
+                System.out.println("  3   |    10     |   10   ");
+                System.out.println("  4   |    18     |   15   ");
+                System.out.println("  5   |    28     |   20   ");
+                System.out.println("  6   |    40     |   25   ");
+                System.out.println("Remember, upgrades can only be made at the Casting Office");
+
+	}
+
+	// Prints all the rehearse info
+	private static void printRehearse(Player actvPlayer){
+		if(GameManager.getPlayerActed()){
+                	System.out.println("I'm sorry. You've already worked this turn");
+                        System.out.println("You can only either act or rehearse once per turn");
+			return;
+                }
+                actvPlayer.rehearse();
+                System.out.println("You rehearsed your lines");
+                System.out.println("You now have " + actvPlayer.rehearseTokens + " rehearsal tokens");
+                GameManager.makeActed();
+	}
+
+	// Prints info and handles upgrade exchanges
+	private static void printUpgrade(Player actvPlayer, String input){
+		if(!(actvPlayer.currLocation instanceof Casting)){
+			System.out.println("I'm sorry. You can't make an exchange here");
+                        System.out.println("Please move to the Casting Office to discuss upgrading your rank");
+			return;
+		}
+                String newRank;
+                newRank = cutFront(input, 1);
+		if(newRank == null){
+			System.out.println("It seems you forgot to add a new rank value");
+			System.out.println("Remember, it's in the format 'Upgrade + new rank' (Ex 'Upgrade 4')");
+			return;
+		}
+                System.out.println("New rank for upgrade: " + newRank);
+
+                System.out.println("How would you like to pay?");
+                System.out.println("(C)redits or (D)ollars?");
+                String paymentType = promptInput(terminalIn);
+                if(!(paymentType.toLowerCase().equals("c") || paymentType.toLowerCase().equals("d") || paymentType.toLowerCase().startsWith("dollars") || paymentType.toLowerCase().startsWith("credits"))){
+                        System.out.println("I'm sorry. " + paymentType + " is a viable form of payment");
+			return;
+                }
+                paymentType = paymentType.toLowerCase();
+                boolean usingMoney = (paymentType.equals("d") || paymentType.startsWith("credits"));
+                System.out.println("Got it. You're paying with " + paymentType);
+                actvPlayer.upgrade((int) Float.parseFloat(newRank), usingMoney);
+	}
+
+	// Prints everything the player will need to see whne the turn is ended
+	private static void printEndTurn(){
+		System.out.println("Next turn...");
+                GameManager.changeTurn();
 	}
 
 	// Regular prompting for the input, just visually aesthetic 
@@ -263,13 +309,16 @@ public class UIManager {
 
 	// Cuts off the first removed words from the input string to get the arguments
 	private static String cutFront(String input, int removed){
+		if(input.length()-1 == 0){ return null; }
 		if(removed == 0){ return input;}
-		int i = 0;
-                while(input.charAt(i) != ' '){
-                	i++;
-                }
-                i++;
+		int i = input.indexOf(" ") + 1;
                 return cutFront(input.substring(i, input.length()), removed - 1);
+	}
+
+	private static boolean test(int i, boolean ret){
+		System.out.println("i before check: " + i);
+		System.out.println("boolean at check: " + ret);
+		return ret;
 	}
 
 	// The following functions are for visual UI implementation and will not be used
