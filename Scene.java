@@ -15,6 +15,10 @@ public class Scene extends Space {
 		shots = shotAmt;
 	}
 
+	Scene(String name){
+		this.name = name;
+	}
+
 	public static void main(String[] args) {
 		System.out.println("Running Scene.java");
 	}

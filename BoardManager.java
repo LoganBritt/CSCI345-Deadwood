@@ -6,7 +6,7 @@
 import java.util.ArrayList;
 
 public class BoardManager {
-	private static Board board;
+	public static Board board;
 	private static Deck deck;
 	private static Space trailers;
 
@@ -59,7 +59,7 @@ public class BoardManager {
 
 	public static void createBoard() {
 		ArrayList<Space> spaces = new ArrayList<Space>();
-		board = new Board(null, spaces);
+		board = new Board(spaces);
 		for (int i = 0; i < 12; i++) {
 			if (i == 0) {
 				spaces.add(new Trailers());
@@ -69,14 +69,6 @@ public class BoardManager {
 				spaces.add(new Casting());
 			} else {
 				spaces.add(new Scene(null, 0));
-			}
-			spaces.get(i).neighborSpaces = new Space[4];
-			//This all below is for testing purposes. It will be removed in final implementation
-			if(i == 0){
-				for(int j = 0; j < 4; j++){
-					spaces.get(i).neighborSpaces[j] = new Scene(null, 3);
-					spaces.get(i).neighborSpaces[j].name = ("Space " + j);
-				}
 			}
 		}
 	}

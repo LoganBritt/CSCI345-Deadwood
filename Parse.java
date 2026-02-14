@@ -112,36 +112,51 @@ public class Parse {
             System.out.println("XML Parse Failure");
         }
         Element boardRoot = doc.getDocumentElement();
-        NodeList boardList = boardRoot.getElementsByTagName("set");
-        for (int i = 0; i < boardList.getLength(); i++) {
-            Node spaceItem = boardList.item(i);
-            ArrayList<Space> spaceList = board.getSpaceList();
-            Space workingSpace = spaceList.get(i + 1);
-            Scene workingScene = (Scene) workingSpace;
-            if (i < 10) {
-                String setName = spaceItem.getAttributes().getNamedItem("name").getNodeValue();
-                workingScene.setName(setName);
+        NodeList sceneNodeList = boardRoot.getElementsByTagName("set");
+	NodeList trailersNodeList = boardRoot.getElementsByTagName("trailers");
+	NodeList castingNodeList = boardRoot.getElementsByTagName("office");
+	ArrayList<Space> spaceList = board.getSpaceList();
+	//Parse all the space info
+	for(int i = 0; i < sceneNodeList.getLength() + 2; i++){
+		//Getting to the right level of nodes
+		Node spaceNode;
+		if(i == sceneNodeList.getLength() - 2){
+			spaceNode = trailersNodeList.item(0);
+		}else if(i == sceneNodeList.getLength() - 1){
+			spaceNode = castingNodeList.item(0);
+		}else{
+			spaceNode = sceneNodeList.item(i);
+		}
 
-                NodeList neighbors = spaceItem.getChildNodes();
-                for (int j = 0; j < neighbors.getLength(); j++) {
-                    Node sub = neighbors.item(j);
-                    String neighborName = sub.getAttributes().getNamedItem("name").getNodeValue();
-                    
-                }
-                // area code
-            }
-            else if (i == 10){
-                //trailers
-                workingSpace = spaceList.get(0);
-            }
-            else if (i == 11){
-                //casting office
-                workingSpace = spaceList.get(12);
+		NodeList spaceChildNodes = spaceNode.getChildNodes();
+		NodeList neighborNodes = spaceChildNodes.item(0).getChildNodes();
+		Node areaNode = spaceChildNodes.item(1);
 
-            }
+		//Getting the neighbor names
+		String[] neighborNames = new String[4];
+		int[] areaVals = new int[4];
+		for(int j = 0; j < neighborNodes.getLength(); j++){
+			neighborNames[j] = neighborNodes.item(j).getAttributes().getNamedItem("name").getNodeValue();
+		}
 
-        }
+		//Getting the size and positions
+                areaVals[0] = Integer.parseInt(areaNode.getAttributes().getNamedItem("x").getNodeValue());
+                areaVals[1] = Integer.parseInt(areaNode.getAttributes().getNamedItem("y").getNodeValue());
+                areaVals[2] = Integer.parseInt(areaNode.getAttributes().getNamedItem("h").getNodeValue());
+                areaVals[3] = Integer.parseInt(areaNode.getAttributes().getNamedItem("w").getNodeValue());
 
+		spaceList.get(i).setVals(areaVals);
+		spaceList.get(i).setNeighbors(neighborNames);
+
+		//Extra non-trailer info
+		if(i == sceneNodeList.getLength() - 1){
+			//Parsing casting office specific info
+			
+		}else if(i != sceneNodeList.getLength() - 2){
+			//Parsing scene specific info
+			
+		}
+	}
     }
 
 }
