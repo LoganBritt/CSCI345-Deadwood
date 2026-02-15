@@ -70,8 +70,8 @@ public class UIManager {
 	//Main game loop
 	private static void startGameplay() {
 		terminalIn = new Scanner(System.in);
-		Player actvPlayer = GameManager.getActivePlayer();
 		while (GameManager.getDay() != 0) {
+			Player actvPlayer = GameManager.getActivePlayer();
 			System.out.println();
 			System.out.println("Player " + (GameManager.getActvPlyrIdx() + 1) + ", what do you want to do?");
 			String input = promptInput(terminalIn);
@@ -92,9 +92,14 @@ public class UIManager {
 				case "end game": GameManager.endGame(); break;
 				default:
 					if(input.startsWith("move")){
-						String newScene;
-						newScene = cutFront(input, 1);
-						actvPlayer.move(newScene);
+						if(!GameManager.getPlayerMoved()){
+							String newScene;
+							newScene = cutFront(input, 1);
+							GameManager.makeMoved();
+							actvPlayer.move(newScene);
+						}else{
+							System.out.println("You have already moved this turn");
+						}
 					}else if(input.startsWith("upgrade")){
 						printUpgrade(actvPlayer, input);
 					}else if(input.startsWith("take role")){
@@ -229,6 +234,7 @@ public class UIManager {
 				System.out.println("You can only either act or rehearse once per turn");
 				return;
                         }
+			GameManager.makeActed();
                         actvPlayer.act(workingRole.isOnCard());
                 }else{
                         System.out.println("You are not in a place where you can act");

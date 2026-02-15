@@ -36,10 +36,11 @@ public class Player {
 	public void move(String newLocationName) {
 		Space[] neighborList = currLocation.neighborSpaces;
 		for(int i = 0; i < neighborList.length; i++){
-			System.out.println("Testing '" + newLocationName + "' against '" + neighborList[i].name);
+//			System.out.println("Testing '" + newLocationName + "' against '" + neighborList[i].name);
 			if(newLocationName.equals((neighborList[i].name).toLowerCase())){
 				currLocation = neighborList[i];
 				System.out.println("Moved to " + newLocationName);
+				System.out.println("Type 'Space' to see details");
 				return;
 			}
 		}

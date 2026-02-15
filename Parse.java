@@ -121,14 +121,14 @@ public class Parse {
 	//Parsing names and creating spaces
 	for(int i = 0; i < sceneNodeList.getLength() + 2; i++){
 		if(i == 0){
-			System.out.println("Creating the trailers");
+//			System.out.println("Creating the trailers");
 			spaceObj = new Trailers("trailer");
 		}else if(i == sceneNodeList.getLength() + 1){
-			System.out.println("Creating the casting office");
+//			System.out.println("Creating the casting office");
 			spaceObj = new Casting("office");
 		}else{
 			String sceneName = sceneNodeList.item(i-1).getAttributes().getNamedItem("name").getNodeValue();
-			System.out.println("Creating Scene: " + sceneName);
+//			System.out.println("Creating Scene: " + sceneName);
 			spaceObj = new Scene(sceneName);
 		}
 		spaceList.add(spaceObj);
@@ -140,13 +140,13 @@ public class Parse {
 		Node spaceNode;
 		spaceObj = spaceList.get(i);
 		if(i == 0){
-			System.out.println("Setting trailers");
+//			System.out.println("Setting trailers");
 			spaceNode = trailersNodeList.item(0);
 		}else if(i == sceneNodeList.getLength()+1){
-			System.out.println("Setting Casting");
+//			System.out.println("Setting Casting");
 			spaceNode = castingNodeList.item(0);
 		}else{
-			System.out.println("Setting scene");
+//			System.out.println("Setting scene");
 			spaceNode = sceneNodeList.item(i-1);
 		}
 
@@ -180,10 +180,10 @@ public class Parse {
 			//Parsing scene specific info
 			parseScene((Scene) spaceObj, spaceNode);
 		}
-		System.out.println();
+		//System.out.println();
 	}
 	//BoardManager.cleanSpaces();
-	BoardManager.printAllSpaces();
+	//BoardManager.printAllSpaces();
     }
 
 	public static void parseCasting(Casting casting, Node castingNode){
@@ -206,7 +206,7 @@ public class Parse {
 	}
 
 	public static void parseScene(Scene scene, Node sceneNode){
-		System.out.println("Setting scene-specific stuff for " + scene.name);
+//		System.out.println("Setting scene-specific stuff for " + scene.name);
 		NodeList sceneChildren = sceneNode.getChildNodes();
 		Node takesNode = sceneChildren.item(5);
 		Node partsNode = sceneChildren.item(7);

@@ -30,11 +30,11 @@ public abstract class Space {
 	}
 
 	public void setNeighbors(String[] neighborNames){
-		System.out.println("Initializing neighbors for: " + name);
+//		System.out.println("Initializing neighbors for: " + name);
 		neighborSpaces = new Space[neighborNames.length];
 		for(int i = 0; i < neighborNames.length; i++){
 			if(neighborNames[i] != null){
-				System.out.println("Setting neighbor: " + neighborNames[i]);
+//				System.out.println("Setting neighbor: " + neighborNames[i]);
 				Space newSpace = BoardManager.board.getSpaceByName(neighborNames[i]);
 				neighborSpaces[i] = newSpace;
 			}

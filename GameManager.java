@@ -29,6 +29,7 @@ public class GameManager {
 		}
 		actvPlayerActed = false;
 		actvPlayerMoved = false;
+		
 	}
 
 	// Gives bonuses to players according to their assigned rank
