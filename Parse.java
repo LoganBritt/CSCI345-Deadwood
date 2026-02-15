@@ -116,25 +116,32 @@ public class Parse {
 	NodeList trailersNodeList = boardRoot.getElementsByTagName("trailer");
 	NodeList castingNodeList = boardRoot.getElementsByTagName("office");
 	ArrayList<Space> spaceList = board.getSpaceList();
+	Space spaceObj;
 	//Parse all the space info
-	for(int i = 0; i < sceneNodeList.getLength() + 1; i++){
+	for(int i = 0; i < sceneNodeList.getLength() + 2; i++){
 		//Getting to the right level of nodes
 		Node spaceNode;
-		if(i == sceneNodeList.getLength() - 1){
+		if(i == sceneNodeList.getLength()){
 			System.out.println("Setting trailers");
 			spaceNode = trailersNodeList.item(0);
-			spaceList.get(0).name = "trailer";
-		}else if(i == sceneNodeList.getLength()){
+			if(spaceList.get(0) instanceof Trailers){
+				System.out.println("Trailers test");
+			}
+			spaceObj = spaceList.get(0);
+			spaceObj.name = "trailer";
+			
+		}else if(i == sceneNodeList.getLength()+1){
 			System.out.println("Setting Casting");
 			spaceNode = castingNodeList.item(0);
-			spaceList.get(11).name = "office";
+			spaceObj = spaceList.get(11);
+			spaceObj.name = "office";
 		}else{
 			System.out.println("Setting scene");
 			spaceNode = sceneNodeList.item(i);
-			System.out.println("spaceNode: " + spaceNode);
-			printNodeList(spaceNode.getChildNodes());
 			String newTitle = spaceNode.getAttributes().getNamedItem("name").getNodeValue();
-			spaceList.get(i+1).name = newTitle;
+			System.out.println("Setting scene name to: " + newTitle);
+			spaceObj = spaceList.get(i);
+			spaceObj.name = newTitle;
 		}
 
 		NodeList neighborNodes = spaceNode.getFirstChild().getNextSibling().getChildNodes();
@@ -145,12 +152,6 @@ public class Parse {
 		int[] areaVals = new int[4];
 		for(int j = 0; j < neighborNodes.getLength(); j++){
 			if(neighborNodes.item(j).getNodeName().equals("neighbor")){
-				if(neighborNodes.item(j) != null){
-					System.out.println("Node: " + neighborNodes.item(j).getNodeName());
-				}else{
-					System.out.println("Neighbors:");
-					printNodeList(neighborNodes);
-				}
 				neighborNames[(j-1)/2] = neighborNodes.item(j).getAttributes().getNamedItem("name").getNodeValue();
 			}
 		}
@@ -161,9 +162,9 @@ public class Parse {
                 areaVals[2] = Integer.parseInt(areaNode.getAttributes().getNamedItem("h").getNodeValue());
                 areaVals[3] = Integer.parseInt(areaNode.getAttributes().getNamedItem("w").getNodeValue());
 
-		spaceList.get(i).setVals(areaVals);
-		spaceList.get(i).setNeighbors(neighborNames);
-
+		spaceObj.setVals(areaVals);
+		spaceObj.setNeighbors(neighborNames);
+		System.out.println();
 		//Extra non-trailer info
 		if(i == sceneNodeList.getLength() - 1){
 			//Parsing casting office specific info

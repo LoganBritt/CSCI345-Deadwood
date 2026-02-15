@@ -4,11 +4,11 @@
 */
 
 public class Scene extends Space {
-	private Role untakenRoles[];
-	private Role takenRoles[];
-	private Card card;
-	private int shots;
-	private String name; 
+	private Role untakenRoles[] = null;
+	private Role takenRoles[] = null;
+	private Card card = null;
+	private int shots = 0;
+	private String name = "default"; 
 	
 	Scene(Card setCard, int shotAmt) {
 		card = setCard;

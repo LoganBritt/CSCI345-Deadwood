@@ -32,14 +32,16 @@ public abstract class Space {
 		System.out.println("Initializing neighbors for: " + name);
 		neighborSpaces = new Space[neighborNames.length];
 		for(int i = 0; i < neighborNames.length; i++){
-			System.out.println("Setting neighbor: " + neighborNames[i]);
 			if(neighborNames[i] != null){
+				System.out.println("Setting neighbor: " + neighborNames[i]);
 				Space newSpace = BoardManager.board.getSpaceByName(neighborNames[i]);
 				if(newSpace == null){
-					if(neighborNames[i].equals("trailers")){
+					if(neighborNames[i].equals("trailer")){
 						newSpace = new Trailers();
+						newSpace.name = "trailer";
 					}else if(neighborNames[i].equals("office")){
 						newSpace = new Casting();
+						newSpace.name = "office";
 					}else{
 						newSpace = new Scene(neighborNames[i]);
 					}

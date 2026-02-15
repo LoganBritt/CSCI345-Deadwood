@@ -40,21 +40,23 @@ public class UIManager {
 	                        	terminalIn.nextLine();
 				}else{ glitchInt = 0;}
 	                }
-	                playerNumInput = terminalIn.nextInt();
-			if (numInputFail != 2 && numInputFail != 5) {
-				System.out.println("I'm sorry, that's outside the boundaries (2-8 Players Only). Please try again:");
-//				numInputFail++;
-			} else if (numInputFail == 5) {
-				System.out.println("Nope, not doing this");
-				System.out.println("Bye.");
-				System.exit(0);
-			} else {
-				System.out.println("Seriously, dude. 2 to 8 players. Including 2 and 8");
-				System.out.println("That means you can choose 2, 3, 4, 5, 6, 7, or 8 players");
-				System.out.println("Not 1, not 15, not any negative or decimal number");
-				System.out.println("2 through 8, got it?");
-				System.out.println("You had better got it");
-//				numInputFail++;
+			playerNumInput = terminalIn.nextInt();
+			if(playerNumInput < 2 || playerNumInput > 8){
+				if (numInputFail != 2 && numInputFail != 5) {
+					System.out.println("I'm sorry, that's outside the boundaries (2-8 Players Only). Please try again:");
+//					numInputFail++;
+				} else if (numInputFail == 5) {
+					System.out.println("Nope, not doing this");
+					System.out.println("Bye.");
+					System.exit(0);
+				} else {
+					System.out.println("Seriously, dude. 2 to 8 players. Including 2 and 8");
+					System.out.println("That means you can choose 2, 3, 4, 5, 6, 7, or 8 players");
+					System.out.println("Not 1, not 15, not any negative or decimal number");
+					System.out.println("2 through 8, got it?");
+					System.out.println("You had better got it");
+//					numInputFail++;
+				}
 			}
 		}
 		System.out.println("Understood! " + playerNumInput + " players.");
@@ -175,9 +177,10 @@ public class UIManager {
                 } else {
                         Scene scene = (Scene) currSpace;
                         System.out.println("You are at " + scene.getName());
-                        System.out.println("Card Title: " + scene.getCard().getTitle());
+                        System.out.println("Card Title: " + ((scene.getCard() == null) ? null : scene.getCard().getTitle()));
                         printRoles(scene.getUntakenRoles());
                 	printRoles(scene.getTakenRoles());
+			currSpace.printNeighbors();
                 }
 	}
 
@@ -351,8 +354,10 @@ public class UIManager {
 	private static void printRoles(Role[] roleList){
 		System.out.println("Roles:");
 		Role workingRole;
+		if(roleList == null) return;
 		for(int i = 0; i < roleList.length; i++){
 			workingRole = roleList[i];
+			if(workingRole == null) return;
 			System.out.println("'" + workingRole.getTitle() + "'");
 			System.out.println("'" + workingRole.getLine() + "'");
 			System.out.println("Level: " + workingRole.getRank());
