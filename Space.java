@@ -15,7 +15,9 @@ public abstract class Space {
 	public void printNeighbors() {
 		System.out.println("Neighbors:");
 		for(int i = 0; i < neighborSpaces.length; i++){
-			System.out.println(neighborSpaces[i].name);
+			if(neighborSpaces[i] != null){
+				System.out.println(neighborSpaces[i].name);
+			}
 		}
 	}
 
@@ -27,20 +29,24 @@ public abstract class Space {
 	}
 
 	public void setNeighbors(String[] neighborNames){
+		System.out.println("Initializing neighbors for: " + name);
 		neighborSpaces = new Space[neighborNames.length];
 		for(int i = 0; i < neighborNames.length; i++){
-			Space newSpace = BoardManager.board.getSpaceByName(neighborNames[i]);
-			if(newSpace == null){
-				if(neighborNames[i].equals("trailers")){
-					newSpace = new Trailers();
-				}else if(neighborNames[i].equals("office")){
-					newSpace = new Casting();
-				}else{
-					newSpace = new Scene(neighborNames[i]);
+			System.out.println("Setting neighbor: " + neighborNames[i]);
+			if(neighborNames[i] != null){
+				Space newSpace = BoardManager.board.getSpaceByName(neighborNames[i]);
+				if(newSpace == null){
+					if(neighborNames[i].equals("trailers")){
+						newSpace = new Trailers();
+					}else if(neighborNames[i].equals("office")){
+						newSpace = new Casting();
+					}else{
+						newSpace = new Scene(neighborNames[i]);
+					}
+					BoardManager.board.getSpaceList().add(newSpace);
 				}
-				BoardManager.board.getSpaceList().add(newSpace);
+				neighborSpaces[i] = newSpace;
 			}
-			neighborSpaces[i] = newSpace;
 		}
 	}
 }

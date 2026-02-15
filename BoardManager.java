@@ -51,10 +51,12 @@ public class BoardManager {
 
 	public static void createDeck() {
 		Deck newDeck = new Deck();
-		for (int i = 0; i < newDeck.getCardAmt(); i++) {
+		for (int i = 0; i < 40; i++) {
 			Card newCard = new Card(3, null);
 			newDeck.addCard(newCard);
 		}
+		deck = newDeck;
+		Parse.parseCard(deck);
 	}
 
 	public static void createBoard() {
@@ -71,6 +73,7 @@ public class BoardManager {
 				spaces.add(new Scene(null, 0));
 			}
 		}
+		Parse.parseBoard(board);
 	}
 
 }

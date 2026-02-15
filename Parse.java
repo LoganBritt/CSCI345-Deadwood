@@ -1,4 +1,3 @@
-
 //Imports for XML
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 
 public class Parse {
 
-    public Document getDocFromFile(String filename)
+    public static Document getDocFromFile(String filename)
             throws ParserConfigurationException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
@@ -37,7 +36,7 @@ public class Parse {
     // area - x, y, h, w
     // line - 'text'
 
-    public void parseCard(Deck deck) {
+    public static void parseCard(Deck deck) {
         Document d = null;
         try {
             d = getDocFromFile("cards.xml");
@@ -47,7 +46,8 @@ public class Parse {
         Element root = d.getDocumentElement();
         NodeList cards = root.getElementsByTagName("card");
         for (int i = 0; i < cards.getLength(); i++) {
-            Card workingCard = deck.getCardSet()[i];
+            Card[] cardSet = deck.getCardSet();
+	    Card workingCard = cardSet[i];
             Node card = cards.item(i);
             String cardName = card.getAttributes().getNamedItem("name").getNodeValue();
             workingCard.setTitle(cardName);
@@ -104,7 +104,7 @@ public class Parse {
 
     // parseBoard method parses the board and returns the values
 
-    public void parseBoard(Board board) {
+    public static void parseBoard(Board board) {
         Document doc = null;
         try {
             doc = getDocFromFile("board.xml");
@@ -113,30 +113,46 @@ public class Parse {
         }
         Element boardRoot = doc.getDocumentElement();
         NodeList sceneNodeList = boardRoot.getElementsByTagName("set");
-	NodeList trailersNodeList = boardRoot.getElementsByTagName("trailers");
+	NodeList trailersNodeList = boardRoot.getElementsByTagName("trailer");
 	NodeList castingNodeList = boardRoot.getElementsByTagName("office");
 	ArrayList<Space> spaceList = board.getSpaceList();
 	//Parse all the space info
-	for(int i = 0; i < sceneNodeList.getLength() + 2; i++){
+	for(int i = 0; i < sceneNodeList.getLength() + 1; i++){
 		//Getting to the right level of nodes
 		Node spaceNode;
-		if(i == sceneNodeList.getLength() - 2){
+		if(i == sceneNodeList.getLength() - 1){
+			System.out.println("Setting trailers");
 			spaceNode = trailersNodeList.item(0);
-		}else if(i == sceneNodeList.getLength() - 1){
+			spaceList.get(0).name = "trailer";
+		}else if(i == sceneNodeList.getLength()){
+			System.out.println("Setting Casting");
 			spaceNode = castingNodeList.item(0);
+			spaceList.get(11).name = "office";
 		}else{
+			System.out.println("Setting scene");
 			spaceNode = sceneNodeList.item(i);
+			System.out.println("spaceNode: " + spaceNode);
+			printNodeList(spaceNode.getChildNodes());
+			String newTitle = spaceNode.getAttributes().getNamedItem("name").getNodeValue();
+			spaceList.get(i+1).name = newTitle;
 		}
 
-		NodeList spaceChildNodes = spaceNode.getChildNodes();
-		NodeList neighborNodes = spaceChildNodes.item(0).getChildNodes();
-		Node areaNode = spaceChildNodes.item(1);
+		NodeList neighborNodes = spaceNode.getFirstChild().getNextSibling().getChildNodes();
+		Node areaNode = spaceNode.getFirstChild().getNextSibling().getNextSibling().getNextSibling();
 
 		//Getting the neighbor names
 		String[] neighborNames = new String[4];
 		int[] areaVals = new int[4];
 		for(int j = 0; j < neighborNodes.getLength(); j++){
-			neighborNames[j] = neighborNodes.item(j).getAttributes().getNamedItem("name").getNodeValue();
+			if(neighborNodes.item(j).getNodeName().equals("neighbor")){
+				if(neighborNodes.item(j) != null){
+					System.out.println("Node: " + neighborNodes.item(j).getNodeName());
+				}else{
+					System.out.println("Neighbors:");
+					printNodeList(neighborNodes);
+				}
+				neighborNames[(j-1)/2] = neighborNodes.item(j).getAttributes().getNamedItem("name").getNodeValue();
+			}
 		}
 
 		//Getting the size and positions
@@ -158,5 +174,11 @@ public class Parse {
 		}
 	}
     }
-
+    public static void printNodeList(NodeList in){
+        for(int i = 0; i < in.getLength(); i++){
+                System.out.println("Child " + (i+1) + ": " + in.item(i).getNodeName());
+        }
+    }
 }
+
+
