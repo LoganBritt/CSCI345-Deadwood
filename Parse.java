@@ -124,12 +124,8 @@ public class Parse {
 		if(i == sceneNodeList.getLength()){
 			System.out.println("Setting trailers");
 			spaceNode = trailersNodeList.item(0);
-			if(spaceList.get(0) instanceof Trailers){
-				System.out.println("Trailers test");
-			}
 			spaceObj = spaceList.get(0);
 			spaceObj.name = "trailer";
-			
 		}else if(i == sceneNodeList.getLength()+1){
 			System.out.println("Setting Casting");
 			spaceNode = castingNodeList.item(0);
@@ -140,10 +136,9 @@ public class Parse {
 			spaceNode = sceneNodeList.item(i);
 			String newTitle = spaceNode.getAttributes().getNamedItem("name").getNodeValue();
 			System.out.println("Setting scene name to: " + newTitle);
-			spaceObj = spaceList.get(i);
+			spaceObj = spaceList.get(i+1);
 			spaceObj.name = newTitle;
 		}
-
 		NodeList neighborNodes = spaceNode.getFirstChild().getNextSibling().getChildNodes();
 		Node areaNode = spaceNode.getFirstChild().getNextSibling().getNextSibling().getNextSibling();
 
@@ -164,17 +159,86 @@ public class Parse {
 
 		spaceObj.setVals(areaVals);
 		spaceObj.setNeighbors(neighborNames);
-		System.out.println();
 		//Extra non-trailer info
-		if(i == sceneNodeList.getLength() - 1){
+		if(i == sceneNodeList.getLength() + 1){
 			//Parsing casting office specific info
-			
-		}else if(i != sceneNodeList.getLength() - 2){
+			parseCasting((Casting) spaceObj, spaceNode);
+		}else if(i != sceneNodeList.getLength()){
 			//Parsing scene specific info
-			
+			parseScene((Scene) spaceObj, spaceNode);
 		}
+		System.out.println();
 	}
     }
+
+	public static void parseCasting(Casting casting, Node castingNode){
+		Node upgradesNode = castingNode.getChildNodes().item(5);
+		for(int i = 1; i < upgradesNode.getChildNodes().getLength(); i+=2){
+			Node upgrade = upgradesNode.getChildNodes().item(i);
+			int level = Integer.parseInt(upgrade.getAttributes().getNamedItem("level").getNodeValue());
+			String currency = upgrade.getAttributes().getNamedItem("currency").getNodeValue();
+			int amt = Integer.parseInt(upgrade.getAttributes().getNamedItem("amt").getNodeValue());
+			casting.setUpgrade(level, currency, amt);
+
+			int[] areaVals = new int[4];
+			Node areaNode = upgrade.getChildNodes().item(1);
+			areaVals[0] = Integer.parseInt(areaNode.getAttributes().getNamedItem("x").getNodeValue());
+			areaVals[1] = Integer.parseInt(areaNode.getAttributes().getNamedItem("y").getNodeValue());
+			areaVals[2] = Integer.parseInt(areaNode.getAttributes().getNamedItem("h").getNodeValue());
+			areaVals[3] = Integer.parseInt(areaNode.getAttributes().getNamedItem("w").getNodeValue());
+			casting.setArea(areaVals);
+		}
+	}
+
+	public static void parseScene(Scene scene, Node sceneNode){
+		System.out.println("Setting scene-specific stuff for " + scene.name);
+		NodeList sceneChildren = sceneNode.getChildNodes();
+		Node takesNode = sceneChildren.item(5);
+		Node partsNode = sceneChildren.item(7);
+
+		//Setting takes values
+		NodeList takesChildren = takesNode.getChildNodes();
+		for(int i = 0; i < takesChildren.getLength(); i++){
+			Node take = takesChildren.item(i);
+			if(take.getNodeName().equals("take")){
+				int number = Integer.parseInt(take.getAttributes().getNamedItem("number").getNodeValue());
+				int[] areaVals = new int[4];
+				Node areaNode = take.getChildNodes().item(0);
+                        	areaVals[0] = Integer.parseInt(areaNode.getAttributes().getNamedItem("x").getNodeValue());
+                        	areaVals[1] = Integer.parseInt(areaNode.getAttributes().getNamedItem("y").getNodeValue());
+                        	areaVals[2] = Integer.parseInt(areaNode.getAttributes().getNamedItem("h").getNodeValue());
+                        	areaVals[3] = Integer.parseInt(areaNode.getAttributes().getNamedItem("w").getNodeValue());
+				scene.setTakeArea(number, areaVals);
+			}
+		}
+
+		//Setting parts values
+		NodeList partsChildren = partsNode.getChildNodes();
+		Role[] roleList = scene.getUntakenRoles();
+		for(int i = 0; i < partsChildren.getLength(); i++){
+			Node part = partsChildren.item(i);
+			if(part.getNodeName().equals("part")){
+				String partName = part.getAttributes().getNamedItem("name").getNodeValue();
+				int level = Integer.parseInt(part.getAttributes().getNamedItem("level").getNodeValue());
+				System.out.println("partName: " + partName);
+				System.out.println("level: " + level);
+
+				NodeList partChildren = part.getChildNodes();
+				Node areaNode = partChildren.item(1);
+				Node lineNode = partChildren.item(3);
+
+				System.out.println("areaNode.getNodeName(): " + areaNode.getNodeName());
+				String line = lineNode.getTextContent();
+				int[] areaVals = new int[4];
+				areaVals[0] = Integer.parseInt(areaNode.getAttributes().getNamedItem("x").getNodeValue());
+				areaVals[1] = Integer.parseInt(areaNode.getAttributes().getNamedItem("y").getNodeValue());
+				areaVals[2] = Integer.parseInt(areaNode.getAttributes().getNamedItem("h").getNodeValue());
+				areaVals[3] = Integer.parseInt(areaNode.getAttributes().getNamedItem("w").getNodeValue());
+				roleList[i] = new Role(level, partName, line, areaVals);
+			}
+		}
+	}
+
     public static void printNodeList(NodeList in){
         for(int i = 0; i < in.getLength(); i++){
                 System.out.println("Child " + (i+1) + ": " + in.item(i).getNodeName());

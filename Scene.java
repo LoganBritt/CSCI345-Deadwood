@@ -8,15 +8,15 @@ public class Scene extends Space {
 	private Role takenRoles[] = null;
 	private Card card = null;
 	private int shots = 0;
-	private String name = "default"; 
-	
+	private String title = "default"; 
+	private int[][] takeAreasList = new int[3][];
 	Scene(Card setCard, int shotAmt) {
 		card = setCard;
 		shots = shotAmt;
 	}
 
 	Scene(String name){
-		this.name = name;
+		title = name;
 	}
 
 	public static void main(String[] args) {
@@ -61,10 +61,19 @@ public class Scene extends Space {
 	}
 
 	public String getName() {
-		return this.name;
+		return title;
 	}
 
 	public void setName(String newName){
-		name = newName;
+		title = newName;
+	}
+
+	public void setTakeArea(int number, int[] areaVals){
+		takeAreasList[number - 1] = areaVals;
+	}
+
+	public void createRoleLists(int size){
+		untakenRoles = new Role[size];
+		takenRoles = new Role[size];
 	}
 }
