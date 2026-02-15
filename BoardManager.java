@@ -62,18 +62,33 @@ public class BoardManager {
 	public static void createBoard() {
 		ArrayList<Space> spaces = new ArrayList<Space>();
 		board = new Board(spaces);
-		for (int i = 0; i < 12; i++) {
-			if (i == 0) {
-				spaces.add(new Trailers());
-				trailers = spaces.get(0);
-				trailers.isTrailers = true;
-			} else if (i == 11) {
-				spaces.add(new Casting());
-			} else {
-				spaces.add(new Scene(null, 0));
-			}
-		}
 		Parse.parseBoard(board);
 	}
 
+	public static void printAllSpaces(){
+		System.out.println();
+		System.out.println("******************************************");
+		for(int i = 0; i < board.getSpaceList().size(); i++){
+			Space workingSpace = board.getSpaceList().get(i);
+			if(workingSpace instanceof Scene){
+				workingSpace = (Scene) workingSpace;
+			}else if(workingSpace instanceof Casting){
+				workingSpace = (Casting) workingSpace;
+			}else if(workingSpace instanceof Trailers){
+				workingSpace = (Trailers) workingSpace;
+			}
+			System.out.println(workingSpace.name + " info:");
+			System.out.println("Neighbor names:");
+			for(int j = 0; j < workingSpace.neighborSpaces.length; j++){
+				if(workingSpace.neighborSpaces[j] != null){
+					System.out.println("Neighbor " + (j+1) + ": " + workingSpace.neighborSpaces[j].name);
+				}else{
+					System.out.println("Neighbor " + (j+1) + ": null");
+				}
+			}
+			System.out.println();
+		}
+		System.out.println("******************************************");
+		System.out.println();
+	}
 }

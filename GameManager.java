@@ -127,6 +127,7 @@ public class GameManager {
 			} else {
 				playerListOrder[i] = new Player(0, 2);
 			}
+			playerListOrder[i].currLocation = BoardManager.board.getSpaceByName("trailer");
 		}
 	}
 

@@ -12,6 +12,10 @@ public class Casting extends Space {
 	private int yPos;
 	private int height;
 	private int width;
+
+	Casting(String name){
+		this.name = name;
+	}
         public static void main(String[] args) {
                 System.out.println("Running Casting.java");
         }

@@ -3,6 +3,7 @@
 //	It represents a place on the board where Players can go to when moving on the board
 */
 
+import java.util.ArrayList;
 public abstract class Space {
 	public boolean isTrailers = false;
 	public String name;
@@ -35,20 +36,10 @@ public abstract class Space {
 			if(neighborNames[i] != null){
 				System.out.println("Setting neighbor: " + neighborNames[i]);
 				Space newSpace = BoardManager.board.getSpaceByName(neighborNames[i]);
-				if(newSpace == null){
-					if(neighborNames[i].equals("trailer")){
-						newSpace = new Trailers();
-						newSpace.name = "trailer";
-					}else if(neighborNames[i].equals("office")){
-						newSpace = new Casting();
-						newSpace.name = "office";
-					}else{
-						newSpace = new Scene(neighborNames[i]);
-					}
-					BoardManager.board.getSpaceList().add(newSpace);
-				}
 				neighborSpaces[i] = newSpace;
 			}
+
 		}
 	}
+
 }

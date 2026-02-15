@@ -8,7 +8,6 @@ public class Scene extends Space {
 	private Role takenRoles[] = null;
 	private Card card = null;
 	private int shots = 0;
-	private String title = "default"; 
 	private int[][] takeAreasList = new int[3][];
 	Scene(Card setCard, int shotAmt) {
 		card = setCard;
@@ -16,7 +15,7 @@ public class Scene extends Space {
 	}
 
 	Scene(String name){
-		title = name;
+		this.name = name;
 	}
 
 	public static void main(String[] args) {
@@ -61,11 +60,11 @@ public class Scene extends Space {
 	}
 
 	public String getName() {
-		return title;
+		return name;
 	}
 
 	public void setName(String newName){
-		title = newName;
+		name = newName;
 	}
 
 	public void setTakeArea(int number, int[] areaVals){

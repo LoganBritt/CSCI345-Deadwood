@@ -176,7 +176,7 @@ public class UIManager {
                         System.out.println("You can see upgrade rates by typing 'Upgrade Info'");
                 } else {
                         Scene scene = (Scene) currSpace;
-                        System.out.println("You are at " + scene.getName());
+                        System.out.println("You are at " + currSpace.name);
                         System.out.println("Card Title: " + ((scene.getCard() == null) ? null : scene.getCard().getTitle()));
                         printRoles(scene.getUntakenRoles());
                 	printRoles(scene.getTakenRoles());

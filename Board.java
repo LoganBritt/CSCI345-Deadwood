@@ -49,7 +49,7 @@ public class Board {
 
 	public Space getSpaceByName(String name){
 		for(int i = 0; i < spaces.size(); i++){
-			if(spaces.get(i).name != null && name != null && spaces.get(i).name.equals(name)){
+			if(spaces.get(i) != null && spaces.get(i).name != null && name != null && spaces.get(i).name.equals(name)){
 				return spaces.get(i);
 			}
 		}
