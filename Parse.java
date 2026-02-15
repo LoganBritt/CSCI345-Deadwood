@@ -214,20 +214,18 @@ public class Parse {
 
 		//Setting parts values
 		NodeList partsChildren = partsNode.getChildNodes();
+		scene.createRoleLists(partsChildren.getLength());
 		Role[] roleList = scene.getUntakenRoles();
 		for(int i = 0; i < partsChildren.getLength(); i++){
 			Node part = partsChildren.item(i);
 			if(part.getNodeName().equals("part")){
 				String partName = part.getAttributes().getNamedItem("name").getNodeValue();
 				int level = Integer.parseInt(part.getAttributes().getNamedItem("level").getNodeValue());
-				System.out.println("partName: " + partName);
-				System.out.println("level: " + level);
 
 				NodeList partChildren = part.getChildNodes();
 				Node areaNode = partChildren.item(1);
 				Node lineNode = partChildren.item(3);
 
-				System.out.println("areaNode.getNodeName(): " + areaNode.getNodeName());
 				String line = lineNode.getTextContent();
 				int[] areaVals = new int[4];
 				areaVals[0] = Integer.parseInt(areaNode.getAttributes().getNamedItem("x").getNodeValue());
