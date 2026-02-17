@@ -32,11 +32,11 @@ public class UIManager {
 		int playerNumInput = 0;
 		int numInputFail = 0;
 		while (playerNumInput < 2 || playerNumInput > 8) {
-			System.out.print(">>");
+			System.out.print(blink(">>"));
 			while(!(terminalIn.hasNextInt())){
 				if(glitchInt == 0){ glitchInt = 1;
 	                        	System.out.println("I'm sorry. That's not a number");
-	                        	System.out.print(">> ");
+	                        	System.out.print(blink(">>"));
 	                        	terminalIn.nextLine();
 				}else{ glitchInt = 0;}
 	                }
@@ -160,23 +160,32 @@ public class UIManager {
 	private static void printSpace(Player actvPlayer){
 		Space currSpace = actvPlayer.currLocation;
                 if (currSpace instanceof Trailers) {
-                        System.out.println("You are at the Trailers");
+                        System.out.println(bold("You are at the Trailers"));
                         currSpace.printNeighbors();
                 } else if (currSpace instanceof Casting) {
-                        System.out.println("You are at the Casting Office");
+                        System.out.println(bold("You are at the Casting Office"));
                         currSpace.printNeighbors();
                         System.out.println("You can see upgrade rates by typing 'Upgrade Info'");
                 } else {
                         Scene scene = (Scene) currSpace;
-                        System.out.println("You are at the " + currSpace.name);
+                        System.out.println(bold("You are at the " + currSpace.name));
                         System.out.println("Scene Name: " + ((scene.getCard() == null) ? "Scene Completed" : scene.getCard().getTitle()));
-			if(scene.getCard() != null){
-				System.out.println("Budget: $" + scene.getCard().getBudget() + "k");
-				System.out.println("Description: " + scene.getCard().getDesc());
-			}
-                        printRoles(scene.getUntakenRoles());
-                	printRoles(scene.getTakenRoles());
 			currSpace.printNeighbors();
+			if(scene.getCard() == null){
+				System.out.println("This scene is done shooting for the day");
+				System.out.println("Please try again tomorrow");
+			}else{
+				System.out.println();
+				System.out.println(underline("Roles on the scene"));
+				System.out.println("Available Roles:");
+				Role[] utRoles = scene.getUntakenRoles();
+				printRoles(utRoles);
+				System.out.println();
+				System.out.println("Taken Roles:");
+				Role[] tRoles = scene.getTakenRoles();
+				printRoles(tRoles);
+				System.out.println();
+			}
                 }
 	}
 
@@ -354,24 +363,19 @@ public class UIManager {
 
 	// Regular prompting for the input, just visually aesthetic 
 	private static String promptInput(Scanner input) {
-		System.out.print(">>");
+		System.out.print(blink(">>"));
 		return input.nextLine();
 	}
 
 	// This prints all the info of all the roles that are currently in roleList
 	private static void printRoles(Role[] roleList){
-		System.out.println("Roles:");
-		Role workingRole;
-		if(roleList == null) System.out.println("Did not find a rolelist");
-		if(roleList == null) return;
 		for(int i = 0; i < roleList.length; i++){
-			workingRole = roleList[i];
-			if(workingRole == null) return;
-			System.out.println("'" + workingRole.getTitle() + "'");
-			System.out.println("'" + workingRole.getLine() + "'");
-			System.out.println("Level: " + workingRole.getRank());
-			if(i+1 != roleList.length){ System.out.println();}
-		}
+                	if(roleList[i] != null){
+                        	System.out.println((i+1) + ":" + roleList[i].getTitle() + "");
+                                System.out.println("  Level: " + roleList[i].getRank());
+                                System.out.println("  '" + roleList[i].getLine() + "'");
+                        }
+                }
 	}
 
 	// Cuts off the first removed words from the input string to get the arguments
@@ -386,6 +390,18 @@ public class UIManager {
 		System.out.println("i before check: " + i);
 		System.out.println("boolean at check: " + ret);
 		return ret;
+	}
+
+	private static String underline(String string){
+		return "\u001B[4m" + string + "\u001B[0m";
+	}
+
+	private static String bold(String string){
+		return "\u001B[1m" + string + "\u001B[0m";
+	}
+
+	private static String blink(String string){
+		return "\u001B[5m" + string + "\u001B[0m";
 	}
 
 	// The following functions are for visual UI implementation and will not be used

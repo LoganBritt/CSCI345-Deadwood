@@ -164,8 +164,6 @@ public class Parse {
 		}
 		//System.out.println();
 	}
-	//BoardManager.cleanSpaces();
-	//BoardManager.printAllSpaces();
     }
 
 	public static void parseCasting(Casting casting, Node castingNode){
@@ -229,9 +227,19 @@ public class Parse {
 				areaVals[1] = Integer.parseInt(areaNode.getAttributes().getNamedItem("y").getNodeValue());
 				areaVals[2] = Integer.parseInt(areaNode.getAttributes().getNamedItem("h").getNodeValue());
 				areaVals[3] = Integer.parseInt(areaNode.getAttributes().getNamedItem("w").getNodeValue());
-				roleList[i] = new Role(level, partName, line, areaVals);
+				roleList[(i-1)/2] = new Role(level, partName, line, areaVals);
 			}
 		}
+		//System.out.println("Printing role info on the scene '" + scene.name + "' during parsing");
+		//for(int i = 0; i < scene.getUntakenRoles().length; i++){
+		//	if(scene.getUntakenRoles()[i] == null){ System.out.println("Role does not exist for index: " + i);
+		//	}else{
+		//		System.out.println("Name: " + scene.getUntakenRoles()[i].getTitle());
+
+		//	}
+		//	System.out.println();
+		//}
+
 	}
 
     public static void printNodeList(NodeList in){
