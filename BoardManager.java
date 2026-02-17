@@ -31,14 +31,29 @@ public class BoardManager {
 
 	// Resets all the cards on the board
 	private static void resetCards() {
+		ArrayList<Space> spaces = board.getSpaceList();
+		for(int i = 0; i < spaces.size(); i++){
+			if(spaces.get(i) instanceof Scene){
+				Scene scene = (Scene) spaces.get(i);
+				scene.setCard(deck.takeCard());
+			}
+		}
 	}
 
 	// Resets the board for the next day
 	public static void resetBoard() {
+		resetCards();
+		if(GameManager.getPlayerList() != null){
+			resetPlayers();
+		}
 	}
 
 	// Resets the players' position
 	private static void resetPlayers() {
+		Player[] playerList = GameManager.getPlayerList();
+		for(int i = 0; i < playerList.length; i++){
+			playerList[0].move("trailer");
+		}
 	}
 
 	// Moves a player to another Space on the board
@@ -47,6 +62,10 @@ public class BoardManager {
 
 	// Removes a card from a space on the board
 	public static void removeCard(Space space) {
+		if(space instanceof Scene){
+			Scene scene = (Scene) space;
+			scene.setCard(null);
+		}
 	}
 
 	public static void createDeck() {
@@ -63,6 +82,7 @@ public class BoardManager {
 		ArrayList<Space> spaces = new ArrayList<Space>();
 		board = new Board(spaces);
 		Parse.parseBoard(board);
+		resetBoard();
 	}
 
 	public static void printAllSpaces(){

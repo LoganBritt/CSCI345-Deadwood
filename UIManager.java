@@ -92,14 +92,7 @@ public class UIManager {
 				case "end game": GameManager.endGame(); break;
 				default:
 					if(input.startsWith("move")){
-						if(!GameManager.getPlayerMoved()){
-							String newScene;
-							newScene = cutFront(input, 1);
-							GameManager.makeMoved();
-							actvPlayer.move(newScene);
-						}else{
-							System.out.println("You have already moved this turn");
-						}
+						printMove(actvPlayer, input);
 					}else if(input.startsWith("upgrade")){
 						printUpgrade(actvPlayer, input);
 					}else if(input.startsWith("take role")){
@@ -119,22 +112,16 @@ public class UIManager {
 	private static void printHelp() {
 		System.out.println("Game Actions:");
 		System.out.println("* Help (Ex 'Help'): This shows the action menu. You're seeing it now.");
-		System.out.println(
-				"* Stats (Ex 'Stats'): This shows the stats for the active player, including space, role, money, credits, rank, etc");
+		System.out.println("* Stats (Ex 'Stats'): This shows the stats for the active player, including space, role, money, credits, rank, etc");
 		System.out.println("* Stats All (Ex 'Stats All'): This shows the stats listed above for all players");
 		System.out.println("* Space (Ex 'Space'): Presents info about the space you're at");
 		System.out.println("* Card (Ex 'Card'): Presents info about the card at the scene you're at");
-		System.out.println(
-				"* Role (Ex 'Role'): Presents info about the role you're currently working on, only if you're working on a role");
-		System.out.println(
-				"* Move + place name (Ex 'Move Jail'): This moves your player from the space you're on to another neighboring it. You can only move once a turn, and only if you're not at a role");
-		System.out.println(
-				"* Act (Ex 'Act'): This causes your player to act. Act only if you have not acted this turn and if you have taken a role");
-		System.out.println(
-				"* Upgrade + new rank (Ex 'Upgrade 4'): This causes your player to make an upgrade. Upgrade only at the Casting Office");
+		System.out.println("* Role (Ex 'Role'): Presents info about the role you're currently working on, only if you're working on a role");
+		System.out.println("* Move + place name (Ex 'Move Jail'): This moves your player from the space you're on to another neighboring it. You can only move once a turn, and only if you're not at a role");
+		System.out.println("* Act (Ex 'Act'): This causes your player to act. Act only if you have not acted this turn and if you have taken a role");
+		System.out.println("* Upgrade + new rank (Ex 'Upgrade 4'): This causes your player to make an upgrade. Upgrade only at the Casting Office");
 		System.out.println("* Upgrade Info (Ex 'Upgrade Info'): Provides info about the costs for each rank upgrade");
-		System.out.println(
-				"* Take Role + role name (Ex 'Take Role Squeaking Boy'): This allows your player to take a new role. You can only take a new role that isn't taken and if you do not have a role");
+		System.out.println("* Take Role + role name (Ex 'Take Role Squeaking Boy'): This allows your player to take a new role. You can only take a new role that isn't taken and if you do not have a role");
 		System.out.println("* Rehearse (Ex 'Rehearse'): Rehearse and get a rehearsal token. You can only rehearse if you're working on a role");
 		System.out.println("* End turn (Ex 'End turn'): Ends your turn");
 		System.out.println("* End game (Ex 'End game'): Ends the game early");
@@ -181,8 +168,12 @@ public class UIManager {
                         System.out.println("You can see upgrade rates by typing 'Upgrade Info'");
                 } else {
                         Scene scene = (Scene) currSpace;
-                        System.out.println("You are at " + currSpace.name);
-                        System.out.println("Card Title: " + ((scene.getCard() == null) ? null : scene.getCard().getTitle()));
+                        System.out.println("You are at the " + currSpace.name);
+                        System.out.println("Scene Name: " + ((scene.getCard() == null) ? "Scene Completed" : scene.getCard().getTitle()));
+			if(scene.getCard() != null){
+				System.out.println("Budget: $" + scene.getCard().getBudget() + "k");
+				System.out.println("Description: " + scene.getCard().getDesc());
+			}
                         printRoles(scene.getUntakenRoles());
                 	printRoles(scene.getTakenRoles());
 			currSpace.printNeighbors();
@@ -223,22 +214,21 @@ public class UIManager {
 	// Prints everything the player needs to see for acting
 	private static void printAct(Player actvPlayer){
 		Role workingRole = actvPlayer.currRole;
-		if(actvPlayer.currLocation instanceof Scene){
-                	Scene scene = (Scene) actvPlayer.currLocation;
-                        if(workingRole == null){
-                        	System.out.println("You cannot act. You are not working at a role");
-				return;
-                        }
-			if(GameManager.getPlayerActed()){
-                                System.out.println("You cannot act. You have already acted this turn");
-				System.out.println("You can only either act or rehearse once per turn");
-				return;
-                        }
-			GameManager.makeActed();
-                        actvPlayer.act(workingRole.isOnCard());
-                }else{
+		if(!(actvPlayer.currLocation instanceof Scene)){
                         System.out.println("You are not in a place where you can act");
+			return;
+		}
+                if(workingRole == null){
+                	System.out.println("You cannot act. You are not working at a role");
+                        return;
                 }
+                if(GameManager.getPlayerActed()){
+                        System.out.println("You cannot act. You have already acted this turn");
+                        System.out.println("You can only either act or rehearse once per turn");
+                        return;
+                }
+                GameManager.makeActed();
+                actvPlayer.act(workingRole.isOnCard());
 
 	}
 
@@ -266,6 +256,18 @@ public class UIManager {
                 System.out.println("You rehearsed your lines");
                 System.out.println("You now have " + actvPlayer.rehearseTokens + " rehearsal tokens");
                 GameManager.makeActed();
+	}
+
+	// Prints info about moving and moves the player to the desired space
+	private static void printMove(Player actvPlayer, String input){
+		if(GameManager.getPlayerMoved()){
+			System.out.println("You have already moved this turn");
+			return;
+		}
+		String newScene;
+                newScene = cutFront(input, 1);
+                GameManager.makeMoved();
+                actvPlayer.move(newScene);
 	}
 
 	// Prints info and handles upgrade exchanges
@@ -360,6 +362,7 @@ public class UIManager {
 	private static void printRoles(Role[] roleList){
 		System.out.println("Roles:");
 		Role workingRole;
+		if(roleList == null) System.out.println("Did not find a rolelist");
 		if(roleList == null) return;
 		for(int i = 0; i < roleList.length; i++){
 			workingRole = roleList[i];
