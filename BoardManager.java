@@ -71,7 +71,7 @@ public class BoardManager {
 	public static void createDeck() {
 		Deck newDeck = new Deck();
 		for (int i = 0; i < 40; i++) {
-			Card newCard = new Card(3, null);
+			Card newCard = new Card(3, new Role[4]);
 			newDeck.addCard(newCard);
 		}
 		deck = newDeck;

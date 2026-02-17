@@ -14,10 +14,10 @@ public abstract class Space {
 	public int width;
 
 	public void printNeighbors() {
-		System.out.println("Neighbors:");
+		System.out.println("\u001b[4mNeighbors:\u001b[0m");
 		for(int i = 0; i < neighborSpaces.length; i++){
 			if(neighborSpaces[i] != null){
-				System.out.println(neighborSpaces[i].name);
+				System.out.println("  * " + neighborSpaces[i].name);
 			}
 		}
 	}

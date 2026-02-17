@@ -65,19 +65,21 @@ public class Parse {
                     String subtext = sub.getTextContent();
                     workingCard.setDesc(subtext);
                 } else if ("part".equals(sub.getNodeName())) {
+		    //if(workingCard.getRoles() == null) { workingCard
+		    Role[] roleList = workingCard.getRoles();
                     String name = sub.getAttributes().getNamedItem("name").getNodeValue();
-                    workingCard.setRoleName(cardName);
-                    int level = Integer.parseInt(sub.getAttributes().getNamedItem("level").getNodeValue());
-                    workingCard.setLevel(level);
+		    int level = Integer.parseInt(sub.getAttributes().getNamedItem("level").getNodeValue());
 
 		    Node area = sub.getChildNodes().item(1);
-		    int x = Integer.parseInt(area.getAttributes().getNamedItem("x").getNodeValue());
-		    int y = Integer.parseInt(area.getAttributes().getNamedItem("y").getNodeValue());
-		    int h = Integer.parseInt(area.getAttributes().getNamedItem("h").getNodeValue());
-		    int w = Integer.parseInt(area.getAttributes().getNamedItem("w").getNodeValue());
+		    int[] areaStats = new int[4];
+		    areaStats[0] = Integer.parseInt(area.getAttributes().getNamedItem("x").getNodeValue());
+		    areaStats[1] = Integer.parseInt(area.getAttributes().getNamedItem("y").getNodeValue());
+		    areaStats[2] = Integer.parseInt(area.getAttributes().getNamedItem("h").getNodeValue());
+		    areaStats[3] = Integer.parseInt(area.getAttributes().getNamedItem("w").getNodeValue());
 
 		    Node lineNode = sub.getChildNodes().item(3);
 		    String line = lineNode.getTextContent();
+                    roleList[(j-1)/2] = new Role(level, name, line, areaStats);
                 }
             }
         }

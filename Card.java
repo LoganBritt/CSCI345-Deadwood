@@ -18,8 +18,6 @@ public class Card {
         private int y;
         private int h;
         private int w;
-        private String roleName = "";
-        private String roleLine = "";
         private int level;
 
         public static void main(String[] args) {
@@ -156,25 +154,5 @@ public class Card {
         // Sets the W value of the role
         public void setW(int newW) {
                 w = newW;
-        }
-
-        // gets the Role Name
-        public String getRoleName() {
-                return roleName;
-        }
-
-        // Sets the Role Name
-        public void setRoleName(String newRoleName) {
-                roleName = newRoleName;
-        }
-
-        // gets the role line
-        public String getRoleLine() {
-                return roleLine;
-        }
-
-        // sets the Role Line
-        public void setRoleLine(String newRoleLine) {
-                roleLine = newRoleLine;
         }
 }

@@ -1,4 +1,3 @@
-
 /*
 //	UIManager manages the functionality for interacting with the UI and what that interaction
 //	does for the game
@@ -16,7 +15,7 @@ public class UIManager {
 	// Also allows user to specify player number
 	public static void startGame() {
 		System.out.println("Starting Deadwood...");
-		System.out.println("Welcome to Deadwood!");
+		System.out.println(bold(underline("Welcome to Deadwood!")));
 
 		terminalIn = new Scanner(System.in);
 
@@ -99,6 +98,7 @@ public class UIManager {
 						printRoleChange(actvPlayer, input);
 					}else{
 						System.out.println("I'm sorry, I didn't understand that.");
+						System.out.println("I'm a dumb computer and only understand specific commands");
 						System.out.println("Some actions are not fully implemented. Deadwood is still in development");
 						System.out.println("Please try again, or type 'Help' for input options");
 					}
@@ -110,7 +110,7 @@ public class UIManager {
 
 	// This is a method we decided to add to have a list of all the possible actions 
 	private static void printHelp() {
-		System.out.println("Game Actions:");
+		System.out.println(underline("Game Actions:"));
 		System.out.println("* Help (Ex 'Help'): This shows the action menu. You're seeing it now.");
 		System.out.println("* Stats (Ex 'Stats'): This shows the stats for the active player, including space, role, money, credits, rank, etc");
 		System.out.println("* Stats All (Ex 'Stats All'): This shows the stats listed above for all players");
@@ -131,27 +131,35 @@ public class UIManager {
 	// Will also print the space, role
 	// If the player object is null, then ALL of the players' stats will be printed
 	public static void printStats(Player player) {
-		System.out.println("Printing player stats:");
+		System.out.println(underline("Player Stats:"));
 		if (player == null) {
 			Player[] players = GameManager.getPlayerList();
 			for (int i = 0; i < players.length; i++) {
-				System.out.println("Player " + (i + 1) + ":");
-				System.out.println("You are at the " + players[i].currLocation.name);
-				if(players[i].currRole != null){ System.out.println("Current role: " + players[i].currRole.getTitle());}
-				System.out.println("Dollars: " + players[i].dollars);
-				System.out.println("Credits: " + players[i].credits);
-				System.out.println("Rank: " + players[i].rank);
-				System.out.println("Rehearsal Tokens: " + players[i].rehearseTokens);
+				System.out.println(bold("Player " + (i + 1) + ":"));
+                                System.out.println("  Dollars: " + players[i].dollars);
+                                System.out.println("  Credits: " + players[i].credits);
+                                System.out.println("  Rank: " + players[i].rank);
+                                System.out.println("  Rehearsal Tokens: " + players[i].rehearseTokens);
+				System.out.println("  You are at the " + players[i].currLocation.name);
+				if(players[i].currRole != null){
+					System.out.println("  Current role: " + players[i].currRole.getTitle());
+				}else{
+					System.out.println("  You are not working on a role");
+				}
 				System.out.println();
 			}
 		} else {
 			System.out.println("Player " + (GameManager.getActvPlyrIdx() + 1) + ":");
-			System.out.println("You are at the " + player.currLocation.name);
-			if(player.currRole != null){ System.out.println("Current role: " + player.currRole.getTitle());}
-			System.out.println("Dollars: " + player.dollars);
-			System.out.println("Credits: " + player.credits);
-			System.out.println("Rank: " + player.rank);
-			System.out.println("Rehearsal Tokens: " + player.rehearseTokens);
+                        System.out.println("  Dollars: " + player.dollars);
+                        System.out.println("  Credits: " + player.credits);
+                        System.out.println("  Rank: " + player.rank);
+                        System.out.println("  Rehearsal Tokens: " + player.rehearseTokens);
+			System.out.println("  You are at the " + player.currLocation.name);
+			if(player.currRole != null){
+                                 System.out.println("  Current role: " + player.currRole.getTitle());
+                        }else{
+                        	System.out.println("  You are not working on a role");
+                        }
 			System.out.println();
 		}
 	}
@@ -169,7 +177,7 @@ public class UIManager {
                 } else {
                         Scene scene = (Scene) currSpace;
                         System.out.println(bold("You are at the " + currSpace.name));
-                        System.out.println("Scene Name: " + ((scene.getCard() == null) ? "Scene Completed" : scene.getCard().getTitle()));
+                        //System.out.println("Scene Name: " + ((scene.getCard() == null) ? "Scene Completed" : scene.getCard().getTitle()));
 			currSpace.printNeighbors();
 			if(scene.getCard() == null){
 				System.out.println("This scene is done shooting for the day");
@@ -256,6 +264,13 @@ public class UIManager {
 
 	// Prints all the rehearse info
 	private static void printRehearse(Player actvPlayer){
+		if(currRole == null){
+			System.out.println("You are not working on a role. There are no lines to rehearse");
+		}
+		if(!(actvPlayer.currLocation instanceof Scene)){
+                        System.out.println("You are not in a place where you can rehearse");
+                        return;
+                }
 		if(GameManager.getPlayerActed()){
                 	System.out.println("I'm sorry. You've already worked this turn");
                         System.out.println("You can only either act or rehearse once per turn");
