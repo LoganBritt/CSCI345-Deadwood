@@ -177,7 +177,10 @@ public class UIManager {
                 } else {
                         Scene scene = (Scene) currSpace;
                         System.out.println(bold("You are at the " + currSpace.name));
-                        //System.out.println("Scene Name: " + ((scene.getCard() == null) ? "Scene Completed" : scene.getCard().getTitle()));
+			if(scene.getShots() > 0){
+				System.out.println("We're still shooting " + scene.getShots() + " shots for the day");
+			}
+
 			currSpace.printNeighbors();
 			if(scene.getCard() == null){
 				System.out.println("This scene is done shooting for the day");
@@ -244,9 +247,24 @@ public class UIManager {
                         System.out.println("You can only either act or rehearse once per turn");
                         return;
                 }
-                GameManager.makeActed();
-                actvPlayer.act(workingRole.isOnCard());
-
+		boolean successful = actvPlayer.act(workingRole.isOnCard());
+		if(successful){
+			System.out.println("You've successfully acted your role.");
+			if(workingRole.isOnCard()){
+				System.out.println("You earned 2 credits");
+			}else{
+				System.out.println("You earned 1 dollar and 1 credit");
+			}
+			System.out.println("Use the command 'Stats' to see your new balance");
+		}else{
+			System.out.println("You stumbled over your words while acting your lines");
+			if(workingRole.isOnCard()){
+				System.out.println("You earned nothing for your work");
+			}else{
+				System.out.println("The set stubbornly paid you 1 dollar anyway for your efforts");
+			}
+			System.out.println("Remember that you can rehearse to get better at your lines");
+		}
 	}
 
 	// Prints all the rank upgrade exchange rates
@@ -264,7 +282,7 @@ public class UIManager {
 
 	// Prints all the rehearse info
 	private static void printRehearse(Player actvPlayer){
-		if(currRole == null){
+		if(actvPlayer.currRole == null){
 			System.out.println("You are not working on a role. There are no lines to rehearse");
 		}
 		if(!(actvPlayer.currLocation instanceof Scene)){
@@ -279,7 +297,6 @@ public class UIManager {
                 actvPlayer.rehearse();
                 System.out.println("You rehearsed your lines");
                 System.out.println("You now have " + actvPlayer.rehearseTokens + " rehearsal tokens");
-                GameManager.makeActed();
 	}
 
 	// Prints info about moving and moves the player to the desired space
@@ -290,7 +307,6 @@ public class UIManager {
 		}
 		String newScene;
                 newScene = cutFront(input, 1);
-                GameManager.makeMoved();
                 actvPlayer.move(newScene);
 	}
 
@@ -342,7 +358,7 @@ public class UIManager {
 		Role[] untakenRoles = scene.getUntakenRoles();
 		Role foundRole = null;
 		for(int i = 0; i < untakenRoles.length; i++){
-			if(untakenRoles[i] != null && untakenRoles[i].getTitle().equals(newRole)){
+			if(untakenRoles[i] != null && untakenRoles[i].getTitle().toLowerCase().equals(newRole.toLowerCase())){
 				foundRole = untakenRoles[i];
 			}
 		}
@@ -350,7 +366,7 @@ public class UIManager {
 		Card card = scene.getCard();
 		untakenRoles = card.getRoles();
 		for(int i = 0; i < untakenRoles.length; i++){
-			if(untakenRoles[i].canTake(player) && untakenRoles[i].getTitle().equals(newRole)){
+			if(untakenRoles[i] != null && !(untakenRoles[i].isTaken()) && untakenRoles[i].getTitle().toLowerCase().equals(newRole.toLowerCase())){
 				foundRole = untakenRoles[i];
 			}
 		}

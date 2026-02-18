@@ -28,7 +28,25 @@ public class Scene extends Space {
 	}
 
 	// Changes a role from the untaken array to the taken array
-	public void changeToTaken(Role roleToChange) {
+	public void changeToTaken(String roleToChange) {
+		Role foundRole = null;
+		for(int i = 0; i < untakenRoles.length; i++){
+			if(untakenRoles[i].getTitle().equals(roleToChange)){
+				foundRole = untakenRoles[i];
+			}
+		}
+		if(foundRole == null){
+			System.out.println("I did not find the role you're looking for");
+		}
+		if(takenRoles == null){
+			takenRoles = new Role[untakenRoles.length];
+		}
+		int i = 0;
+		while(i < takenRoles.length && takenRoles[i] != null){
+			i++;
+		}
+
+		takenRoles[i] = foundRole;
 	}
 
 	// Returns the untaken role list
@@ -43,7 +61,7 @@ public class Scene extends Space {
 
 	// Returns whether the scene is complete or not (card is null)
 	public boolean sceneComplete() {
-		return true;
+		return card == null;
 	}
 
 	// Returns the shot amount

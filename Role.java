@@ -7,7 +7,7 @@
 public class Role {
 
         private int rank = 1;
-        private Player playerHere;
+        private Player playerHere = null;
 	private String title = "nameless extra";
 	private String line = "indistinct murmuring";
 	private boolean onCard = false;

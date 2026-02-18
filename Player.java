@@ -34,11 +34,13 @@ public class Player {
 
 	// Move: Player can move to an adjacent scene
 	public void move(String newLocationName) {
+		if(GameManager.getPlayerMoved()) return;
 		Space[] neighborList = currLocation.neighborSpaces;
 		for(int i = 0; i < neighborList.length; i++){
 //			System.out.println("Testing '" + newLocationName + "' against '" + neighborList[i].name);
 			if(newLocationName.equals((neighborList[i].name).toLowerCase())){
 				currLocation = neighborList[i];
+				GameManager.getPlayerMoved();
 				System.out.println("Moved to " + newLocationName);
 				System.out.println("Type 'Space' to see details");
 				return;
@@ -50,16 +52,19 @@ public class Player {
 
 	// Act: Player can choose to act, depending on success or fail, the player will
 	// revieve rewards for working on/off card
-	public void act(boolean onCard) {
+	public boolean act(boolean onCard) {
+		boolean success = false;
 		Scene activeScene = null;
 		if (currLocation instanceof Scene) {
 			activeScene = (Scene) currLocation;
 		}
 		if (activeScene != null) {
+			GameManager.makeActed();
 			Random r = new Random();
                 	int roll = r.nextInt(1, 7);
                 	int budget = activeScene.getCard().getBudget();
 			if (roll + rehearseTokens >= budget) {
+				success = true;
 				activeScene.setShots(activeScene.getShots() - 1);
 				clearTokens();
 				if (onCard) {
@@ -74,10 +79,15 @@ public class Player {
 				dollars++;
 			}
 		}
+		return success;
 	}
 
 	// Rehearse: Adds practice chip to the die, gives +1 to all die rolls
 	public void rehearse() {
+		if(currRole == null) return;
+		if(!(currLocation instanceof Scene)) return;
+		if(GameManager.getPlayerActed()) return;
+		GameManager.makeActed();
 		rehearseTokens++;
 	}
 

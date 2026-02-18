@@ -65,7 +65,6 @@ public class Parse {
                     String subtext = sub.getTextContent();
                     workingCard.setDesc(subtext);
                 } else if ("part".equals(sub.getNodeName())) {
-		    //if(workingCard.getRoles() == null) { workingCard
 		    Role[] roleList = workingCard.getRoles();
                     String name = sub.getAttributes().getNamedItem("name").getNodeValue();
 		    int level = Integer.parseInt(sub.getAttributes().getNamedItem("level").getNodeValue());
@@ -83,6 +82,7 @@ public class Parse {
                 }
             }
         }
+	
 
     }
 
@@ -105,14 +105,11 @@ public class Parse {
 	//Parsing names and creating spaces
 	for(int i = 0; i < sceneNodeList.getLength() + 2; i++){
 		if(i == 0){
-//			System.out.println("Creating the trailers");
 			spaceObj = new Trailers("trailer");
 		}else if(i == sceneNodeList.getLength() + 1){
-//			System.out.println("Creating the casting office");
 			spaceObj = new Casting("office");
 		}else{
 			String sceneName = sceneNodeList.item(i-1).getAttributes().getNamedItem("name").getNodeValue();
-//			System.out.println("Creating Scene: " + sceneName);
 			spaceObj = new Scene(sceneName);
 		}
 		spaceList.add(spaceObj);
@@ -124,13 +121,10 @@ public class Parse {
 		Node spaceNode;
 		spaceObj = spaceList.get(i);
 		if(i == 0){
-//			System.out.println("Setting trailers");
 			spaceNode = trailersNodeList.item(0);
 		}else if(i == sceneNodeList.getLength()+1){
-//			System.out.println("Setting Casting");
 			spaceNode = castingNodeList.item(0);
 		}else{
-//			System.out.println("Setting scene");
 			spaceNode = sceneNodeList.item(i-1);
 		}
 
@@ -164,7 +158,6 @@ public class Parse {
 			//Parsing scene specific info
 			parseScene((Scene) spaceObj, spaceNode);
 		}
-		//System.out.println();
 	}
     }
 
@@ -195,6 +188,7 @@ public class Parse {
 
 		//Setting takes values
 		NodeList takesChildren = takesNode.getChildNodes();
+		scene.setShots((takesChildren.getLength()-1)/2);
 		for(int i = 0; i < takesChildren.getLength(); i++){
 			Node take = takesChildren.item(i);
 			if(take.getNodeName().equals("take")){
