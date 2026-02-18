@@ -4,8 +4,7 @@
 */
 
 public class Scene extends Space {
-	private Role untakenRoles[] = null;
-	private Role takenRoles[] = null;
+	private Role[] roleList = null;
 	private Card card = null;
 	private int shots = 0;
 	private int[][] takeAreasList = new int[3][];
@@ -27,36 +26,9 @@ public class Scene extends Space {
 		card = newCard;
 	}
 
-	// Changes a role from the untaken array to the taken array
-	public void changeToTaken(String roleToChange) {
-		Role foundRole = null;
-		for(int i = 0; i < untakenRoles.length; i++){
-			if(untakenRoles[i].getTitle().equals(roleToChange)){
-				foundRole = untakenRoles[i];
-			}
-		}
-		if(foundRole == null){
-			System.out.println("I did not find the role you're looking for");
-		}
-		if(takenRoles == null){
-			takenRoles = new Role[untakenRoles.length];
-		}
-		int i = 0;
-		while(i < takenRoles.length && takenRoles[i] != null){
-			i++;
-		}
-
-		takenRoles[i] = foundRole;
-	}
-
-	// Returns the untaken role list
-	public Role[] getUntakenRoles() {
-		return untakenRoles;
-	}
-
-	// Returns the taken role list
-	public Role[] getTakenRoles() {
-		return takenRoles;
+	//Returns the list of roles
+	public Role[] getRoles(){
+		return roleList;
 	}
 
 	// Returns whether the scene is complete or not (card is null)
@@ -90,7 +62,6 @@ public class Scene extends Space {
 	}
 
 	public void createRoleLists(int size){
-		untakenRoles = new Role[size];
-		takenRoles = new Role[size];
+		roleList = new Role[size];
 	}
 }

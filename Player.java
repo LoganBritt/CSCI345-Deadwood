@@ -35,6 +35,7 @@ public class Player {
 	// Move: Player can move to an adjacent scene
 	public void move(String newLocationName) {
 		if(GameManager.getPlayerMoved()) return;
+		if(currRole != null) return;
 		Space[] neighborList = currLocation.neighborSpaces;
 		for(int i = 0; i < neighborList.length; i++){
 //			System.out.println("Testing '" + newLocationName + "' against '" + neighborList[i].name);

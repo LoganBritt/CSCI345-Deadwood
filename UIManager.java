@@ -188,13 +188,8 @@ public class UIManager {
 			}else{
 				System.out.println();
 				System.out.println(underline("Roles on the scene"));
-				System.out.println("Available Roles:");
-				Role[] utRoles = scene.getUntakenRoles();
-				printRoles(utRoles);
-				System.out.println();
-				System.out.println("Taken Roles:");
-				Role[] tRoles = scene.getTakenRoles();
-				printRoles(tRoles);
+				Role[] roleList = scene.getRoles();
+				printRoles(roleList);
 				System.out.println();
 			}
                 }
@@ -306,6 +301,9 @@ public class UIManager {
 			System.out.println("You have already moved this turn");
 			return;
 		}
+		if(actvPlayer.currRole != null){
+			System.out.println("You're currently working. You cannot move while you're working");
+		}
 		String newScene;
                 newScene = cutFront(input, 1);
                 actvPlayer.move(newScene);
@@ -344,7 +342,6 @@ public class UIManager {
 	private static void printRoleChange(Player player, String input){
 		String newRole;
                 newRole = cutFront(input, 2);
-                System.out.println("New role: " + newRole);
 		if(player.currLocation instanceof Casting || player.currLocation instanceof Trailers){
 			System.out.println("There are no roles at the place you're at");
 			return;
@@ -355,14 +352,13 @@ public class UIManager {
 			System.out.println("Please try again tomorrow");
 			return;
 		}
+
 		//Checking scene roles
-		Role[] untakenRoles = scene.getUntakenRoles();
+		Role[] untakenRoles = scene.getRoles();
 		Role foundRole = null;
 		for(int i = 0; i < untakenRoles.length; i++){
-			if(untakenRoles[i] != null && untakenRoles[i].getTitle().toLowerCase().equals(newRole.toLowerCase())){
+			if(untakenRoles[i] != null && !(untakenRoles[i].isTaken()) && untakenRoles[i].getTitle().toLowerCase().equals(newRole.toLowerCase())){
 				foundRole = untakenRoles[i];
-				untakenRoles[i] = null;
-				scene.getTakenRoles()[i] = foundRole;
 			}
 		}
 		//Checking card roles
@@ -383,6 +379,7 @@ public class UIManager {
 			System.out.println("You must upgrade your rank in the Casting Office to at least " + foundRole.getRank());
 			return;
 		}
+                System.out.println("New role: " + newRole);
 		player.currRole = foundRole;
 		foundRole.setPlayer(player);
 		
@@ -405,7 +402,12 @@ public class UIManager {
 	private static void printRoles(Role[] roleList){
 		for(int i = 0; i < roleList.length; i++){
                 	if(roleList[i] != null){
-                        	System.out.println((i+1) + ":" + roleList[i].getTitle() + "");
+                        	System.out.print((i+1) + ":" + roleList[i].getTitle() + " - ");
+				if(roleList[i].getPlayer() != null){
+					System.out.println("Taken");
+				}else{
+					System.out.println("Untaken");
+				}
                                 System.out.println("  Level: " + roleList[i].getRank());
                                 System.out.println("  '" + roleList[i].getLine() + "'");
                         }

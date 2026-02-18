@@ -206,7 +206,7 @@ public class Parse {
 		//Setting parts values
 		NodeList partsChildren = partsNode.getChildNodes();
 		scene.createRoleLists(partsChildren.getLength());
-		Role[] roleList = scene.getUntakenRoles();
+		Role[] roleList = scene.getRoles();
 		for(int i = 0; i < partsChildren.getLength(); i++){
 			Node part = partsChildren.item(i);
 			if(part.getNodeName().equals("part")){
