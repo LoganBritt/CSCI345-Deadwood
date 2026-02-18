@@ -3,7 +3,12 @@ This is the repository that contains the code for the game Deadwood
 
 Window has been excluded from implementation for Assignment 2
 
-
+Remaining Work:\
+Report\
+Class Diagram\
+Taking a role does not update which role list it's in on the scene. That needs to be fixed\
+We need to test upgrading, end day, end game, taking new upgrades, scene fininhing on and off card,
+end scene bonus distribution, and a lot of UI stuff needs to be updated to make to look good. 
 
 About Deadwood:\
 Deadwood is a board game created by Cheap Ass Games, and was originally designed as an easy-to-create
