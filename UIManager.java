@@ -96,6 +96,12 @@ public class UIManager {
 						printUpgrade(actvPlayer, input);
 					}else if(input.startsWith("take role")){
 						printRoleChange(actvPlayer, input);
+					}else if(input.startsWith("*set d")){
+						printSetDollars(actvPlayer, input);
+					}else if(input.startsWith("*set c")){
+						printSetCredits(actvPlayer, input);
+					}else if(input.startsWith("*set r")){
+						printSetRank(actvPlayer, input);
 					}else{
 						System.out.println("I'm sorry, I didn't understand that.");
 						System.out.println("I'm a dumb computer and only understand specific commands");
@@ -106,6 +112,27 @@ public class UIManager {
 
 			}
 		}
+	}
+
+	//Cheat code to set a new dollar amount
+	private static void printSetDollars(Player player, String input){
+		int newDollars = Integer.parseInt(cutFront(input, 2));
+		player.dollars = newDollars;
+		System.out.println("Hello, creator. Your player's dollars have been changed to " + newDollars);
+	}
+
+	//Cheat code to set a new credit amount
+	private static void printSetCredits(Player player, String input){
+		int newCredits = Integer.parseInt(cutFront(input, 2));
+		player.credits = newCredits;
+		System.out.println("Hello, creator. Your player's credits have been changed to " + newCredits);
+	}
+
+	//Cheat code to set a new rank
+	private static void printSetRank(Player player, String input){
+		int newRank = Integer.parseInt(cutFront(input, 2));
+		player.rank = newRank;
+		System.out.println("Hello, creator. Your player's rank have been changed to " + newRank);
 	}
 
 	// This is a method we decided to add to have a list of all the possible actions 
@@ -319,6 +346,7 @@ public class UIManager {
                 String newRank;
                 newRank = cutFront(input, 1);
 		if(newRank == null){
+			System.out.println("For testing: " + input + " and " + newRank);
 			System.out.println("It seems you forgot to add a new rank value");
 			System.out.println("Remember, it's in the format 'Upgrade + new rank' (Ex 'Upgrade 4')");
 			return;

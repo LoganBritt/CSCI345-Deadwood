@@ -9,9 +9,11 @@ Class Diagram
 
 Testing:\
 We need to test upgrading, end day, end game, taking new upgrades, scene fininhing on and off card,
-end scene bonus distribution, and a lot of UI stuff needs to be updated to make to look good.
+end scene bonus distribution, and a lot of UI stuff needs to be updated to make to look good.\
+We should add some cheat codes to make testing easier
 
 Bugs:\
+Upgrade rank don't work. It doesn't realize there's a number there when it cuts off the front
 
 About Deadwood:\
 Deadwood is a board game created by Cheap Ass Games, and was originally designed as an easy-to-create
