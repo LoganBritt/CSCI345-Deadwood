@@ -215,6 +215,7 @@ public class UIManager {
 		}
                 Card card = scene.getCard();
                 System.out.println("'" + card.getTitle() + "'");
+		System.out.println("Budget: $" + card.getBudget() + " million");
                 System.out.println(card.getDesc());
         	printRoles(card.getRoles());
 	}
@@ -360,6 +361,8 @@ public class UIManager {
 		for(int i = 0; i < untakenRoles.length; i++){
 			if(untakenRoles[i] != null && untakenRoles[i].getTitle().toLowerCase().equals(newRole.toLowerCase())){
 				foundRole = untakenRoles[i];
+				untakenRoles[i] = null;
+				scene.getTakenRoles()[i] = foundRole;
 			}
 		}
 		//Checking card roles

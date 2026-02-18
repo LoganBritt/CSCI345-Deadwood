@@ -6,9 +6,16 @@ Window has been excluded from implementation for Assignment 2
 Remaining Work:\
 Report\
 Class Diagram\
-Taking a role does not update which role list it's in on the scene. That needs to be fixed\
+
+Testing:\
 We need to test upgrading, end day, end game, taking new upgrades, scene fininhing on and off card,
-end scene bonus distribution, and a lot of UI stuff needs to be updated to make to look good. 
+end scene bonus distribution, and a lot of UI stuff needs to be updated to make to look good.\
+
+Bugs:\
+Player is still able to move while working. That needs to be fixed.\
+Currently, cards' roles are not divided between taken and untaken lists. It might be worth looking
+into instead of using two lists like with scenes, to use one and print them differently, since role
+objects already know if they're taken.\
 
 About Deadwood:\
 Deadwood is a board game created by Cheap Ass Games, and was originally designed as an easy-to-create
