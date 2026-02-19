@@ -34,7 +34,7 @@ public class GameManager {
 	// Gives bonuses to players according to their assigned rank
 	// They are distributed highest rank first, to lowest, then back to highest
 	// again
-	public static void distributeBonuses(Player[] bonusPlayers, Space space) {
+	public static void distributeBonuses(Space space) {
 		Scene scene = null;
 		if (space instanceof Scene) {
 			scene = (Scene) space;
@@ -153,7 +153,11 @@ public class GameManager {
 	public static void endGame() {
 		day = 0;
 		System.out.println("Game Over");
-		UIManager.printStats(null);
+		//UIManager.printStats(null);
+		for (int i = 0; i < playerListOrder.length; i++){
+			int stats = playerListOrder[i].dollars + playerListOrder[i].credits + (playerListOrder[i].rank * 5);
+			System.out.println("Player " + (i+1) + " total points: " + stats); 
+		}
 		System.out.println("Thanks for playing");
 	}
 }

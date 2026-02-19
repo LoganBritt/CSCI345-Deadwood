@@ -34,6 +34,7 @@ public class Scene extends Space {
 	// Returns whether the scene is complete or not (card is null)
 	public boolean sceneComplete() {
 		return card == null;
+
 	}
 
 	// Returns the shot amount
@@ -63,5 +64,26 @@ public class Scene extends Space {
 
 	public void createRoleLists(int size){
 		roleList = new Role[size];
+	}
+
+	public void clearRoles(){
+		Role[] roles = roleList;
+		for (int i = 0; i < roles.length; i++){
+			if (roles[i].getPlayer() != null){
+				System.out.println("Initial Player Role: " + roles[i].getPlayer().currRole);
+				roles[i].getPlayer().currRole = null;
+				roles[i].setPlayer(null);
+				System.out.println("Updated Player Role " + roles[i].getPlayer().currRole);
+			}
+		}
+		roles = card.getRoles();
+		for (int i = 0; i < roles.length; i++){
+			if (roles[i].getPlayer() != null){
+				System.out.println("Initial card role: " + roles[i].getPlayer().currRole);
+				roles[i].getPlayer().currRole = null;
+				roles[i].setPlayer(null);
+				System.out.println("Updated card Role" + roles[i].getPlayer().currRole);
+			}
+		}
 	}
 }

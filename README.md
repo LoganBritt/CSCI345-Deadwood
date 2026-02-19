@@ -13,9 +13,8 @@ end scene bonus distribution, and a lot of UI stuff needs to be updated to make 
 We should add some cheat codes to make testing easier
 
 Bugs:\
-Upgrade rank don't work. It doesn't realize there's a number there when it cuts off the front\
 When you finish a job, it does not clear the role\
-Say who wins!\
+Bonus when nobody on the card... Also maybe we want a line to print that bonuses are distributed?
 
 About Deadwood:\
 Deadwood is a board game created by Cheap Ass Games, and was originally designed as an easy-to-create

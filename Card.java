@@ -155,4 +155,13 @@ public class Card {
         public void setW(int newW) {
                 w = newW;
         }
+
+        public boolean hasPlayers(){
+                for (int i = 0; i < roles.length; i++){
+                        if ((roles[i] != null) && (roles[i].getPlayer() != null)){
+                                return true;
+                        }
+                }
+                return false;
+        }
 }
