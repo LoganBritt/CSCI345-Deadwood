@@ -141,7 +141,7 @@ public class UIManager {
 	//Cheat code to set a new rank
         private static void printSkip(){
                 for(int i = 0; i < GameManager.getPlayerList().length; i++){
-			GameManager.endTurn();
+			GameManager.changeTurn();
 		}
                 System.out.println("Hello, creator. I've moved you to your next turn.");
         }

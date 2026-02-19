@@ -43,7 +43,8 @@ public class GameManager {
 		// Bonus for Off Card
 		Role[] list = scene.getRoles();
 		for (int i = 0; i < list.length; i++) {
-			if (list[i].getPlayer() != null) {
+
+			if ((list[i] != null) && (list[i].getPlayer() != null)) {
 				list[i].getPlayer().dollars += list[i].getRank();
 			}
 		}
