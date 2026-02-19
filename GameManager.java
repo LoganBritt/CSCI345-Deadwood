@@ -14,7 +14,6 @@ public class GameManager {
 	private static boolean actvPlayerActed = false;
 	private static boolean actvPlayerMoved = false;
 
-
 	public static void main(String[] args) {
 		System.out.println("Running GameManager.java");
 	}
@@ -29,7 +28,7 @@ public class GameManager {
 		}
 		actvPlayerActed = false;
 		actvPlayerMoved = false;
-		
+
 	}
 
 	// Gives bonuses to players according to their assigned rank
@@ -42,9 +41,11 @@ public class GameManager {
 		}
 
 		// Bonus for Off Card
-		Role[] list = scene.getTakenRoles();
+		Role[] list = scene.getRoles();
 		for (int i = 0; i < list.length; i++) {
-			list[i].getPlayer().dollars += list[i].getRank();
+			if (list[i].getPlayer() != null) {
+				list[i].getPlayer().dollars += list[i].getRank();
+			}
 		}
 		// Bonus for On Card
 		Card card = scene.getCard();
@@ -91,19 +92,19 @@ public class GameManager {
 		playerAmt = amt;
 	}
 
-	public static boolean getPlayerActed(){
+	public static boolean getPlayerActed() {
 		return actvPlayerActed;
 	}
 
-	public static boolean getPlayerMoved(){
+	public static boolean getPlayerMoved() {
 		return actvPlayerMoved;
 	}
 
-	public static void makeActed(){
+	public static void makeActed() {
 		actvPlayerActed = true;
 	}
 
-	public static void makeMoved(){
+	public static void makeMoved() {
 		actvPlayerMoved = true;
 	}
 

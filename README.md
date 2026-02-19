@@ -13,7 +13,9 @@ end scene bonus distribution, and a lot of UI stuff needs to be updated to make 
 We should add some cheat codes to make testing easier
 
 Bugs:\
-Upgrade rank don't work. It doesn't realize there's a number there when it cuts off the front
+Upgrade rank don't work. It doesn't realize there's a number there when it cuts off the front\
+When you finish a job, it does not clear the role\
+Say who wins!\
 
 About Deadwood:\
 Deadwood is a board game created by Cheap Ass Games, and was originally designed as an easy-to-create
@@ -68,3 +70,6 @@ After the number of days are up, the game is over. The final scores are calculat
 
 dollars + credits + (5 * rank)\
 Ex: $36 + 13 credits + rank 4 = (36 + 13 + (5*4)) = 69 points
+
+
+

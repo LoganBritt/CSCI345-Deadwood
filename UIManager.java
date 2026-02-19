@@ -444,7 +444,7 @@ public class UIManager {
 
 	// Cuts off the first removed words from the input string to get the arguments
 	private static String cutFront(String input, int removed){
-		if(input.length()-1 == 0){ return null; }
+		if(input.length() == 0){ return null; }
 		if(removed == 0){ return input;}
 		int i = input.indexOf(" ") + 1;
                 return cutFront(input.substring(i, input.length()), removed - 1);
@@ -487,11 +487,11 @@ public class UIManager {
 	}
 
 	// Shows a window on top of all things
-	public void showWindow(Window window) {
-	}
+	//public void showWindow(Window window) {
+	//}
 
 	// Hides a specific window
-	public void hideWindow(Window window) {
-	}
+	//public void hideWindow(Window window) {
+	//}
 
 }
