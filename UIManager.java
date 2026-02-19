@@ -102,10 +102,13 @@ public class UIManager {
 						printSetCredits(actvPlayer, input);
 					}else if(input.startsWith("*set r")){
 						printSetRank(actvPlayer, input);
+					}else if(input.startsWith("*skip")){
+						printSkip();
 					}else{
 						System.out.println("I'm sorry, I didn't understand that.");
 						System.out.println("I'm a dumb computer and only understand specific commands");
 						System.out.println("Some actions are not fully implemented. Deadwood is still in development");
+
 						System.out.println("Please try again, or type 'Help' for input options");
 					}
 					break;
@@ -134,6 +137,15 @@ public class UIManager {
 		player.rank = newRank;
 		System.out.println("Hello, creator. Your player's rank have been changed to " + newRank);
 	}
+
+	//Cheat code to set a new rank
+        private static void printSkip(){
+                for(int i = 0; i < GameManager.getPlayerList().length; i++){
+			GameManager.endTurn();
+		}
+                System.out.println("Hello, creator. I've moved you to your next turn.");
+        }
+
 
 	// This is a method we decided to add to have a list of all the possible actions 
 	private static void printHelp() {
@@ -457,20 +469,16 @@ public class UIManager {
                 return cutFront(input.substring(i, input.length()), removed - 1);
 	}
 
-	private static boolean test(int i, boolean ret){
-		System.out.println("i before check: " + i);
-		System.out.println("boolean at check: " + ret);
-		return ret;
-	}
-
+	//Return the given string underlined
 	private static String underline(String string){
 		return "\u001B[4m" + string + "\u001B[0m";
 	}
 
+	//Return the given string bolded
 	private static String bold(String string){
 		return "\u001B[1m" + string + "\u001B[0m";
 	}
-
+	//Return the given string blinked
 	private static String blink(String string){
 		return "\u001B[5m" + string + "\u001B[0m";
 	}
