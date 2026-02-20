@@ -40,7 +40,7 @@ public class Player {
 		for(int i = 0; i < neighborList.length; i++){
 			if(newLocationName.equals((neighborList[i].name).toLowerCase())){
 				currLocation = neighborList[i];
-				GameManager.getPlayerMoved();
+				GameManager.makeMoved();
 				System.out.println("Moved to " + newLocationName);
 				System.out.println("Type 'Space' to see details");
 				return;
