@@ -102,8 +102,12 @@ public class UIManager {
 						printSetCredits(actvPlayer, input);
 					}else if(input.startsWith("*set r")){
 						printSetRank(actvPlayer, input);
+					}else if(input.startsWith("*set t")){
+						printSetTokens(actvPlayer, input);
 					}else if(input.startsWith("*skip")){
 						printSkip();
+					}else if(input.startsWith("*drop shots")){
+						printDropShots(actvPlayer.currLocation);
 					}else{
 						System.out.println("I'm sorry, I didn't understand that.");
 						System.out.println("I'm a dumb computer and only understand specific commands");
@@ -138,6 +142,13 @@ public class UIManager {
 		System.out.println("Hello, creator. Your player's rank have been changed to " + newRank);
 	}
 
+	//Cheat code to set a new rehearsal token amount
+        private static void printSetTokens(Player player, String input){
+                int newTokens = Integer.parseInt(cutFront(input, 2));
+                player.rehearseTokens = newTokens;
+                System.out.println("Hello, creator. Your player's rehearsal tokens have been changed to " + newTokens);
+        }
+
 	//Cheat code to set a new rank
         private static void printSkip(){
                 for(int i = 0; i < GameManager.getPlayerList().length; i++){
@@ -146,6 +157,12 @@ public class UIManager {
                 System.out.println("Hello, creator. I've moved you to your next turn.");
         }
 
+	//Cheat code for setting the player's scene's shot counters to 1
+	private static void printDropShots(Space space){
+		Scene scene = (Scene) space;
+		scene.setShots(1);
+		System.out.println("Hello, creator. I've set this scene's shot counters to 1 for you");
+	}
 
 	// This is a method we decided to add to have a list of all the possible actions 
 	private static void printHelp() {

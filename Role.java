@@ -74,6 +74,10 @@ public class Role {
 		return line;
 	}
 
+	public void makeOnCard(){
+		onCard = true;
+	}
+
 	public boolean isOnCard(){
 		return onCard;
 	}

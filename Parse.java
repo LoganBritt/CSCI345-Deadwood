@@ -79,6 +79,7 @@ public class Parse {
 		    Node lineNode = sub.getChildNodes().item(3);
 		    String line = lineNode.getTextContent();
                     roleList[(j-1)/2] = new Role(level, name, line, areaStats);
+		    roleList[(j-1)/2].makeOnCard();
                 }
             }
         }

@@ -43,9 +43,9 @@ public class GameManager {
 		// Bonus for Off Card
 		Role[] list = scene.getRoles();
 		for (int i = 0; i < list.length; i++) {
-
 			if ((list[i] != null) && (list[i].getPlayer() != null)) {
 				list[i].getPlayer().dollars += list[i].getRank();
+				System.out.println("$" + list[i].getRank() + " given to player working on the role: " + list[i].getTitle());
 			}
 		}
 		// Bonus for On Card
@@ -53,11 +53,14 @@ public class GameManager {
 		Role[] onCard = card.getRoles();
 		int[] diceRolled = rollDice(card.getBudget());
 		for (int i = 0, j = 0; i < card.getBudget(); i++, j++) {
-			if (j == onCard.length) {
+			if (j == onCard.length+1) {
 				j = 0;
 			}
-			if (onCard[j].isTaken()) {
+			if (onCard[j] != null && onCard[j].isTaken()) {
 				onCard[j].getPlayer().dollars += diceRolled[i];
+				System.out.println("$" + diceRolled[i] + " given to player working on role: " + onCard[j].getTitle());
+			}else if(onCard[j] != null){
+				System.out.println("$" + diceRolled[i] + " would be given to the role: " + onCard[j].getTitle() + ", however there was no player to give the money to");
 			}
 		}
 	}

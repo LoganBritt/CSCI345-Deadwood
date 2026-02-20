@@ -38,7 +38,6 @@ public class Player {
 		if(currRole != null) return;
 		Space[] neighborList = currLocation.neighborSpaces;
 		for(int i = 0; i < neighborList.length; i++){
-//			System.out.println("Testing '" + newLocationName + "' against '" + neighborList[i].name);
 			if(newLocationName.equals((neighborList[i].name).toLowerCase())){
 				currLocation = neighborList[i];
 				GameManager.getPlayerMoved();
