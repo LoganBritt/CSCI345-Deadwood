@@ -11,7 +11,6 @@ Testing:\
 We need to test upgrading, end day, taking new upgrades, and a lot of UI stuff needs to be updated to make to look good.\
 
 Bugs:\
-Bonuses are distributed backwards
 
 About Deadwood:\
 Deadwood is a board game created by Cheap Ass Games, and was originally designed as an easy-to-create

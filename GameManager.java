@@ -53,15 +53,14 @@ public class GameManager {
 		Role[] onCard = card.getRoles();
 		int[] diceRolled = rollDice(card.getBudget());
 		for (int i = 0, j = 0; i < card.getBudget(); i++, j++) {
-			//System.out.println("i: " + i + ", j: " + j + ", onCard.length: " + onCard.length);
 			if (j == onCard.length) {
 				j = 0;
 			}
 			if (onCard[j] != null && onCard[j].isTaken()) {
-				onCard[j].getPlayer().dollars += diceRolled[i];
-				System.out.println("$" + diceRolled[i] + " given to player working on role: " + onCard[j].getTitle());
+				onCard[j].getPlayer().dollars += diceRolled[diceRolled.length - 1 -i];
+				System.out.println("$" + diceRolled[diceRolled.length - 1 - i] + " given to player working on role: " + onCard[j].getTitle());
 			}else if(onCard[j] != null){
-				System.out.println("$" + diceRolled[i] + " would be given to the role: " + onCard[j].getTitle() + ", however there was no player to give the money to");
+				//System.out.println("$" + diceRolled[diceRolled.length - 1 - i] + " would be given to the role: " + onCard[j].getTitle() + ", however there was no player to give the money to");
 			}else{
 				i--;
 			}
