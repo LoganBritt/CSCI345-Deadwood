@@ -13,6 +13,7 @@ public class GameManager {
 	private static int playerIdx = 0;
 	private static boolean actvPlayerActed = false;
 	private static boolean actvPlayerMoved = false;
+	private static boolean tookRole = false;
 
 	public static void main(String[] args) {
 		System.out.println("Running GameManager.java");
@@ -28,6 +29,7 @@ public class GameManager {
 		}
 		actvPlayerActed = false;
 		actvPlayerMoved = false;
+		tookTurn = false;
 
 	}
 
@@ -106,12 +108,20 @@ public class GameManager {
 		return actvPlayerMoved;
 	}
 
+	public static boolean getTookRole(){
+		return tookRole;
+	}
+
 	public static void makeActed() {
 		actvPlayerActed = true;
 	}
 
 	public static void makeMoved() {
 		actvPlayerMoved = true;
+	}
+
+	public static void makeTaken(){
+		tookRole = true;
 	}
 
 	// Create each player object
