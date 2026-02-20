@@ -8,13 +8,10 @@ Report\
 Class Diagram
 
 Testing:\
-We need to test upgrading, end day, end game, taking new upgrades, scene fininhing on and off card,
-end scene bonus distribution, and a lot of UI stuff needs to be updated to make to look good.\
-We should add some cheat codes to make testing easier
+We need to test upgrading, end day, taking new upgrades, and a lot of UI stuff needs to be updated to make to look good.\
 
 Bugs:\
-When you finish a job, it does not clear the role\
-Bonus when nobody on the card... Also maybe we want a line to print that bonuses are distributed?
+Bonuses are distributed backwards
 
 About Deadwood:\
 Deadwood is a board game created by Cheap Ass Games, and was originally designed as an easy-to-create
