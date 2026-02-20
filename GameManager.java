@@ -29,7 +29,7 @@ public class GameManager {
 		}
 		actvPlayerActed = false;
 		actvPlayerMoved = false;
-		tookTurn = false;
+		tookRole = false;
 
 	}
 
