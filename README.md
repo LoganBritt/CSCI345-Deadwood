@@ -16,9 +16,7 @@ Bugs:\
 to see if it worked in the first place. I did upgrade 3 ($10 cost) and then upgrade 3 once more. This ended up removing 
 $20 from my stats list. A. Should not be allowed to upgrade multiple times on the same turn, B. should not be allowed to 
 upgrade to same rank. When input was 1 an index out of bounds error was thrown. When upgraded to 3 and "upgraded" to 2, 
-it downgraded my rank to 2.\
-3. Reheasrsal tokens can exceed movie budget, should be a max of budget -1 as it's gaurenteed success at that point.\
-4. The role still does not get removed from the player when the scene ends.\
+it downgraded my rank to 2.
 
 About Deadwood:\
 Deadwood is a board game created by Cheap Ass Games, and was originally designed as an easy-to-create

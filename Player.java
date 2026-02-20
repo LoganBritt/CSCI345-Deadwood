@@ -87,6 +87,8 @@ public class Player {
 		if(currRole == null) return;
 		if(!(currLocation instanceof Scene)) return;
 		if(GameManager.getPlayerActed()) return;
+		Scene scene = (Scene) currLocation;
+		if(rehearseTokens+1 >= scene.getCard().getBudget()) return;
 		GameManager.makeActed();
 		rehearseTokens++;
 	}
