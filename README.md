@@ -8,7 +8,7 @@ Report\
 Class Diagram
 
 Testing:\
-We need to test upgrading, end day, taking new upgrades, and a lot of UI stuff needs to be updated to make to look good.\
+We need to test upgrading, end day, taking new upgrades, and a lot of UI stuff needs to be updated to make to look good.
 
 Bugs:\
 
@@ -20,6 +20,25 @@ This is a terminal-based implementation of the game.
 To begin the game, in your terminal, execute Deadwood.java. This will begin the game. Follow instuctions
 to prepare the game for your number of players, and take turns between players acting, rehearsing, moving
 to new sets, and trying to become the most skilled actor among your friends.
+
+For the terminal version, in your temrinal, run java Deadwood to start.\
+It will then start the game, and ask you for how many players will be playing. Enter your number and the game begins.\
+Below is a list of commands for you to play the game. These commands can also be seen in game by typing "Help":\
+	* Help: prints commands\
+	* Stats: prints the active player's stats\
+	* Stats All: prints the stats of all players\
+	* Space: Prints everything you need to know about the space you're on\
+	* Card: Prints everything you need to know about the card at the scene you're on\
+	* Role: Prints everything you need to know about the role you've taken\
+	* Move + space name: Moves your player to a neighboring space\
+	* Act: Makes your player act on their role\
+	* Rehearse: Has your player rehearse their role\
+	* Take Role + role name: Allows your player to take a role on the scene or card you're at\
+	* Upgrade Info: Prints all the upgrade related info you need to know\
+	* Upgrade + new rank: Upgrades your player's rank to a new rank\
+	* End Turn: Ends the active player's turn\
+	* End Game: Ends the game early\
+For more details on the commands, use the command in game for options and examples
 
 Rules:
 

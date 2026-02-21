@@ -68,20 +68,15 @@ public class Scene extends Space {
 
 	public void clearRoles(){
 		Role[] roles = roleList;
-		System.out.println("Clearing off card roles");
 		for (int i = 0; i < roles.length; i++){
 			if (roles[i] != null && roles[i].getPlayer() != null){
 				roles[i].getPlayer().currRole = null;
 				roles[i].setPlayer(null);
 			}
 		}
-		System.out.println("Clearing on card roles");
 		roles = card.getRoles();
 		for (int i = 0; i < roles.length; i++){
-			if(roles[i] == null){ System.out.println("index " + i + " does not have a role");}
-			else if(roles[i].getPlayer() == null){ System.out.println("There is no player at role: " + roles[i].getTitle());}
 			if (roles[i] != null && roles[i].getPlayer() != null){
-				System.out.println("Removing the player from from: " + roles[i].getTitle());
 				roles[i].getPlayer().currRole = null;
 				roles[i].setPlayer(null);
 			}
