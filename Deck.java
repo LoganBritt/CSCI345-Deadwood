@@ -18,7 +18,12 @@ public class Deck {
         public Card takeCard() {
 		Random r = new Random();
 		int rIdx = r.nextInt(0, remainingCards);
-                return cardSet[rIdx];
+		while(cardSet[rIdx] == null){
+			rIdx = r.nextInt(0, remainingCards);
+		}
+		Card retCard = cardSet[rIdx];
+		cardSet[rIdx] = null;
+                return retCard;
         }
 
         // Returns the amount of remaining cards
