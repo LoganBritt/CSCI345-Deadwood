@@ -471,7 +471,7 @@ public class UIManager {
 	private static void printRoles(Role[] roleList){
 		for(int i = 0; i < roleList.length; i++){
                 	if(roleList[i] != null){
-                        	System.out.print((roleList[i].isOnCard() ? i+2 : i+1) + ":" + roleList[i].getTitle() + " - ");
+                        	System.out.print((roleList[i].isOnCard() ? i : i+1) + ":" + roleList[i].getTitle() + " - ");
 				if(roleList[i].getPlayer() != null){
 					System.out.println("Taken");
 				}else{
