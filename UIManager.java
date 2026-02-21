@@ -302,10 +302,10 @@ public class UIManager {
 		boolean successful = actvPlayer.act(workingRole.isOnCard());
 		Scene scene = (Scene) actvPlayer.currLocation;
 		if (successful){
-			if ((scene.getShots() == 0) && scene.getCard().hasPlayers()){
+			if ((scene.getShots() <= 0) && scene.getCard().hasPlayers()){
 				GameManager.distributeBonuses(actvPlayer.currLocation);
-				scene.clearRoles();
 			}
+			scene.clearRoles();
 		}
 		if(successful){
 			System.out.println("You've successfully acted your role.");
