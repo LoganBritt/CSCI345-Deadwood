@@ -26,6 +26,12 @@ public class GameManager {
 		actvPlayerActed = false;
 		actvPlayerMoved = false;
 		tookRole = false;
+		boolean dayEnd = false;
+		dayEnd = (BoardManager.scenesLeft() <= 1);
+		if(dayEnd){
+			System.out.println("The day is over and all players have been moved back to the trailers for the next day to begin");
+			BoardManager.resetBoard();
+		}
 	}
 
 	// Gives bonuses to players according to their assigned rank

@@ -52,10 +52,6 @@ public class BoardManager {
 		}
 	}
 
-	// Moves a player to another Space on the board
-	public static void movePlayer(Player playerToMove, Space spaceToMoveTo) {
-	}
-
 	// Removes a card from a space on the board
 	public static void removeCard(Space space) {
 		if (space instanceof Scene) {
@@ -90,13 +86,6 @@ public class BoardManager {
 		System.out.println("******************************************");
 		for (int i = 0; i < board.getSpaceList().size(); i++) {
 			Space workingSpace = board.getSpaceList().get(i);
-			if (workingSpace instanceof Scene) {
-				workingSpace = (Scene) workingSpace;
-			} else if (workingSpace instanceof Casting) {
-				workingSpace = (Casting) workingSpace;
-			} else if (workingSpace instanceof Trailers) {
-				workingSpace = (Trailers) workingSpace;
-			}
 			System.out.println(workingSpace.name + " info:");
 			System.out.println("Neighbor names:");
 			for (int j = 0; j < workingSpace.neighborSpaces.length; j++) {
@@ -106,9 +95,30 @@ public class BoardManager {
 					System.out.println("Neighbor " + (j + 1) + ": null");
 				}
 			}
+			if(workingSpace instanceof Scene){
+				Scene workingScene = (Scene) workingSpace;
+				if(workingScene.getCard() == null){
+					System.out.println("This scene is finished shooting for the day");
+				}else{
+					System.out.println("This scene is still shooting " + workingScene.getShots() + " shots for the day");
+				}
+			}
 			System.out.println();
 		}
 		System.out.println("******************************************");
 		System.out.println();
+	}
+
+	// Returns the number of scens that have card left at them
+	// This is mainly used to check if the day is over or not
+	public static int scenesLeft(){
+		ArrayList<Space> spaces = board.getSpaceList();
+		int retVal = 0;
+		for(int i = 0; i < spaces.size(); i++){
+			if((spaces.get(i) instanceof Scene) && (((Scene) spaces.get(i)).getCard() != null)){
+				retVal++;
+			}
+		}
+		return retVal;
 	}
 }

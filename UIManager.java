@@ -82,6 +82,7 @@ public class UIManager {
 				case "stats": printStats(actvPlayer); break;
 				case "stats all": printStats(null); break;
 				case "space": printSpace(actvPlayer); break;
+				case "space all": printSpaceAll(); break;
 				case "card": printCard(actvPlayer); break;
 				case "role": printPlayerRole(actvPlayer); break;
 				case "act": printAct(actvPlayer); break;
@@ -106,8 +107,10 @@ public class UIManager {
 						printSetTokens(actvPlayer, input);
 					}else if(input.startsWith("*skip")){
 						printSkip();
-					}else if(input.startsWith("*drop shots")){
-						printDropShots(actvPlayer.currLocation);
+					}else if(input.startsWith("*min shots")){
+						printMinShots(actvPlayer.currLocation);
+					}else if(input.startsWith("*jump")){
+						printJump(actvPlayer, input);
 					}else{
 						System.out.println("I'm sorry, I didn't understand that.");
 						System.out.println("I'm a dumb computer and only understand specific commands");
@@ -157,10 +160,32 @@ public class UIManager {
         }
 
 	//Cheat code for setting the player's scene's shot counters to 1
-	private static void printDropShots(Space space){
+	private static void printMinShots(Space space){
 		Scene scene = (Scene) space;
 		scene.setShots(1);
 		System.out.println("Hello, creator. I've set this scene's shot counters to 1 for you");
+	}
+
+	//Cheat code to move the active player whereever they want
+	private static void printJump(Player player, String input){
+		if(player == null || input == null) {
+			System.out.println("input error for printJump");
+			return;
+		}
+		if(player.currRole != null){
+                        System.out.println("You're currently working. You cannot move while you're working");
+			return;
+                }
+                String newScene;
+                newScene = cutFront(input, 1);
+		Space newSpace = BoardManager.board.getSpaceByName(newScene);
+		if(newSpace == null){
+			System.out.println("Didn't find the scene you were looking for");
+			System.out.println("You put: " + newScene);
+			return;
+		}
+		System.out.println("Hello, creator. I've moved you to " + newScene);
+		player.currLocation = newSpace;
 	}
 
 	// This is a method we decided to add to have a list of all the possible actions 
@@ -248,6 +273,10 @@ public class UIManager {
 				System.out.println();
 			}
                 }
+	}
+
+	public static void printSpaceAll(){
+		BoardManager.printAllSpaces();
 	}
 
 	// Prints everything the player will need to know about the card of the scene they're one
@@ -373,6 +402,7 @@ public class UIManager {
 		}
 		if(actvPlayer.currRole != null){
 			System.out.println("You're currently working. You cannot move while you're working");
+			return;
 		}
 		String newScene;
                 newScene = cutFront(input, 1);
