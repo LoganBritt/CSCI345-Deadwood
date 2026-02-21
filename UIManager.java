@@ -310,7 +310,9 @@ public class UIManager {
 			if ((scene.getShots() <= 0) && scene.getCard().hasPlayers()){
 				GameManager.distributeBonuses(actvPlayer.currLocation);
 			}
-			scene.clearRoles();
+			if(scene.getShots() <= 0){
+				scene.clearRoles();
+			}
 		}
 		if(successful){
 			System.out.println("You've successfully acted your role.");
@@ -450,6 +452,7 @@ public class UIManager {
                 System.out.println("New role: " + newRole);
 		player.currRole = foundRole;
 		foundRole.setPlayer(player);
+		GameManager.makeTaken();
 	}
 
 	// Prints everything the player will need to see whne the turn is ended
