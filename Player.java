@@ -16,16 +16,14 @@ public class Player {
 	public Space currLocation;
 	public Role currRole;
 
-	public static void main(String[] args) {
-		System.out.println("Running Player.java");
-	}
-
-	// For 2-4 player games
+	// For 2-4 player games, default constructor that sets up the basic game flow
+	// for 2-4 people
 	Player() {
 		currLocation = BoardManager.getTrailers();
 	}
 
-	// For 5-8 player games
+	// For 5-8 player games, default constructor that sets up the basic game flow
+	// for 5-8 people which corrects the credits/ranks
 	Player(int creditUpgrade, int rankUpgrade) {
 		currLocation = BoardManager.getTrailers();
 		credits = creditUpgrade;
@@ -34,11 +32,13 @@ public class Player {
 
 	// Move: Player can move to an adjacent scene
 	public void move(String newLocationName) {
-		if(GameManager.getPlayerMoved()) return;
-		if(currRole != null) return;
+		if (GameManager.getPlayerMoved())
+			return;
+		if (currRole != null)
+			return;
 		Space[] neighborList = currLocation.neighborSpaces;
-		for(int i = 0; i < neighborList.length; i++){
-			if(newLocationName.equals((neighborList[i].name).toLowerCase())){
+		for (int i = 0; i < neighborList.length; i++) {
+			if (newLocationName.equals((neighborList[i].name).toLowerCase())) {
 				currLocation = neighborList[i];
 				GameManager.makeMoved();
 				System.out.println("Moved to " + newLocationName);
@@ -46,7 +46,7 @@ public class Player {
 				return;
 			}
 		}
-		System.out.println(newLocationName  + " is not a neighbor of " + currLocation.name);
+		System.out.println(newLocationName + " is not a neighbor of " + currLocation.name);
 		System.out.println("To see " + currLocation.name + "'s neighbors, type 'Space'");
 	}
 
@@ -61,8 +61,8 @@ public class Player {
 		if (activeScene != null) {
 			GameManager.makeActed();
 			Random r = new Random();
-                	int roll = r.nextInt(1, 7);
-                	int budget = activeScene.getCard().getBudget();
+			int roll = r.nextInt(1, 7);
+			int budget = activeScene.getCard().getBudget();
 			if (roll + rehearseTokens >= budget) {
 				success = true;
 				activeScene.setShots(activeScene.getShots() - 1);
@@ -84,47 +84,52 @@ public class Player {
 
 	// Rehearse: Adds practice chip to the die, gives +1 to all die rolls
 	public void rehearse() {
-		if(currRole == null) return;
-		if(!(currLocation instanceof Scene)) return;
-		if(GameManager.getPlayerActed()) return;
+		if (currRole == null)
+			return;
+		if (!(currLocation instanceof Scene))
+			return;
+		if (GameManager.getPlayerActed())
+			return;
 		Scene scene = (Scene) currLocation;
-		if(rehearseTokens+1 >= scene.getCard().getBudget()) return;
+		if (rehearseTokens + 1 >= scene.getCard().getBudget())
+			return;
 		GameManager.makeActed();
 		rehearseTokens++;
 	}
 
 	// Upgrade: Pay $/Credits to upgrade
 	public void upgrade(int newRank, boolean useDollars) {
-		if(!(currLocation instanceof Casting)){
+		if (!(currLocation instanceof Casting)) {
 			System.out.println("Sorry, you can't make an exchange here.");
 			System.out.println("Please move to the Casting Office to make an exchange");
 			return;
 		}
 		Casting casting = (Casting) currLocation;
 		int exchangeRef = 0;
-		if(useDollars){
+		if (useDollars) {
 			exchangeRef = casting.moneyCost(newRank - 2);
-			if(exchangeRef <= dollars){
+			if (exchangeRef <= dollars) {
 				System.out.println("Making exchange...");
 				dollars -= exchangeRef;
 				rank = newRank;
-			}else{
+			} else {
 				System.out.println("I'm sorry. You do not have enough dollars to afford that upgrade");
 				System.out.println("Please try again when you have " + exchangeRef + " dollars");
 			}
-		}else{
+		} else {
 			exchangeRef = casting.creditCost(newRank - 2);
-                        if(exchangeRef <= credits){
-                                System.out.println("Making exchange...");
-                                credits -= exchangeRef;
-                                rank = newRank;
-                        }else{
-                                System.out.println("I'm sorry. You do not have enough credits to afford that upgrade");
-                                System.out.println("Please try again when you have " + exchangeRef + " credits");
-                        }
+			if (exchangeRef <= credits) {
+				System.out.println("Making exchange...");
+				credits -= exchangeRef;
+				rank = newRank;
+			} else {
+				System.out.println("I'm sorry. You do not have enough credits to afford that upgrade");
+				System.out.println("Please try again when you have " + exchangeRef + " credits");
+			}
 		}
 	}
 
+	// this clears the rehearsal tokens
 	private void clearTokens() {
 		rehearseTokens = 0;
 	}

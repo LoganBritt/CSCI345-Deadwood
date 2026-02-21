@@ -15,10 +15,6 @@ public class GameManager {
 	private static boolean actvPlayerMoved = false;
 	private static boolean tookRole = false;
 
-	public static void main(String[] args) {
-		System.out.println("Running GameManager.java");
-	}
-
 	// Moves the turn order up one
 	// Reset index if at the end
 	public static void changeTurn() {
@@ -47,7 +43,8 @@ public class GameManager {
 		for (int i = 0; i < list.length; i++) {
 			if ((list[i] != null) && (list[i].getPlayer() != null)) {
 				list[i].getPlayer().dollars += list[i].getRank();
-				System.out.println("$" + list[i].getRank() + " given to player working on the role: " + list[i].getTitle());
+				System.out.println(
+						"$" + list[i].getRank() + " given to player working on the role: " + list[i].getTitle());
 			}
 		}
 		// Bonus for On Card
@@ -59,11 +56,14 @@ public class GameManager {
 				j = 0;
 			}
 			if (onCard[j] != null && onCard[j].isTaken()) {
-				onCard[j].getPlayer().dollars += diceRolled[diceRolled.length - 1 -i];
-				System.out.println("$" + diceRolled[diceRolled.length - 1 - i] + " given to player working on role: " + onCard[j].getTitle());
-			}else if(onCard[j] != null){
-				//System.out.println("$" + diceRolled[diceRolled.length - 1 - i] + " would be given to the role: " + onCard[j].getTitle() + ", however there was no player to give the money to");
-			}else{
+				onCard[j].getPlayer().dollars += diceRolled[diceRolled.length - 1 - i];
+				System.out.println("$" + diceRolled[diceRolled.length - 1 - i] + " given to player working on role: "
+						+ onCard[j].getTitle());
+			} else if (onCard[j] != null) {
+				// System.out.println("$" + diceRolled[diceRolled.length - 1 - i] + " would be
+				// given to the role: " + onCard[j].getTitle() + ", however there was no player
+				// to give the money to");
+			} else {
 				i--;
 			}
 		}
@@ -80,47 +80,58 @@ public class GameManager {
 		return retVals;
 	}
 
+	// returns the Active Player
 	public static Player getActivePlayer() {
 		return playerListOrder[playerIdx];
 	}
 
+	// gets the index of the active player
 	public static int getActvPlyrIdx() {
 		return playerIdx;
 	}
 
+	// returns the Player List
 	public static Player[] getPlayerList() {
 		return playerListOrder;
 	}
 
+	// returns the day
 	public static int getDay() {
 		return day;
 	}
 
+	// sets the number of players to the passed amount
 	public static void setPlayerAmt(int amt) {
 		playerAmt = amt;
 	}
 
+	// checks to see if the player has acted
 	public static boolean getPlayerActed() {
 		return actvPlayerActed;
 	}
 
+	// checks to see if the player has moved
 	public static boolean getPlayerMoved() {
 		return actvPlayerMoved;
 	}
 
-	public static boolean getTookRole(){
+	// checks to see if the player has taken a role
+	public static boolean getTookRole() {
 		return tookRole;
 	}
 
+	// sets the variable to see if the Player has acted to true
 	public static void makeActed() {
 		actvPlayerActed = true;
 	}
 
+	// sets the variable to see if the player has moved to true
 	public static void makeMoved() {
 		actvPlayerMoved = true;
 	}
 
-	public static void makeTaken(){
+	// sets the variable to is if the player has taken a role to true
+	public static void makeTaken() {
 		tookRole = true;
 	}
 
@@ -149,7 +160,7 @@ public class GameManager {
 		}
 	}
 
-	// This we are using for testing
+	// This we are using for testing, it just prints the array that is passed.
 	private static void printArray(int[] arr) {
 		System.out.print("[");
 		for (int i = 0; i < arr.length; i++) {
@@ -159,7 +170,7 @@ public class GameManager {
 		System.out.println("]");
 	}
 
-	// Move on to the next day
+	// Move on to the next day and reset the boards
 	public static void endDay() {
 		day++;
 		BoardManager.resetBoard();
@@ -169,10 +180,10 @@ public class GameManager {
 	public static void endGame() {
 		day = 0;
 		System.out.println("Game Over");
-		//UIManager.printStats(null);
-		for (int i = 0; i < playerListOrder.length; i++){
+		// UIManager.printStats(null);
+		for (int i = 0; i < playerListOrder.length; i++) {
 			int stats = playerListOrder[i].dollars + playerListOrder[i].credits + (playerListOrder[i].rank * 5);
-			System.out.println("Player " + (i+1) + " total points: " + stats); 
+			System.out.println("Player " + (i + 1) + " total points: " + stats);
 		}
 		System.out.println("Thanks for playing");
 	}

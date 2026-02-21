@@ -8,10 +8,6 @@ public class Deck {
         private int remainingCards = 0;
         private Card[] cardSet = new Card[40];
 
-        public static void main(String[] args) {
-                System.out.println("Running Deck.java");
-        }
-
         //adds a card to the deck
         public void addCard(Card card){
                cardSet[remainingCards] = card;

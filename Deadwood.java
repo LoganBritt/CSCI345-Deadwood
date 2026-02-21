@@ -5,28 +5,16 @@
 */
 
 public class Deadwood {
+	// main method that starts the game
 	public static void main(String[] args) {
 		System.out.println("Running Deadwood.java");
 		System.out.println("Beginning Deadwood...");
-
-//		System.out.println("Beginning other files for initialization");
-//		System.out.println("------------------------------------------------------");
 		startUpFiles(args);
 	}
 
+	// Creates all the needeed boards/cards/decks/files/objects/etc. needed to play
+	// the game and starts the official game loop
 	private static void startUpFiles(String[] args) {
-//		Player.main(args);
-//		GameManager.main(args);
-//		BoardManager.main(args);
-//		Board.main(args);
-//		Casting.main(args);
-//		Scene.main(args);
-//		Role.main(args);
-//		Deck.main(args);
-//		Card.main(args);
-//		UIManager.main(args);
-//		Window.main(args);
-
 		UIManager.startGame();
 	}
 }

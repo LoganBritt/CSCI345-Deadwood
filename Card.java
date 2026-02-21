@@ -20,15 +20,14 @@ public class Card {
         private int w;
         private int level;
 
-        public static void main(String[] args) {
-                System.out.println("Running Card.java");
-        }
-
+        // Default contructor that sets up the card with the budget and the roleList
         Card(int cardBudget, Role[] roleList) {
                 budget = cardBudget;
                 roles = roleList;
         }
 
+        // Default constructor that sets up the card with the budget, roleList, title,
+        // and description
         Card(int cardBudget, Role[] roleList, String newTitle, String newDesc) {
                 budget = cardBudget;
                 roles = roleList;
@@ -44,11 +43,6 @@ public class Card {
         // sets the new scene to be the current scene
         public void setScene(Scene newScene) {
                 scene = newScene;
-        }
-
-        // gives a role to the player
-        public void setPlayer(Player player, Role role) {
-
         }
 
         // gets the budget of the card
@@ -156,9 +150,10 @@ public class Card {
                 w = newW;
         }
 
-        public boolean hasPlayers(){
-                for (int i = 0; i < roles.length; i++){
-                        if ((roles[i] != null) && (roles[i].getPlayer() != null)){
+        // checks to see if the card has players on it
+        public boolean hasPlayers() {
+                for (int i = 0; i < roles.length; i++) {
+                        if ((roles[i] != null) && (roles[i].getPlayer() != null)) {
                                 return true;
                         }
                 }

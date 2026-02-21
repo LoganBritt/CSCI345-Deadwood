@@ -11,45 +11,52 @@ public class Board {
 	private Trailers trailers;
 	private Casting casting;
 
+	// Default contructor that sets the spaces to the spaceSet
 	Board(ArrayList<Space> spaceSet) {
 		spaces = spaceSet;
 	}
 
-	public static void main(String[] args) {
-		System.out.println("Running Board.java");
-	}
-
+	// this gets the list of spaces
 	public ArrayList<Space> getSpaceList() {
 		return spaces;
 	}
 
-	public Trailers getTrailers(){
+	// this gets the Trailer
+	public Trailers getTrailers() {
 		return trailers;
 	}
 
-	public Casting getCasting(){
+	// this gets the Casting Office
+	public Casting getCasting() {
 		return casting;
 	}
 
-	public void setCasting(Casting newCasting){
+	// this sets the casting office to the Casting office
+	public void setCasting(Casting newCasting) {
 		casting = newCasting;
 	}
 
-	public void setCasting(Space newCasting){
+	// this sets any space object to the Casting Office
+	public void setCasting(Space newCasting) {
 		casting = (Casting) newCasting;
 	}
 
-	public void setTrailers(Trailers newTrailers){
-                trailers = newTrailers;
-        }
+	// this sets the trailers to Trailers
+	public void setTrailers(Trailers newTrailers) {
+		trailers = newTrailers;
+	}
 
-        public void setTrailers(Space newTrailers){
-                trailers = (Trailers) newTrailers;
-        }
+	// this sets any space object to the Trailers
+	public void setTrailers(Space newTrailers) {
+		trailers = (Trailers) newTrailers;
+	}
 
-	public Space getSpaceByName(String name){
-		for(int i = 0; i < spaces.size(); i++){
-			if(spaces.get(i) != null && spaces.get(i).name != null && name != null && spaces.get(i).name.equals(name)){
+	// this looks through all of the space objects and returns the Space with passed
+	// name
+	public Space getSpaceByName(String name) {
+		for (int i = 0; i < spaces.size(); i++) {
+			if (spaces.get(i) != null && spaces.get(i).name != null && name != null
+					&& spaces.get(i).name.equals(name)) {
 				return spaces.get(i);
 			}
 		}

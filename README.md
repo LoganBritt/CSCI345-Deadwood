@@ -1,7 +1,7 @@
 # CSCI345-Deadwood
-This is the repository that contains the code for the game Deadwood
+This is the repository that contains the code for the game Deadwood.
 
-Window has been excluded from implementation for Assignment 2
+Window has been excluded from implementation for Assignment 2 because this class is needed for the Front-End development, and has no importance to the terminal gameplay. This will be implemented in Assignment 3.
 
 Remaining Work:\
 Report\
