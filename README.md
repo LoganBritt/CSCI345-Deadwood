@@ -1,7 +1,7 @@
 # CSCI345-Deadwood
-This is the repository that contains the code for the game Deadwood.
+This is the repository that contains the code for the game Deadwood
 
-Window has been excluded from implementation for Assignment 2 because this class is needed for the Front-End development, and has no importance to the terminal gameplay. This will be implemented in Assignment 3.
+Window has been excluded from implementation for Assignment 2
 
 Remaining Work:\
 Report\
@@ -17,7 +17,6 @@ to see if it worked in the first place. I did upgrade 3 ($10 cost) and then upgr
 $20 from my stats list. A. Should not be allowed to upgrade multiple times on the same turn, B. should not be allowed to 
 upgrade to same rank. When input was 1 an index out of bounds error was thrown. When upgraded to 3 and "upgraded" to 2, 
 it downgraded my rank to 2.\
-3. Broken off card scene/role completion.
 
 About Deadwood:\
 Deadwood is a board game created by Cheap Ass Games, and was originally designed as an easy-to-create
