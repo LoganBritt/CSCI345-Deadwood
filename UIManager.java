@@ -341,6 +341,7 @@ public class UIManager {
 			}
 			if(scene.getShots() <= 0){
 				scene.clearRoles();
+				scene.setCard(null);
 			}
 		}
 		if(successful){

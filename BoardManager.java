@@ -32,6 +32,7 @@ public class BoardManager {
 			if (spaces.get(i) instanceof Scene) {
 				Scene scene = (Scene) spaces.get(i);
 				scene.setCard(deck.takeCard());
+				scene.resetShots();
 			}
 		}
 	}
@@ -48,7 +49,11 @@ public class BoardManager {
 	private static void resetPlayers() {
 		Player[] playerList = GameManager.getPlayerList();
 		for (int i = 0; i < playerList.length; i++) {
-			playerList[0].move("trailer");
+			if(playerList[i].currLocation instanceof Scene){
+				Scene scene = (Scene) playerList[i].currLocation;
+				scene.clearRoles();
+			}
+			playerList[i].currLocation = BoardManager.board.getSpaceByName("trailer");
 		}
 	}
 

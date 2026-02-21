@@ -6,19 +6,17 @@
 public class Scene extends Space {
 	private Role[] roleList = null;
 	private Card card = null;
+	private int baseShots = 0;
 	private int shots = 0;
 	private int[][] takeAreasList = new int[3][];
 	Scene(Card setCard, int shotAmt) {
 		card = setCard;
-		shots = shotAmt;
+		baseShots = shotAmt;
+		shots = baseShots;
 	}
 
 	Scene(String name){
 		this.name = name;
-	}
-
-	public static void main(String[] args) {
-		System.out.println("Running Scene.java");
 	}
 
 	// Sets the card to a new card
@@ -34,12 +32,16 @@ public class Scene extends Space {
 	// Returns whether the scene is complete or not (card is null)
 	public boolean sceneComplete() {
 		return card == null;
-
 	}
 
 	// Returns the shot amount
 	public int getShots() {
 		return shots;
+	}
+
+	//Reverts the actve shot count to the normal amount
+	public void resetShots(){
+		shots = baseShots;
 	}
 
 	public Card getCard() {
@@ -48,6 +50,10 @@ public class Scene extends Space {
 
 	public void setShots(int newShots) {
 		shots = newShots;
+	}
+
+	public void setBaseShots(int newShots){
+		baseShots = newShots;
 	}
 
 	public String getName() {

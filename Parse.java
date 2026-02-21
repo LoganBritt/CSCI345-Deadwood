@@ -190,7 +190,8 @@ public class Parse {
 
         // Setting takes values
         NodeList takesChildren = takesNode.getChildNodes();
-        scene.setShots((takesChildren.getLength() - 1) / 2);
+        scene.setBaseShots((takesChildren.getLength() - 1) / 2);
+	scene.resetShots();
         for (int i = 0; i < takesChildren.getLength(); i++) {
             Node take = takesChildren.item(i);
             if (take.getNodeName().equals("take")) {
