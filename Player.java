@@ -104,6 +104,10 @@ public class Player {
 			System.out.println("Please move to the Casting Office to make an exchange");
 			return;
 		}
+		if(newRank <= rank){
+			System.out.println("You can only upgrade to higher ranks");
+			return;
+		}
 		Casting casting = (Casting) currLocation;
 		int exchangeRef = 0;
 		if (useDollars) {
