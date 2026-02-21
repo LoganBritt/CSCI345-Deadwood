@@ -471,7 +471,7 @@ public class UIManager {
 	private static void printRoles(Role[] roleList){
 		for(int i = 0; i < roleList.length; i++){
                 	if(roleList[i] != null){
-                        	System.out.print((i+1) + ":" + roleList[i].getTitle() + " - ");
+                        	System.out.print((roleList[i].isOnCard() ? i+2 : i+1) + ":" + roleList[i].getTitle() + " - ");
 				if(roleList[i].getPlayer() != null){
 					System.out.println("Taken");
 				}else{
@@ -504,31 +504,4 @@ public class UIManager {
 	private static String blink(String string){
 		return "\u001B[5m" + string + "\u001B[0m";
 	}
-
-	// The following functions are for visual UI implementation and will not be used
-	// in the terminal version of Deadwood
-	public static void main(String[] args) {
-		System.out.println("Running UIManager.java");
-	}
-
-	// Presents the board object to the screen
-	public void presentBoard() {
-	}
-
-	// Presents the player objects
-	private void presentPlayers() {
-	}
-
-	// Presents the card object
-	private void presentCards() {
-	}
-
-	// Shows a window on top of all things
-	//public void showWindow(Window window) {
-	//}
-
-	// Hides a specific window
-	//public void hideWindow(Window window) {
-	//}
-
 }
