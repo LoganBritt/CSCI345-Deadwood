@@ -11,11 +11,6 @@ Testing:\
 We need to test upgrading, end day, taking new upgrades, and a lot of UI stuff needs to be updated to make to look good.\
 
 Bugs:\
-1. Upgrading is still not quite right... I was able to upgrade twice on the same turn. I gave myself  $20 and tested 
-to see if it worked in the first place. I did upgrade 3 ($10 cost) and then upgrade 3 once more. This ended up removing 
-$20 from my stats list. A. Should not be allowed to upgrade multiple times on the same turn, B. should not be allowed to 
-upgrade to same rank. When input was 1 an index out of bounds error was thrown. When upgraded to 3 and "upgraded" to 2, 
-it downgraded my rank to 2.\
 
 About Deadwood:\
 Deadwood is a board game created by Cheap Ass Games, and was originally designed as an easy-to-create
