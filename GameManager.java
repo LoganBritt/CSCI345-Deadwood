@@ -26,7 +26,6 @@ public class GameManager {
 		actvPlayerActed = false;
 		actvPlayerMoved = false;
 		tookRole = false;
-
 	}
 
 	// Gives bonuses to players according to their assigned rank
@@ -60,9 +59,6 @@ public class GameManager {
 				System.out.println("$" + diceRolled[diceRolled.length - 1 - i] + " given to player working on role: "
 						+ onCard[j].getTitle());
 			} else if (onCard[j] != null) {
-				// System.out.println("$" + diceRolled[diceRolled.length - 1 - i] + " would be
-				// given to the role: " + onCard[j].getTitle() + ", however there was no player
-				// to give the money to");
 			} else {
 				i--;
 			}

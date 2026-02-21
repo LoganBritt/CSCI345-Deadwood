@@ -112,7 +112,6 @@ public class UIManager {
 						System.out.println("I'm sorry, I didn't understand that.");
 						System.out.println("I'm a dumb computer and only understand specific commands");
 						System.out.println("Some actions are not fully implemented. Deadwood is still in development");
-
 						System.out.println("Please try again, or type 'Help' for input options");
 					}
 					break;
@@ -299,6 +298,12 @@ public class UIManager {
                         System.out.println("You can only either act or rehearse once per turn");
                         return;
                 }
+		if(GameManager.getTookRole()){
+			System.out.println("You cannot act. You took your role this turn.");
+			System.out.println("You can't act on a role the same turn you take it");
+			return;
+		}
+
 		boolean successful = actvPlayer.act(workingRole.isOnCard());
 		Scene scene = (Scene) actvPlayer.currLocation;
 		if (successful){
@@ -416,7 +421,6 @@ public class UIManager {
 			System.out.println("Please try again tomorrow");
 			return;
 		}
-
 		//Checking scene roles
 		Role[] untakenRoles = scene.getRoles();
 		Role foundRole = null;
@@ -446,8 +450,6 @@ public class UIManager {
                 System.out.println("New role: " + newRole);
 		player.currRole = foundRole;
 		foundRole.setPlayer(player);
-		
-
 	}
 
 	// Prints everything the player will need to see whne the turn is ended
