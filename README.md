@@ -7,18 +7,13 @@ Remaining Work:\
 Report\
 Class Diagram
 
-Testing:\
-We need to test upgrading, end day, taking new upgrades, and a lot of UI stuff needs to be updated to make to look good.
-
-Bugs:\
-
 About Deadwood:\
 Deadwood is a board game created by Cheap Ass Games, and was originally designed as an easy-to-create
-board game for people to create for cheap and using materials typically found around the house.
+board game for people to create for cheap and using materials typically found around the house.\
 This is a terminal-based implementation of the game.
 
-To begin the game, in your terminal, execute Deadwood.java. This will begin the game. Follow instuctions
-to prepare the game for your number of players, and take turns between players acting, rehearsing, moving
+To begin the game, in your terminal, execute Deadwood.java (java Deadwood). This will begin the game. Follow instuctions
+in game to prepare the game for your number of players, and take turns between players acting, rehearsing, moving
 to new sets, and trying to become the most skilled actor among your friends.
 
 For the terminal version, in your temrinal, run java Deadwood to start.\
