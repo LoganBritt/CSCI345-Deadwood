@@ -4,6 +4,7 @@
 */
 
 import java.util.ArrayList;
+
 public abstract class Space {
 	public boolean isTrailers = false;
 	public String name;
@@ -13,26 +14,29 @@ public abstract class Space {
 	public int height;
 	public int width;
 
+	// prints the neighbors of the space that the player is on
 	public void printNeighbors() {
 		System.out.println("\u001b[4mNeighbors:\u001b[0m");
-		for(int i = 0; i < neighborSpaces.length; i++){
-			if(neighborSpaces[i] != null){
+		for (int i = 0; i < neighborSpaces.length; i++) {
+			if (neighborSpaces[i] != null) {
 				System.out.println("  * " + neighborSpaces[i].name);
 			}
 		}
 	}
 
-	public void setVals(int[] vals){
+	// sets the area values of the space
+	public void setVals(int[] vals) {
 		xPos = vals[0];
 		yPos = vals[1];
 		height = vals[2];
 		width = vals[3];
 	}
 
-	public void setNeighbors(String[] neighborNames){
+	// sets the neighbors for the space
+	public void setNeighbors(String[] neighborNames) {
 		neighborSpaces = new Space[neighborNames.length];
-		for(int i = 0; i < neighborNames.length; i++){
-			if(neighborNames[i] != null){
+		for (int i = 0; i < neighborNames.length; i++) {
+			if (neighborNames[i] != null) {
 				Space newSpace = BoardManager.board.getSpaceByName(neighborNames[i]);
 				neighborSpaces[i] = newSpace;
 			}

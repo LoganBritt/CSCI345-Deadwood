@@ -1,16 +1,14 @@
 
 /*
 //	This is an Object that the UIManager can use to portray info besides the board
+//      Note: as stated in the ReadMe, this class is not needed for the terminal version of
+//      deadwood, and thus should be ignored for project 2. 
 */
 import java.awt.image.BufferedImage;
 
 public class Window {
         private BufferedImage background;
         private boolean show;
-
-        public static void main(String[] args) {
-                System.out.println("Running Window.java");
-        }
 
         // toggles if the window is visual
         public void toggleShow() {

@@ -21,12 +21,14 @@ public class Role {
 		rank = newRank;
 	}
 
+	// default constructor that takes a rank, title, and line
 	Role(int newRank, String newTitle, String newLine) {
 		rank = newRank;
 		title = newTitle;
 		line = newLine;
 	}
 
+	// default contrstuctor that takes a rank, title, line, and area values
 	Role(int newRank, String newTitle, String newLine, int[] areaVals) {
 		rank = newRank;
 		title = newTitle;
@@ -64,22 +66,27 @@ public class Role {
 		return playerHere;
 	}
 
+	// gets the rank of the role
 	public int getRank() {
 		return rank;
 	}
 
+	// gets the title of the role
 	public String getTitle() {
 		return title;
 	}
 
+	// gets the line of the role
 	public String getLine() {
 		return line;
 	}
 
+	// function to make the role on card
 	public void makeOnCard() {
 		onCard = true;
 	}
 
+	// checks to see if role is on the card
 	public boolean isOnCard() {
 		return onCard;
 	}
