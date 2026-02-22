@@ -227,7 +227,8 @@ public class UIManager {
 		System.out.println(
 				"* Stats (Ex 'Stats'): This shows the stats for the active player, including space, role, money, credits, rank, etc");
 		System.out.println("* Stats All (Ex 'Stats All'): This shows the stats listed above for all players");
-		System.out.println("* Space (Ex 'Space'): Presents info about the space you're at");
+		System.out.println("* Space (Ex 'Space'): Presents all info about the space you're at");
+		System.out.println("* Space All (Ex 'Space All'): Presents simple info about all the spaces");
 		System.out.println("* Card (Ex 'Card'): Presents info about the card at the scene you're at");
 		System.out.println(
 				"* Role (Ex 'Role'): Presents info about the role you're currently working on, only if you're working on a role");

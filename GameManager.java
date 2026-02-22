@@ -182,7 +182,6 @@ public class GameManager {
 	public static void endGame() {
 		day = 0;
 		System.out.println("Game Over");
-		// UIManager.printStats(null);
 		for (int i = 0; i < playerListOrder.length; i++) {
 			int stats = playerListOrder[i].dollars + playerListOrder[i].credits + (playerListOrder[i].rank * 5);
 			System.out.println("Player " + (i + 1) + " total points: " + stats);
