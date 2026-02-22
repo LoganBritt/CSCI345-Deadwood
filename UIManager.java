@@ -142,6 +142,10 @@ public class UIManager {
 						printMinShots(actvPlayer.currLocation);
 					} else if (input.startsWith("*jump")) {
 						printJump(actvPlayer, input);
+					} else if (input.startsWith("*min days")) {
+						printMinDays();
+					} else if (input.startsWith("*end day")) {
+						printEndDay();
 					} else {
 						System.out.println("I'm sorry, I didn't understand that.");
 						System.out.println("I'm a dumb computer and only understand specific commands");
@@ -219,6 +223,21 @@ public class UIManager {
 		player.currLocation = newSpace;
 	}
 
+	// Cheat code to set the days to 1
+	private static void printMinDays() {
+		System.out.print("Hello, creator. I've moved the day from " + GameManager.getDay());
+		while(GameManager.getDay() != 0){
+			GameManager.endDay();
+		}
+		System.out.println(" to day: " + GameManager.getDay());
+	}
+
+	// Cheat code to end the day early
+	private static void printEndDay() {
+		System.out.println("Hello, creator. I've moved the day forward one");
+		GameManager.endDay();
+	}
+
 	// This is a method we decided to add to have a list of all the possible actions
 	// and how to use them
 	private static void printHelp() {
@@ -286,6 +305,7 @@ public class UIManager {
 
 	// Prints everything the player will need to see with the 'Space' command
 	private static void printSpace(Player actvPlayer) {
+		System.out.println("There are " + GameManager.getDay() + " days of shooting left");
 		Space currSpace = actvPlayer.currLocation;
 		if (currSpace instanceof Trailers) {
 			System.out.println(bold("You are at the Trailers"));

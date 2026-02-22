@@ -30,7 +30,7 @@ public class GameManager {
 		dayEnd = (BoardManager.scenesLeft() <= 1);
 		if(dayEnd){
 			System.out.println("The day is over and all players have been moved back to the trailers for the next day to begin");
-			BoardManager.resetBoard();
+			endDay();
 		}
 	}
 
@@ -174,8 +174,11 @@ public class GameManager {
 
 	// Move on to the next day and reset the boards
 	public static void endDay() {
-		day++;
+		day--;
 		BoardManager.resetBoard();
+		if(day == 0){
+			endGame();
+		}
 	}
 
 	// Ends the game
