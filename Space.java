@@ -1,5 +1,5 @@
 /*
-//	This is an interface that Scenes and Casting inheirit
+//	This is an abstract Class that Scenes and Casting inheirit
 //	It represents a place on the board where Players can go to when moving on the board
 */
 
