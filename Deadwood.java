@@ -15,6 +15,10 @@ public class Deadwood {
 	// Creates all the needeed boards/cards/decks/files/objects/etc. needed to play
 	// the game and starts the official game loop
 	private static void startUpFiles(String[] args) {
-		UIManager.startGame();
+		if(args.length > 0 && args[0].equals("-t")){
+			UIManager.startGame();
+		}else{
+			GUIManager mainGUI = new GUIManager();
+		}
 	}
 }
