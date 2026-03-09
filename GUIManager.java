@@ -1,17 +1,16 @@
  // This program creates a customized version of the GUI for Deadwood
 import java.awt.*;
-import javax.swing.*;
-import javax.swing.ImageIcon;
-import javax.imageio.ImageIO;
 import java.awt.event.*;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 
 public class GUIManager extends JFrame{
 	JFrame frame;
 	JLayeredPane layeredFrame;
 	JLabel boardLabel;
+	double scaleRatio = 0.85;
 	ImageIcon boardImage = new ImageIcon("graphics/board.jpg");
+	Image scaledBoard = boardImage.getImage().getScaledInstance((int) (boardImage.getIconWidth() *scaleRatio), (int) (boardImage.getIconHeight()*scaleRatio), Image.SCALE_SMOOTH);
 	JLabel menuLabel;
 	int buttCt = 4;
 	JButton actButt;
@@ -25,7 +24,8 @@ public class GUIManager extends JFrame{
 
 	private void initScreen(){
 		frame = initFrame();
-	        layeredFrame = frame.getLayeredPane();
+	    layeredFrame = frame.getLayeredPane();
+		boardImage.setImage(scaledBoard); 
 		boardLabel = initBoard(layeredFrame);
 		menuLabel = initMenu(layeredFrame);
 
@@ -35,6 +35,31 @@ public class GUIManager extends JFrame{
 
 		System.out.println("Initialization Complete. Showing GUI\n");
 	        frame.setVisible(true);
+	}
+
+	//Scale Method get the ratio between the current and target values
+	public static double getScaleFactor(int curr, int target){
+		double scale = 1;
+		if (curr > target){
+			scale = (double) target/ (double) curr;
+		}
+
+		else{
+			scale = (double) curr / (double) target;
+		}
+
+		return scale;
+	}
+
+	//gets the smaller scale ratio between width and height  
+	public static double scaleToFit(Dimension original, Dimension toFit){
+		double scale = 1;
+		if (original != null && toFit != null){
+			double scaleWidth = getScaleFactor(original.width, toFit.width);
+			double scaleHeight = getScaleFactor(original.height, toFit.height);
+			scale = Math.min(scaleHeight, scaleWidth);
+		}
+		return scale;
 	}
 
 	//Creates the main frame object for the GUI on initialization
@@ -51,6 +76,17 @@ public class GUIManager extends JFrame{
 
 	//Creates the board object for the GUI on initialization
 	private JLabel initBoard(JLayeredPane pane){
+		 //double scaleFactor = Math.min(1d, scaleToFit(new Dimension(boardImage.getIconWidth(), boardImage.getIconHeight()), getSize()));
+		 
+		 //int scaleWidth= (int) Math.round(boardImage.getIconWidth() * scaleFactor);
+		 //int scaleHeight = (int) Math.round(boardImage.getIconHeight()* scaleFactor);
+
+		 //if (scaleWidth != 0 && scaleHeight != 0){
+		 	//Image scaled = boardImage.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
+			//boardImage.setImage(scaled);
+		//}
+		 
+
 		int boardWidth = boardImage.getIconWidth();
 		int boardHeight = boardImage.getIconHeight();
 		int xPos = 0;
