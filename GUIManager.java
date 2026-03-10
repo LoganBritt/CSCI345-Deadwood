@@ -19,6 +19,28 @@ public class GUIManager extends JFrame{
 	JButton endTButt;
 
 	GUIManager(){
+		BoardManager.createDeck();
+		BoardManager.createBoard();
+
+		String in = null;
+		int playerNumberInput = -1;
+		while ((playerNumberInput < 2 || playerNumberInput >8)){
+			try {
+				
+				in = JOptionPane.showInputDialog("How many players? (2-8)");
+				playerNumberInput = Integer.parseInt(in);
+				
+			} catch (NumberFormatException e) {
+
+			}
+			
+		}
+
+		GameManager.setPlayerAmt(playerNumberInput);
+		GameManager.createPlayers();
+
+
+
 		initScreen();
 	}
 
@@ -37,31 +59,6 @@ public class GUIManager extends JFrame{
 	        frame.setVisible(true);
 	}
 
-	//Scale Method get the ratio between the current and target values
-	public static double getScaleFactor(int curr, int target){
-		double scale = 1;
-		if (curr > target){
-			scale = (double) target/ (double) curr;
-		}
-
-		else{
-			scale = (double) curr / (double) target;
-		}
-
-		return scale;
-	}
-
-	//gets the smaller scale ratio between width and height  
-	public static double scaleToFit(Dimension original, Dimension toFit){
-		double scale = 1;
-		if (original != null && toFit != null){
-			double scaleWidth = getScaleFactor(original.width, toFit.width);
-			double scaleHeight = getScaleFactor(original.height, toFit.height);
-			scale = Math.min(scaleHeight, scaleWidth);
-		}
-		return scale;
-	}
-
 	//Creates the main frame object for the GUI on initialization
 	private JFrame initFrame(){
 		System.out.println("Initializing main frame...");
@@ -76,17 +73,7 @@ public class GUIManager extends JFrame{
 
 	//Creates the board object for the GUI on initialization
 	private JLabel initBoard(JLayeredPane pane){
-		 //double scaleFactor = Math.min(1d, scaleToFit(new Dimension(boardImage.getIconWidth(), boardImage.getIconHeight()), getSize()));
-		 
-		 //int scaleWidth= (int) Math.round(boardImage.getIconWidth() * scaleFactor);
-		 //int scaleHeight = (int) Math.round(boardImage.getIconHeight()* scaleFactor);
-
-		 //if (scaleWidth != 0 && scaleHeight != 0){
-		 	//Image scaled = boardImage.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-			//boardImage.setImage(scaled);
-		//}
-		 
-
+		
 		int boardWidth = boardImage.getIconWidth();
 		int boardHeight = boardImage.getIconHeight();
 		int xPos = 0;
@@ -168,16 +155,36 @@ public class GUIManager extends JFrame{
 		public void mouseClicked(MouseEvent e){
 			if(e.getSource() == actButt){
 				//This is everything that will happen when the player tries to act
+				GameManager.getActivePlayer().act(true);
 				System.out.println("Clicked Act Button");
 			}else if(e.getSource() == reherButt){
 				//This is everything that will happen when the player tries to rehearse
 				System.out.println("Clicked Rehearse Button");
+				Player player = GameManager.getActivePlayer();
+				System.out.println(player.rehearseTokens);
+				player.rehearse();
+				System.out.println(player.rehearseTokens);
+				
 			}else if(e.getSource() == moveButt){
 				//This is everything that will happen when the player tries to move
+
+				//Create a new menu to select the neighboring place the Player wants to move to
+				//preinitialized and set to false, buttons for neighboring spaces need to be adjusted
+				//Once the menu is up, it waits for one of the neighbor buttons to be clicked
+				//change the layer of the main menu while this is up so only the one on top can be interacted with
+				//that active player will need to be moved to said neighbor, player.move(Scene)
+				//change visual
+
+				//flip card if player is first on the scene, show card
+
+
 				System.out.println("Clicked Move Button");
 			}else if(e.getSource() == endTButt){
 				//This is everything that will happen when the player tries to end their turn
 				System.out.println("Clicked End Turn Button");
+				System.out.println(GameManager.getActvPlyrIdx());
+				GameManager.changeTurn();
+				System.out.println(GameManager.getActvPlyrIdx());
 			} else {
 				//This is what happens when the player clicks a button without a purpose.
 				//This should not happen
