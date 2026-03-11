@@ -52,10 +52,12 @@ public class GUIManager extends JFrame{
 
 		initScreen();
 		initScreenAreas();
+	        frame.setVisible(true);
 	}
 
 	private void initScreen(){
 		frame = initFrame();
+		frame.setLayout(null);
 	    layeredFrame = frame.getLayeredPane();
 		boardImage.setImage(scaledBoard); 
 		boardLabel = initBoard(layeredFrame);
@@ -68,7 +70,6 @@ public class GUIManager extends JFrame{
 		neighborMenu = initNeighborMenu(layeredFrame);
 		cards = initCards();
 		System.out.println("Initialization Complete. Showing GUI\n");
-	        frame.setVisible(true);
 	}
 
 	private JLabel[] initCards(){
@@ -82,8 +83,12 @@ public class GUIManager extends JFrame{
 				Scene workingScene = (Scene) workingSpace;
 				Card workingCard = workingScene.getCard();
 				retCards[idx] = new JLabel();
-				retCards[idx].setIcon(new ImageIcon("graphics/" + workingCard.getBackground()));
-				retCards[idx].setBounds(workingSpace.getX(), workingSpace.getY(), workingSpace.getW(), workingSpace.getH());
+				retCards[idx].setIcon(new ImageIcon("graphics/Card/" + workingCard.getBackground()));
+				System.out.println("Found image: " + (new ImageIcon("graphics/Card/" + workingCard.getBackground()) != null));
+				//retCards[idx].setBounds(workingSpace.getX(), workingSpace.getY(), workingSpace.getW(), workingSpace.getH());
+				retCards[idx].setBounds(50, 40, 200, 300);
+				retCards[idx].setOpaque(true);
+				retCards[idx].setVisible(true);
 				layeredFrame.add(retCards[idx], 10);
 				System.out.println("Added new card: " + workingCard.getBackground());
 				System.out.println("Position: " + workingSpace.getX() + ", " + workingSpace.getY());
@@ -96,6 +101,8 @@ public class GUIManager extends JFrame{
 		testLabel.setBounds(0, 0, 100, 100);
 		layeredFrame.add(testLabel, 3);
 		testLabel.setVisible(true);*/
+		layeredFrame.revalidate();
+		layeredFrame.repaint();
 		return retCards;
 	}
 
@@ -263,6 +270,7 @@ public class GUIManager extends JFrame{
 		newFrame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		newFrame.setIconImage(new ImageIcon("graphics/shot.png").getImage());
 		System.out.println("Main frame initiailized\n");
+
 		return newFrame;
 	}
 
