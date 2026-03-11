@@ -66,24 +66,37 @@ public class GUIManager extends JFrame{
 		}
 
 		neighborMenu = initNeighborMenu(layeredFrame);
-		cards[] = initCards();
+		cards = initCards();
 		System.out.println("Initialization Complete. Showing GUI\n");
 	        frame.setVisible(true);
 	}
 
 	private JLabel[] initCards(){
-		JLabel retCards = new JLabel[10];
+		JLabel[] retCards = new JLabel[10];
 		Board board = BoardManager.board;
 		ArrayList<Space> spaceList = board.getSpaceList();
-
+		int idx = 0;
 		for(int i = 0; i < spaceList.size(); i++){
 			if(spaceList.get(i) instanceof Scene){
-				Scene workingScene = (Scene) spaceList.get(i);
+				Space workingSpace = spaceList.get(i);
+				Scene workingScene = (Scene) workingSpace;
 				Card workingCard = workingScene.getCard();
-				retCards[i] = new JLabel();
-				retCards[i].setIcon(workingCard.
+				retCards[idx] = new JLabel();
+				retCards[idx].setIcon(new ImageIcon("graphics/" + workingCard.getBackground()));
+				retCards[idx].setBounds(workingSpace.getX(), workingSpace.getY(), workingSpace.getW(), workingSpace.getH());
+				layeredFrame.add(retCards[idx], 10);
+				System.out.println("Added new card: " + workingCard.getBackground());
+				System.out.println("Position: " + workingSpace.getX() + ", " + workingSpace.getY());
+				System.out.println("Size: " + workingSpace.getW() + "X" + workingSpace.getH());
+				idx++;
 			}
 		}
+		/*JLabel testLabel = new JLabel();
+		testLabel.setBackground(Color.GRAY);
+		testLabel.setBounds(0, 0, 100, 100);
+		layeredFrame.add(testLabel, 3);
+		testLabel.setVisible(true);*/
+		return retCards;
 	}
 
 	private void initScreenAreas() {
@@ -255,7 +268,6 @@ public class GUIManager extends JFrame{
 
 	//Creates the board object for the GUI on initialization
 	private JLabel initBoard(JLayeredPane pane){
-		
 		int boardWidth = boardImage.getIconWidth();
 		int boardHeight = boardImage.getIconHeight();
 		int xPos = 0;

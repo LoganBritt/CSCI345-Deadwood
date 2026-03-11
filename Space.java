@@ -43,5 +43,24 @@ public abstract class Space {
 
 		}
 	}
+	 //Gets the x position of the card at this scene
+        public int getX(){
+                return xPos;
+        }
+
+        //Gets the y position of the card at this scene
+        public int getY(){
+                return yPos;
+        }
+
+        //Gets the height of the card at this scene
+        public int getH(){
+                return height;
+        }
+
+        //Gets the width of the card at this scene
+        public int getW(){
+                return width;
+        }
 
 }
