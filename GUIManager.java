@@ -26,7 +26,35 @@ public class GUIManager extends JFrame{
 	JButton neighborButt4;
 
 	JLabel[] cards = new JLabel[10];
+	Hashtable<String, JLabel>  spaces = new Hashtable<>();
+	//JLabel[] spaces = new JLabel[12];
 	JLabel[] players;
+	String[] nameSet = new String[]{
+		"jail",
+		"train station",
+		"main street",
+		"trailer",
+		"saloon",
+		"general store",
+		"ranch",
+		"hotel",
+		"bank",
+		"chruch",
+		"secret hideout",
+		"casting"
+	};
+
+	String[] playerDiceOrder = new String[]{
+		"b",
+		"c",
+		"g",
+		"o",
+		"p",
+		"r",
+		"v",
+		"w",
+		"y"
+	};
 
 	GUIManager(){
 		BoardManager.createDeck();
@@ -45,6 +73,8 @@ public class GUIManager extends JFrame{
 			}
 			
 		}
+
+
 		players = new JLabel[playerNumberInput];
 		GameManager.setPlayerAmt(playerNumberInput);
 		GameManager.createPlayers();
@@ -58,7 +88,6 @@ public class GUIManager extends JFrame{
 
 	private void initScreen(){
 		frame = initFrame();
-		frame.setLayout(null);
 	    layeredFrame = frame.getLayeredPane();
 		boardImage.setImage(scaledBoard); 
 		boardLabel = initBoard(layeredFrame);
@@ -70,7 +99,6 @@ public class GUIManager extends JFrame{
 
 		neighborMenu = initNeighborMenu(layeredFrame);
 		cards = initCards();
-		players = initPlayers();
 		System.out.println("Initialization Complete. Showing GUI\n");
 	}
 
@@ -104,42 +132,61 @@ public class GUIManager extends JFrame{
 		JLabel[] retLabel = new JLabel[players.length];
 		for(int i = 0; i < players.length; i++){
 			System.out.println("Making new player sprite");
-			
+			JLabel start = spaces.get("trailer");
+			JLabel player = new JLabel();
+			System.out.println("graphics/Dice/" + playerDiceOrder[i]  + players[i].rank + ".png");
+			ImageIcon newImage = new ImageIcon("graphics/Dice/" + playerDiceOrder[i] + players[i].rank + ".png");
+			player.setIcon(newImage);
+			player.setBounds(start.getBounds());
+			player.setOpaque(true);
+			player.setVisible(true);
+			layeredFrame.add(player, JLayeredPane.PALETTE_LAYER);
+			retLabel[i] = player;
 		}
 		return retLabel;
 	}
 
 	private void initScreenAreas() {
 		int[][] statSet = new int[][]{
-			{},
-			{},
-			{},
-			{},
-			{},
-			{},
-			{},
-			{},
-			{},
-			{},
-			{},
-			{}
+			{285,  150, 50, 50}, //Jail
+			{20,   210, 50, 50}, //Train Station
+			{1100, 180, 50, 50}, //Main Street
+			{1070, 325, 50, 50}, //Trailers
+			{730,  220, 50, 50}, //Saloon
+			{300,  380, 50, 50}, //General Store
+			{285,  635, 50, 50}, //Ranch
+			{1110, 630, 50, 50}, //Hotel
+			{845,  490, 50, 50}, //Bank
+			{755,  670, 50, 50}, //Church
+			{300,  830, 50, 50}, //Secret Hideout
+			{80,   470, 50, 50}  //Casting Office
 		};
-		JLabel test = new JLabel();
-//		test.setBackground(Color.BLUE);
-		test.setIcon(new ImageIcon("graphics/cardback.png"));
-		test.setBounds(100, 100, 100, 100);
-		test.setOpaque(true);
-		test.setVisible(true);
-		layeredFrame.add(test, JLayeredPane.PALETTE_LAYER + 20);
-		layeredFrame.revalidate();
-		layeredFrame.repaint();
 		Board board = BoardManager.board;
 		ArrayList<Space> spaceList = board.getSpaceList();
 		for(int i = 0; i < spaceList.size(); i++){
 			Space workingSpace = spaceList.get(i);
 			if(workingSpace != null){
 				//Create places for the players
+				JLabel playerSpace = new JLabel();
+				playerSpace.setBounds(statSet[i][0], statSet[i][1], statSet[i][2], statSet[i][3]);
+				playerSpace.addMouseListener(new MouseAdapter() {
+                                	@Override
+                                        public void mouseEntered(MouseEvent e) {
+                                        	System.out.println("Entered player space");
+                                                playerSpace.repaint();
+                                        }
+
+                                        @Override
+                                        public void mouseExited(MouseEvent e) {
+                                        	System.out.println("Exited player space");
+                                                playerSpace.repaint();
+                                        }
+                                });
 				
+				//System.out.println("JLayeredPane.PALETTE_LAYER: " + JLayeredPane.PALETTE_LAYER);
+				layeredFrame.add(playerSpace, JLayeredPane.PALETTE_LAYER);
+				spaces.put(nameSet[i], playerSpace);
+
 				//Create places for the roles
 				if(workingSpace instanceof Scene){
 					Scene workingScene = (Scene) workingSpace;
@@ -214,6 +261,7 @@ public class GUIManager extends JFrame{
 				}
 			}     
 	        }
+		players = initPlayers();
 	}    
 
 
@@ -383,11 +431,11 @@ public class GUIManager extends JFrame{
     		pane.setBackground(Color.GRAY);
     		pane.setOpaque(true);
 
-    		JLabel label = new JLabel("Menu");
+    		JLabel label = new JLabel("Menu: Player 1");
     		label.setBounds(30, 10, 160, 30);
     		label.setForeground(Color.WHITE);
     		label.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
-
+		menuLabel = label;
     		pane.add(label, 1);
 		
     		basePane.add(pane, 2);
@@ -465,37 +513,53 @@ public class GUIManager extends JFrame{
 				System.out.println("Clicked End Turn Button");
 				System.out.println(GameManager.getActvPlyrIdx());
 				GameManager.changeTurn();
+				menuLabel.setText("Menu: Player " + (GameManager.getActvPlyrIdx() + 1));
 				System.out.println(GameManager.getActvPlyrIdx());
 
 			} else if(e.getSource() == neighborButt1){
 				System.out.println("Selected to move to the first neighbor");
 				System.out.println("Space before: " + GameManager.getActivePlayer().currLocation.name);
-				GameManager.getActivePlayer().move(neighborButt1.getText().toLowerCase());
+				String newSceneName = neighborButt1.getText().toLowerCase();
+				GameManager.getActivePlayer().move(newSceneName);
 				mainMenu.setVisible(true);
 				neighborMenu.setVisible(false);
 				GameManager.makeMoved();
+                                JLabel newSpaceLabel = spaces.get(newSceneName);
+                                players[GameManager.getActvPlyrIdx()].setBounds(newSpaceLabel.getBounds());
+
 				System.out.println("Space after: " + GameManager.getActivePlayer().currLocation.name);
 
     			} else if(e.getSource() == neighborButt2){
 				System.out.println("Selected to move to the second neighbor");
-				GameManager.getActivePlayer().move(neighborButt2.getText().toLowerCase());
+				String newSceneName = neighborButt2.getText().toLowerCase();
+				GameManager.getActivePlayer().move(newSceneName);
 				mainMenu.setVisible(true);
 				neighborMenu.setVisible(false);
 					GameManager.makeMoved();
+                                JLabel newSpaceLabel = spaces.get(newSceneName);
+                                players[GameManager.getActvPlyrIdx()].setBounds(newSpaceLabel.getBounds());
+
 
     			} else if(e.getSource() == neighborButt3){
 				System.out.println("Selected to move to the third neighbor");
-				GameManager.getActivePlayer().move(neighborButt3.getText().toLowerCase());
+				String newSceneName = neighborButt3.getText().toLowerCase();
+				GameManager.getActivePlayer().move(newSceneName);
 				mainMenu.setVisible(true);
 				neighborMenu.setVisible(false);
 					GameManager.makeMoved();
+                                JLabel newSpaceLabel = spaces.get(newSceneName);
+                                players[GameManager.getActvPlyrIdx()].setBounds(newSpaceLabel.getBounds());
+
 
     			} else if(e.getSource() == neighborButt4){
 				System.out.println("Selected to move to the fourth neighbor");
-				GameManager.getActivePlayer().move(neighborButt4.getText().toLowerCase());
+				String newSceneName = neighborButt4.getText().toLowerCase();
+				GameManager.getActivePlayer().move(newSceneName);
 				mainMenu.setVisible(true);
 				neighborMenu.setVisible(false);
 					GameManager.makeMoved();
+				JLabel newSpaceLabel = spaces.get(newSceneName);
+				players[GameManager.getActvPlyrIdx()].setBounds(newSpaceLabel.getBounds());
 
     			} else if(e.getSource() instanceof JButton){
     				JButton b = (JButton) e.getSource();
