@@ -2,13 +2,13 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-
+import java.util.*;
 
 public class GUIManager extends JFrame{
 	JFrame frame;
 	JLayeredPane layeredFrame;
 	JLabel boardLabel;
-	double scaleRatio = 0.85;
+	double scaleRatio = 1;
 	ImageIcon boardImage = new ImageIcon("graphics/board.jpg");
 	Image scaledBoard = boardImage.getImage().getScaledInstance((int) (boardImage.getIconWidth() *scaleRatio), (int) (boardImage.getIconHeight()*scaleRatio), Image.SCALE_SMOOTH);
 	JLabel menuLabel;
@@ -17,6 +17,15 @@ public class GUIManager extends JFrame{
 	JButton reherButt;
 	JButton moveButt;
 	JButton endTButt;
+	JLayeredPane neighborMenu;
+	JLayeredPane mainMenu;
+
+	JButton neighborButt1;
+	JButton neighborButt2;
+	JButton neighborButt3;
+	JButton neighborButt4;
+
+	JLabel[] cards = new JLabel[10];
 
 	GUIManager(){
 		BoardManager.createDeck();
@@ -42,6 +51,7 @@ public class GUIManager extends JFrame{
 
 
 		initScreen();
+		initScreenAreas();
 	}
 
 	private void initScreen(){
@@ -49,14 +59,186 @@ public class GUIManager extends JFrame{
 	    layeredFrame = frame.getLayeredPane();
 		boardImage.setImage(scaledBoard); 
 		boardLabel = initBoard(layeredFrame);
-		menuLabel = initMenu(layeredFrame);
+		mainMenu = initMainMenu(layeredFrame);
 
 		for(int i = 0; i < buttCt; i++){
-			initButt(i, layeredFrame);
+			initButt(i, mainMenu);
 		}
 
+		neighborMenu = initNeighborMenu(layeredFrame);
+		cards[] = initCards();
 		System.out.println("Initialization Complete. Showing GUI\n");
 	        frame.setVisible(true);
+	}
+
+	private JLabel[] initCards(){
+		JLabel retCards = new JLabel[10];
+		Board board = BoardManager.board;
+		ArrayList<Space> spaceList = board.getSpaceList();
+
+		for(int i = 0; i < spaceList.size(); i++){
+			if(spaceList.get(i) instanceof Scene){
+				Scene workingScene = (Scene) spaceList.get(i);
+				Card workingCard = workingScene.getCard();
+				retCards[i] = new JLabel();
+				retCards[i].setIcon(workingCard.
+			}
+		}
+	}
+
+	private void initScreenAreas() {
+		/*int[12][4] statSet = new int{
+			{}
+			{}
+			{}
+			{}
+			{}
+			{}
+			{}
+			{}
+			{}
+			{}
+			{}
+			{}
+		}*/
+		Board board = BoardManager.board;
+		ArrayList<Space> spaceList = board.getSpaceList();
+		for(int i = 0; i < spaceList.size(); i++){
+			Space workingSpace = spaceList.get(i);
+			if(workingSpace != null){
+				//Create places for the players
+				
+				//Create places for the roles
+				if(workingSpace instanceof Scene){
+					Scene workingScene = (Scene) workingSpace;
+					Role[] roleSet = workingScene.getRoles();
+					for(int j = 0; j < roleSet.length; j++){
+						if(roleSet[j] != null){
+							//For each role on the scene
+							int xPos = roleSet[j].getX();
+							int yPos = roleSet[j].getY();
+							int height = roleSet[j].getWidth();
+							int width = roleSet[j].getHeight();
+							JPanel rolePanel = new JPanel();
+		    					rolePanel.setBounds(xPos, yPos, width, height);
+		    					rolePanel.setOpaque(false); // starts transparent
+		    					rolePanel.setBackground(Color.ORANGE);
+		
+		   					 // Add mouse hover effect
+		    					rolePanel.addMouseListener(new MouseAdapter() {
+		        					@Override
+		        					public void mouseEntered(MouseEvent e) {
+		            						rolePanel.setOpaque(true);
+		            						rolePanel.repaint();
+		       			 			}
+		
+		        					@Override
+		        					public void mouseExited(MouseEvent e) {
+		            						rolePanel.setOpaque(false);
+		           						 rolePanel.repaint();
+		       						}
+		    					});
+		
+		    					// Add to layered pane
+		    					layeredFrame.add(rolePanel, JLayeredPane.PALETTE_LAYER);
+						}
+					}
+		
+					Card workingCard = workingScene.getCard();
+					JPanel cardPanel = new JPanel();
+					cardPanel.setBounds(workingCard.getX(), workingCard.getY(), workingCard.getW(), workingCard.getH());
+					cardPanel.setOpaque(false);
+					cardPanel.setBackground(Color.BLUE);
+
+					cardPanel.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseEntered(MouseEvent e) {
+		            				cardPanel.setOpaque(true);
+		            				cardPanel.repaint();
+		       			 	}
+		
+		        			@Override
+		        			public void mouseExited(MouseEvent e) {
+		            				cardPanel.setOpaque(false);
+		           				cardPanel.repaint();
+		       				}
+					});
+					layeredFrame.add(cardPanel, JLayeredPane.PALETTE_LAYER);
+					
+					Role[] cardRoles = workingCard.getRoles();
+					for(int j = 0; j < cardRoles.length; j++){
+						//For each role on the card
+						if(cardRoles[j] != null){
+							int xPos = cardRoles[j].getX();
+							int yPos = cardRoles[j].getY();
+							int height = cardRoles[j].getWidth();
+							int width = cardRoles[j].getHeight();
+						}						
+					}
+				}
+			}     
+	        }
+	}    
+
+
+	private JLayeredPane initNeighborMenu(JLayeredPane basePane){
+		int width = 220;
+    		int height = 260;
+
+    		int x = boardImage.getIconWidth() + 5;
+    		int y = 5;
+
+    		JLayeredPane pane = new JLayeredPane();
+    		pane.setBounds(x, y, width, height);
+    		pane.setBackground(Color.GRAY);
+    		pane.setOpaque(true);
+	
+    		JLabel label = new JLabel("Move to which?");
+    		label.setBounds(30, 10, 160, 30);
+    		label.setForeground(Color.WHITE);
+    		label.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
+    		pane.add(label, 1);
+
+    		for(int i = 0; i < 4; i++){
+    		    JButton moveOption = null;
+		    if(i == 0){
+			String buttName = "Neighbor " + (i+1);
+			moveOption = new JButton(buttName);
+			neighborButt1 = moveOption;
+		   }else if(i == 1){
+			String buttName = "Neighbor " + (i+1);
+			moveOption = new JButton(buttName);
+			neighborButt2 = moveOption;
+		   }else if(i == 2){
+			String buttName = "Neighbor " + (i+1);
+			moveOption = new JButton(buttName);
+			neighborButt3 = moveOption;
+		   }else if(i == 3){
+			String buttName = "Neighbor " + (i+1);
+			moveOption = new JButton(buttName);
+			neighborButt4 = moveOption;
+		   }
+		   moveOption.setBackground(Color.LIGHT_GRAY);
+		   moveOption.setFocusPainted(false);
+		   moveOption.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
+		   moveOption.setBounds(10, 50 + (i * 40), 200, 35);
+   		   moveOption.addMouseListener(new boardMouseListener());
+   		   pane.add(moveOption, 2);
+    		}
+
+    		JButton cancel = new JButton("Cancel");
+		cancel.setBackground(Color.LIGHT_GRAY);
+		cancel.setFocusPainted(false);
+		cancel.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
+    		cancel.setBounds(10, 210, 200, 35);
+    		cancel.addMouseListener(new boardMouseListener());
+    		pane.add(cancel, 2);
+		
+		pane.setVisible(false);
+		
+		basePane.add(pane, 3); 
+		
+    		return pane;
 	}
 
 	//Creates the main frame object for the GUI on initialization
@@ -112,7 +294,7 @@ public class GUIManager extends JFrame{
 		int buttWidth = 200;
 		int buttHeight = 40;
 		int boardDist = 10;
-		int quanticY = 50;
+		int quanticY = 45;
 
 		switch(idx){
 			case 0:
@@ -144,10 +326,64 @@ public class GUIManager extends JFrame{
 				return;
 		}
 		tempButt.setBackground(Color.LIGHT_GRAY);
-		tempButt.setBounds(boardImage.getIconWidth() + boardDist, (idx+1) * quanticY, buttWidth, buttHeight);
+		tempButt.setFocusPainted(false);
+		tempButt.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
+		tempButt.setBounds(10, 50 + (idx * quanticY), buttWidth, buttHeight);
 		tempButt.addMouseListener(new boardMouseListener());
 		pane.add(tempButt, 2);
 		System.out.println("Button " + idx + " Initialized\n");
+	}
+
+	private JLayeredPane initMainMenu(JLayeredPane basePane){
+
+   		int width = 220;
+    		int height = 260;
+
+    		int x = boardImage.getIconWidth() + 5;
+    		int y = 5;
+		
+	    	JLayeredPane pane = new JLayeredPane();
+    		pane.setBounds(x, y, width, height);
+    		pane.setBackground(Color.GRAY);
+    		pane.setOpaque(true);
+
+    		JLabel label = new JLabel("Menu");
+    		label.setBounds(30, 10, 160, 30);
+    		label.setForeground(Color.WHITE);
+    		label.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
+
+    		pane.add(label, 1);
+		
+    		basePane.add(pane, 2);
+
+    		return pane;
+	}
+
+	//Changes the text on the neighbor buttons to match the neighbors of the player's space
+	public void updateNeighborOptions(){
+		Player player = GameManager.getActivePlayer();
+		Space currSpace = player.currLocation;
+		Space[] neighbors = currSpace.neighborSpaces;
+		for(int i = 0; i < neighbors.length; i++){
+			String name = neighbors[i].name;
+			switch(i){
+				case 0:
+					neighborButt1.setText(name);
+					break;
+				case 1:
+					neighborButt2.setText(name);
+					break;
+				case 2:
+					neighborButt3.setText(name);
+					break;
+				case 3:
+					neighborButt4.setText(name);
+					break;
+				default:
+					break;
+			}
+		}
+		neighborButt4.setVisible(neighbors.length == 4);
 	}
 
 	//Mouse event handler for the GUI
@@ -157,14 +393,17 @@ public class GUIManager extends JFrame{
 				//This is everything that will happen when the player tries to act
 				GameManager.getActivePlayer().act(true);
 				System.out.println("Clicked Act Button");
+
 			}else if(e.getSource() == reherButt){
 				//This is everything that will happen when the player tries to rehearse
 				System.out.println("Clicked Rehearse Button");
-				Player player = GameManager.getActivePlayer();
-				System.out.println(player.rehearseTokens);
-				player.rehearse();
-				System.out.println(player.rehearseTokens);
-				
+				if(!GameManager.getPlayerActed()){
+					Player player = GameManager.getActivePlayer();
+					System.out.println(player.rehearseTokens);
+					player.rehearse();
+					System.out.println(player.rehearseTokens);
+					GameManager.makeActed();
+				}				
 			}else if(e.getSource() == moveButt){
 				//This is everything that will happen when the player tries to move
 
@@ -179,12 +418,52 @@ public class GUIManager extends JFrame{
 
 
 				System.out.println("Clicked Move Button");
+				if(!GameManager.getPlayerMoved()){
+					updateNeighborOptions();
+					mainMenu.setVisible(false);
+					neighborMenu.setVisible(true);
+					GameManager.makeMoved();
+				}
+
 			}else if(e.getSource() == endTButt){
 				//This is everything that will happen when the player tries to end their turn
 				System.out.println("Clicked End Turn Button");
 				System.out.println(GameManager.getActvPlyrIdx());
 				GameManager.changeTurn();
 				System.out.println(GameManager.getActvPlyrIdx());
+
+			} else if(e.getSource() == neighborButt1){
+				System.out.println("Selected to move to the first neighbor");
+				GameManager.getActivePlayer().move(neighborButt1.getText().toLowerCase());
+				mainMenu.setVisible(true);
+				neighborMenu.setVisible(false);
+
+    			} else if(e.getSource() == neighborButt2){
+				System.out.println("Selected to move to the second neighbor");
+				GameManager.getActivePlayer().move(neighborButt2.getText().toLowerCase());
+				mainMenu.setVisible(true);
+				neighborMenu.setVisible(false);
+
+    			} else if(e.getSource() == neighborButt3){
+				System.out.println("Selected to move to the third neighbor");
+				GameManager.getActivePlayer().move(neighborButt3.getText().toLowerCase());
+				mainMenu.setVisible(true);
+				neighborMenu.setVisible(false);
+
+    			} else if(e.getSource() == neighborButt4){
+				System.out.println("Selected to move to the fourth neighbor");
+				GameManager.getActivePlayer().move(neighborButt4.getText().toLowerCase());
+				mainMenu.setVisible(true);
+				neighborMenu.setVisible(false);
+
+    			} else if(e.getSource() instanceof JButton){
+    				JButton b = (JButton) e.getSource();
+	
+    				if(b.getText().equals("Cancel")){
+        				neighborMenu.setVisible(false);
+					mainMenu.setVisible(true);
+        				System.out.println("Move cancelled");
+				}
 			} else {
 				//This is what happens when the player clicks a button without a purpose.
 				//This should not happen
