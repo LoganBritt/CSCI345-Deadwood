@@ -91,4 +91,19 @@ public class Role {
 		return onCard;
 	}
 
+	public int getX(){
+		return xPos;
+	}
+
+	public int getY(){
+		return yPos;
+	}
+
+	public int getWidth(){
+		return width;
+	}
+
+	public int getHeight(){
+		return height;
+	}
 }
