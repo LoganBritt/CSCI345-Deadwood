@@ -8,7 +8,7 @@ public class GUIManager extends JFrame{
 	JFrame frame;
 	JLayeredPane layeredFrame;
 	JLabel boardLabel;
-	double scaleRatio = 1;
+	double scaleRatio = 0.85;
 	ImageIcon boardImage = new ImageIcon("graphics/board.jpg");
 	Image scaledBoard = boardImage.getImage().getScaledInstance((int) (boardImage.getIconWidth() *scaleRatio), (int) (boardImage.getIconHeight()*scaleRatio), Image.SCALE_SMOOTH);
 	JLabel menuLabel;
@@ -39,9 +39,9 @@ public class GUIManager extends JFrame{
 		"ranch",
 		"hotel",
 		"bank",
-		"chruch",
+		"church",
 		"secret hideout",
-		"casting"
+		"office"
 	};
 
 	String[] playerDiceOrder = new String[]{
@@ -113,8 +113,8 @@ public class GUIManager extends JFrame{
 				Scene workingScene = (Scene) workingSpace;
 				Card workingCard = workingScene.getCard();
 				retCards[idx] = new JLabel();
-				//retCards[idx].setIcon(new ImageIcon("graphics/Card/" + workingCard.getBackground()));
-				retCards[idx].setIcon(new ImageIcon("graphics/cardback.png"));
+				retCards[idx].setIcon(new ImageIcon("graphics/Card/" + workingCard.getBackground()));
+				//retCards[idx].setIcon(new ImageIcon("graphics/cardback.png"));
 				retCards[idx].setBounds(workingSpace.getX(), workingSpace.getY(), workingSpace.getW(), workingSpace.getH());
 				retCards[idx].setOpaque(true);
 				retCards[idx].setVisible(true);
@@ -147,19 +147,20 @@ public class GUIManager extends JFrame{
 	}
 
 	private void initScreenAreas() {
+		int size = 40;
 		int[][] statSet = new int[][]{
-			{285,  150, 50, 50}, //Jail
-			{20,   210, 50, 50}, //Train Station
-			{1100, 180, 50, 50}, //Main Street
-			{1070, 325, 50, 50}, //Trailers
-			{730,  220, 50, 50}, //Saloon
-			{300,  380, 50, 50}, //General Store
-			{285,  635, 50, 50}, //Ranch
-			{1110, 630, 50, 50}, //Hotel
-			{845,  490, 50, 50}, //Bank
-			{755,  670, 50, 50}, //Church
-			{300,  830, 50, 50}, //Secret Hideout
-			{80,   470, 50, 50}  //Casting Office
+			{285,  150, size, size}, //Jail
+			{20,   210, size, size}, //Train Station
+			{1100, 180, size, size}, //Main Street
+			{1070, 325, size, size}, //Trailers
+			{730,  220, size, size}, //Saloon
+			{300,  380, size, size}, //General Store
+			{285,  635, size, size}, //Ranch
+			{1110, 630, size, size}, //Hotel
+			{845,  490, size, size}, //Bank
+			{755,  670, size, size}, //Church
+			{300,  830, size, size}, //Secret Hideout
+			{80,   470, size, size}  //Casting Office
 		};
 		Board board = BoardManager.board;
 		ArrayList<Space> spaceList = board.getSpaceList();
