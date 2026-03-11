@@ -26,6 +26,7 @@ public class GUIManager extends JFrame{
 	JButton neighborButt4;
 
 	JLabel[] cards = new JLabel[10];
+	JLabel[] players;
 
 	GUIManager(){
 		BoardManager.createDeck();
@@ -44,7 +45,7 @@ public class GUIManager extends JFrame{
 			}
 			
 		}
-
+		players = new JLabel[playerNumberInput];
 		GameManager.setPlayerAmt(playerNumberInput);
 		GameManager.createPlayers();
 
@@ -69,6 +70,7 @@ public class GUIManager extends JFrame{
 
 		neighborMenu = initNeighborMenu(layeredFrame);
 		cards = initCards();
+		players = initPlayers();
 		System.out.println("Initialization Complete. Showing GUI\n");
 	}
 
@@ -83,44 +85,54 @@ public class GUIManager extends JFrame{
 				Scene workingScene = (Scene) workingSpace;
 				Card workingCard = workingScene.getCard();
 				retCards[idx] = new JLabel();
-				retCards[idx].setIcon(new ImageIcon("graphics/Card/" + workingCard.getBackground()));
-				System.out.println("Found image: " + (new ImageIcon("graphics/Card/" + workingCard.getBackground()) != null));
-				//retCards[idx].setBounds(workingSpace.getX(), workingSpace.getY(), workingSpace.getW(), workingSpace.getH());
-				retCards[idx].setBounds(50, 40, 200, 300);
+				//retCards[idx].setIcon(new ImageIcon("graphics/Card/" + workingCard.getBackground()));
+				retCards[idx].setIcon(new ImageIcon("graphics/cardback.png"));
+				retCards[idx].setBounds(workingSpace.getX(), workingSpace.getY(), workingSpace.getW(), workingSpace.getH());
 				retCards[idx].setOpaque(true);
 				retCards[idx].setVisible(true);
-				layeredFrame.add(retCards[idx], 10);
-				System.out.println("Added new card: " + workingCard.getBackground());
-				System.out.println("Position: " + workingSpace.getX() + ", " + workingSpace.getY());
-				System.out.println("Size: " + workingSpace.getW() + "X" + workingSpace.getH());
+				layeredFrame.add(retCards[idx], JLayeredPane.PALETTE_LAYER);
 				idx++;
 			}
 		}
-		/*JLabel testLabel = new JLabel();
-		testLabel.setBackground(Color.GRAY);
-		testLabel.setBounds(0, 0, 100, 100);
-		layeredFrame.add(testLabel, 3);
-		testLabel.setVisible(true);*/
 		layeredFrame.revalidate();
 		layeredFrame.repaint();
 		return retCards;
 	}
 
+	private JLabel[] initPlayers(){
+		Player[] players = GameManager.getPlayerList();
+		JLabel[] retLabel = new JLabel[players.length];
+		for(int i = 0; i < players.length; i++){
+			System.out.println("Making new player sprite");
+			
+		}
+		return retLabel;
+	}
+
 	private void initScreenAreas() {
-		/*int[12][4] statSet = new int{
+		int[][] statSet = new int[][]{
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
 			{}
-			{}
-			{}
-			{}
-			{}
-			{}
-			{}
-			{}
-			{}
-			{}
-			{}
-			{}
-		}*/
+		};
+		JLabel test = new JLabel();
+//		test.setBackground(Color.BLUE);
+		test.setIcon(new ImageIcon("graphics/cardback.png"));
+		test.setBounds(100, 100, 100, 100);
+		test.setOpaque(true);
+		test.setVisible(true);
+		layeredFrame.add(test, JLayeredPane.PALETTE_LAYER + 20);
+		layeredFrame.revalidate();
+		layeredFrame.repaint();
 		Board board = BoardManager.board;
 		ArrayList<Space> spaceList = board.getSpaceList();
 		for(int i = 0; i < spaceList.size(); i++){
@@ -148,12 +160,14 @@ public class GUIManager extends JFrame{
 		    					rolePanel.addMouseListener(new MouseAdapter() {
 		        					@Override
 		        					public void mouseEntered(MouseEvent e) {
+								System.out.println("Entered role");
 		            						rolePanel.setOpaque(true);
 		            						rolePanel.repaint();
 		       			 			}
 		
 		        					@Override
 		        					public void mouseExited(MouseEvent e) {
+									System.out.println("Exited role");
 		            						rolePanel.setOpaque(false);
 		           						 rolePanel.repaint();
 		       						}
@@ -166,24 +180,26 @@ public class GUIManager extends JFrame{
 		
 					Card workingCard = workingScene.getCard();
 					JPanel cardPanel = new JPanel();
-					cardPanel.setBounds(workingCard.getX(), workingCard.getY(), workingCard.getW(), workingCard.getH());
+					cardPanel.setBounds(workingScene.getX(), workingScene.getY(), workingScene.getW(), workingScene.getH());
 					cardPanel.setOpaque(false);
 					cardPanel.setBackground(Color.BLUE);
 
 					cardPanel.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseEntered(MouseEvent e) {
+							System.out.println("Entered card");
 		            				cardPanel.setOpaque(true);
 		            				cardPanel.repaint();
 		       			 	}
 		
 		        			@Override
 		        			public void mouseExited(MouseEvent e) {
+							System.out.println("Exited card");
 		            				cardPanel.setOpaque(false);
 		           				cardPanel.repaint();
 		       				}
 					});
-					layeredFrame.add(cardPanel, JLayeredPane.PALETTE_LAYER);
+					layeredFrame.add(cardPanel, JLayeredPane.PALETTE_LAYER + 10);
 					
 					Role[] cardRoles = workingCard.getRoles();
 					for(int j = 0; j < cardRoles.length; j++){
@@ -442,7 +458,6 @@ public class GUIManager extends JFrame{
 					updateNeighborOptions();
 					mainMenu.setVisible(false);
 					neighborMenu.setVisible(true);
-					GameManager.makeMoved();
 				}
 
 			}else if(e.getSource() == endTButt){
@@ -454,27 +469,33 @@ public class GUIManager extends JFrame{
 
 			} else if(e.getSource() == neighborButt1){
 				System.out.println("Selected to move to the first neighbor");
+				System.out.println("Space before: " + GameManager.getActivePlayer().currLocation.name);
 				GameManager.getActivePlayer().move(neighborButt1.getText().toLowerCase());
 				mainMenu.setVisible(true);
 				neighborMenu.setVisible(false);
+				GameManager.makeMoved();
+				System.out.println("Space after: " + GameManager.getActivePlayer().currLocation.name);
 
     			} else if(e.getSource() == neighborButt2){
 				System.out.println("Selected to move to the second neighbor");
 				GameManager.getActivePlayer().move(neighborButt2.getText().toLowerCase());
 				mainMenu.setVisible(true);
 				neighborMenu.setVisible(false);
+					GameManager.makeMoved();
 
     			} else if(e.getSource() == neighborButt3){
 				System.out.println("Selected to move to the third neighbor");
 				GameManager.getActivePlayer().move(neighborButt3.getText().toLowerCase());
 				mainMenu.setVisible(true);
 				neighborMenu.setVisible(false);
+					GameManager.makeMoved();
 
     			} else if(e.getSource() == neighborButt4){
 				System.out.println("Selected to move to the fourth neighbor");
 				GameManager.getActivePlayer().move(neighborButt4.getText().toLowerCase());
 				mainMenu.setVisible(true);
 				neighborMenu.setVisible(false);
+					GameManager.makeMoved();
 
     			} else if(e.getSource() instanceof JButton){
     				JButton b = (JButton) e.getSource();
