@@ -36,22 +36,22 @@ public class GUIManager extends JFrame {
 	JLabel locationLabel;
 	JLabel roleLabel;
 
-	JLabel[] cards = new JLabel[10];
+	//JLabel[] cards = new JLabel[10];
 	Hashtable<String, JLabel> spaces = new Hashtable<>();
-	// JLabel[] spaces = new JLabel[12];
+	Hashtable<String, JLabel> cards = new Hashtable<>();
 	JLabel[] players;
 	String[] nameSet = new String[] {
-			"jail",
 			"train station",
+			"secret hideout",
+			"church",
+			"hotel",
 			"main street",
-			"trailer",
-			"saloon",
+			"jail",
 			"general store",
 			"ranch",
-			"hotel",
 			"bank",
-			"church",
-			"secret hideout",
+			"saloon",
+			"trailer",
 			"office"
 	};
 
@@ -117,8 +117,8 @@ public class GUIManager extends JFrame {
 	}
 
 	// initilizes the cards and their roles
-	private JLabel[] initCards() {
-		JLabel[] retCards = new JLabel[10];
+	private Hashtable<String, JLabel> initCards() {
+		Hashtable <String, JLabel> retTable = new Hashtable<>();
 		Board board = BoardManager.board;
 		ArrayList<Space> spaceList = board.getSpaceList();
 		int idx = 0;
@@ -128,26 +128,27 @@ public class GUIManager extends JFrame {
 				Space workingSpace = spaceList.get(i);
 				Scene workingScene = (Scene) workingSpace;
 				Card workingCard = workingScene.getCard();
-				retCards[idx] = new JLabel();
-
-				retCards[idx].setIcon(new ImageIcon("graphics/Card/" + workingCard.getBackground()));
-				// retCards[idx].setIcon(new ImageIcon("graphics/cardback.png"));
-				ImageIcon icon = (ImageIcon) retCards[idx].getIcon();
+				JLabel retLabel = new JLabel();
+				System.out.println("Space: " + workingSpace.name);
+				//retCards[idx].setIcon(new ImageIcon("graphics/Card/" + workingCard.getBackground()));
+				retLabel.setIcon(new ImageIcon("graphics/cardback.png"));
+				ImageIcon icon = (ImageIcon) retLabel.getIcon();
 				Image scaledIcon = icon.getImage().getScaledInstance((int) (icon.getIconWidth() * scaleRatio),
 						(int) (icon.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
-				retCards[idx].setIcon(new ImageIcon(scaledIcon));
-				retCards[idx].setBounds((int) (workingSpace.getX() * scaleRatio),
+				retLabel.setIcon(new ImageIcon(scaledIcon));
+				retLabel.setBounds((int) (workingSpace.getX() * scaleRatio),
 						(int) (workingSpace.getY() * scaleRatio), (int) (workingSpace.getW() * scaleRatio),
 						(int) (workingSpace.getH() * scaleRatio));
-				retCards[idx].setOpaque(true);
-				retCards[idx].setVisible(true);
-				layeredFrame.add(retCards[idx], JLayeredPane.PALETTE_LAYER);
+				retLabel.setOpaque(true);
+				retLabel.setVisible(true);
+				layeredFrame.add(retLabel, JLayeredPane.PALETTE_LAYER);
+				retTable.put(nameSet[idx], retLabel);
 				idx++;
 			}
 		}
 		layeredFrame.revalidate();
 		layeredFrame.repaint();
-		return retCards;
+		return retTable;
 	}
 
 	// Initilizes the players and their Sprites
@@ -178,17 +179,17 @@ public class GUIManager extends JFrame {
 	private void initScreenAreas() {
 		int size = (int) (40 * scaleRatio);
 		int[][] statSet = new int[][] {
-				{ (int) (285 * scaleRatio), (int) (150 * scaleRatio), size, size }, // Jail
 				{ (int) (20 * scaleRatio), (int) (210 * scaleRatio), size, size }, // Train Station
+				{ (int) (300 * scaleRatio), (int) (830 * scaleRatio), size, size }, // Secret Hideout
+				{ (int) (755 * scaleRatio), (int) (670 * scaleRatio), size, size }, // Church
+				{ (int) (1110 * scaleRatio), (int) (630 * scaleRatio), size, size }, // Hotel
 				{ (int) (1100 * scaleRatio), (int) (180 * scaleRatio), size, size }, // Main Street
-				{ (int) (1070 * scaleRatio), (int) (325 * scaleRatio), size, size }, // Trailers
-				{ (int) (730 * scaleRatio), (int) (220 * scaleRatio), size, size }, // Saloon
+				{ (int) (285 * scaleRatio), (int) (150 * scaleRatio), size, size }, // Jail
 				{ (int) (300 * scaleRatio), (int) (380 * scaleRatio), size, size }, // General Store
 				{ (int) (285 * scaleRatio), (int) (635 * scaleRatio), size, size }, // Ranch
-				{ (int) (1110 * scaleRatio), (int) (630 * scaleRatio), size, size }, // Hotel
 				{ (int) (845 * scaleRatio), (int) (490 * scaleRatio), size, size }, // Bank
-				{ (int) (755 * scaleRatio), (int) (670 * scaleRatio), size, size }, // Church
-				{ (int) (300 * scaleRatio), (int) (830 * scaleRatio), size, size }, // Secret Hideout
+				{ (int) (730 * scaleRatio), (int) (220 * scaleRatio), size, size }, // Saloon
+				{ (int) (1070 * scaleRatio), (int) (325 * scaleRatio), size, size }, // Trailers
 				{ (int) (80 * scaleRatio), (int) (470 * scaleRatio), size, size } // Casting Office
 		};
 		Board board = BoardManager.board;
@@ -215,8 +216,6 @@ public class GUIManager extends JFrame {
 					}
 				});
 
-				// System.out.println("JLayeredPane.PALETTE_LAYER: " +
-				// JLayeredPane.PALETTE_LAYER);
 				layeredFrame.add(playerSpace, JLayeredPane.PALETTE_LAYER);
 				spaces.put(nameSet[i], playerSpace);
 
@@ -647,6 +646,23 @@ public class GUIManager extends JFrame {
 				JLabel newSpaceLabel = spaces.get(newSceneName);
 				players[GameManager.getActvPlyrIdx()].setBounds(newSpaceLabel.getBounds());
 
+				Player player = GameManager.getActivePlayer();
+				Space currSpace = player.currLocation;
+				if(currSpace instanceof Scene){
+					System.out.println("Moved to a scene. Setting the card to it's front");
+					Scene currScene = (Scene) currSpace;
+					Card workingCard = currScene.getCard();
+					String spaceName = currSpace.name.toLowerCase();
+					JLabel currCardLabel = cards.get(spaceName);
+					System.out.println("cards.get(" + spaceName + "): " + currCardLabel);
+
+					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
+					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio), (int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
+					//imgIcn.setImage(img);
+					currCardLabel.setIcon(new ImageIcon(img));
+
+				}
+
 				System.out.println("Space after: " + GameManager.getActivePlayer().currLocation.name);
 				playerStats();
 
@@ -659,6 +675,23 @@ public class GUIManager extends JFrame {
 				GameManager.makeMoved();
 				JLabel newSpaceLabel = spaces.get(newSceneName);
 				players[GameManager.getActvPlyrIdx()].setBounds(newSpaceLabel.getBounds());
+
+				Player player = GameManager.getActivePlayer();
+				Space currSpace = player.currLocation;
+				if(currSpace instanceof Scene){
+					System.out.println("Moved to a scene. Setting the card to it's front");
+					Scene currScene = (Scene) currSpace;
+					Card workingCard = currScene.getCard();
+					String spaceName = currSpace.name.toLowerCase();
+					JLabel currCardLabel = cards.get(spaceName);
+					System.out.println("cards.get(" + spaceName + "): " + currCardLabel);
+					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
+					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio), (int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
+					//imgIcn.setImage(img);
+					currCardLabel.setIcon(new ImageIcon(img));
+
+				}
+
 				playerStats();
 
 			} else if (e.getSource() == neighborButt3) {
@@ -670,6 +703,23 @@ public class GUIManager extends JFrame {
 				GameManager.makeMoved();
 				JLabel newSpaceLabel = spaces.get(newSceneName);
 				players[GameManager.getActvPlyrIdx()].setBounds(newSpaceLabel.getBounds());
+
+				Player player = GameManager.getActivePlayer();
+				Space currSpace = player.currLocation;
+				if(currSpace instanceof Scene){
+					System.out.println("Moved to a scene. Setting the card to it's front");
+					Scene currScene = (Scene) currSpace;
+					Card workingCard = currScene.getCard();
+					String spaceName = currSpace.name.toLowerCase();
+					JLabel currCardLabel = cards.get(spaceName);
+					System.out.println("cards.get(" + spaceName + "): " + currCardLabel);
+					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
+					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio), (int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
+					//imgIcn.setImage(img);
+					currCardLabel.setIcon(new ImageIcon(img));
+
+				}
+
 				playerStats();
 
 			} else if (e.getSource() == neighborButt4) {
@@ -681,6 +731,23 @@ public class GUIManager extends JFrame {
 				GameManager.makeMoved();
 				JLabel newSpaceLabel = spaces.get(newSceneName);
 				players[GameManager.getActvPlyrIdx()].setBounds(newSpaceLabel.getBounds());
+
+				Player player = GameManager.getActivePlayer();
+				Space currSpace = player.currLocation;
+				if(currSpace instanceof Scene){
+					System.out.println("Moved to a scene. Setting the card to it's front");
+					Scene currScene = (Scene) currSpace;
+					Card workingCard = currScene.getCard();
+					String spaceName = currSpace.name.toLowerCase();
+					JLabel currCardLabel = cards.get(spaceName);
+					System.out.println("cards.get(" + spaceName + "): " + currCardLabel);
+					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
+					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio), (int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
+					//imgIcn.setImage(img);
+					currCardLabel.setIcon(new ImageIcon(img));
+
+				}
+
 				playerStats();
 
 			} else if (e.getSource() instanceof JButton) {
