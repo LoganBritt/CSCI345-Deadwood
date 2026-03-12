@@ -1,8 +1,8 @@
  // This program creates a customized version of the GUI for Deadwood
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 import java.util.*;
+import javax.swing.*;
 
 public class GUIManager extends JFrame{
 	JFrame frame;
@@ -113,9 +113,13 @@ public class GUIManager extends JFrame{
 				Scene workingScene = (Scene) workingSpace;
 				Card workingCard = workingScene.getCard();
 				retCards[idx] = new JLabel();
-				retCards[idx].setIcon(new ImageIcon("graphics/Card/" + workingCard.getBackground()));
-				//retCards[idx].setIcon(new ImageIcon("graphics/cardback.png"));
-				retCards[idx].setBounds(workingSpace.getX(), workingSpace.getY(), workingSpace.getW(), workingSpace.getH());
+				
+				//retCards[idx].setIcon(new ImageIcon("graphics/Card/" + workingCard.getBackground()));
+				retCards[idx].setIcon(new ImageIcon("graphics/cardback.png"));
+				ImageIcon icon = (ImageIcon) retCards[idx].getIcon();
+				Image scaledIcon = icon.getImage().getScaledInstance((int)(icon.getIconWidth()*scaleRatio), (int)(icon.getIconHeight()*scaleRatio), Image.SCALE_SMOOTH);
+				retCards[idx].setIcon(new ImageIcon(scaledIcon));
+				retCards[idx].setBounds((int) (workingSpace.getX()* scaleRatio), (int) (workingSpace.getY()*scaleRatio), (int) (workingSpace.getW()*scaleRatio), (int) (workingSpace.getH()*scaleRatio));
 				retCards[idx].setOpaque(true);
 				retCards[idx].setVisible(true);
 				layeredFrame.add(retCards[idx], JLayeredPane.PALETTE_LAYER);
@@ -353,23 +357,6 @@ public class GUIManager extends JFrame{
 		pane.add(newBoardLabel, 0);
 		System.out.println("Board label initialized\n");
 		return newBoardLabel;
-	}
-
-	//Creates the menu object for the GUI on initialization
-	private JLabel initMenu(JLayeredPane pane){
-		int menuWidth = 200;
-		int menuHeight = 40;
-		int boardDist = 70;
-		int topDist = 10;
-
-		System.out.println("Initializing Button Menu");
-		JLabel menu = new JLabel("Menu");
-		menu.setBounds(boardImage.getIconWidth() + boardDist, topDist, menuWidth, menuHeight);
-		menu.setForeground(Color.WHITE);
-		menu.setFont(new Font("Palatino Linotype", Font.PLAIN, 30));
-		pane.add(menu, 1);
-		System.out.println("Button Menu Initialized\n");
-		return menu;
 	}
 
 	//Creates a button object for the GUI on initialization
