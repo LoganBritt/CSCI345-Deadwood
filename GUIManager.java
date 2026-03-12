@@ -9,7 +9,7 @@ public class GUIManager extends JFrame {
 	JFrame frame;
 	JLayeredPane layeredFrame;
 	JLabel boardLabel;
-	double scaleRatio = 1;
+	double scaleRatio = 0.85;
 	ImageIcon boardImage = new ImageIcon("graphics/board.jpg");
 	Image scaledBoard = boardImage.getImage().getScaledInstance((int) (boardImage.getIconWidth() * scaleRatio),
 			(int) (boardImage.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
@@ -36,9 +36,14 @@ public class GUIManager extends JFrame {
 	JLabel locationLabel;
 	JLabel roleLabel;
 
+<<<<<<< HEAD
 	Hashtable<JPanel, Role> labelToRole = new Hashtable<>();
+=======
+	// JLabel[] cards = new JLabel[10];
+>>>>>>> 3e8f9fbe1930d882f42a5546eca5a4e98dfeb02d
 	Hashtable<String, JLabel> spaces = new Hashtable<>();
 	Hashtable<String, JLabel> cards = new Hashtable<>();
+	Hashtable<String, JLabel[]> shots = new Hashtable<>();
 	JLabel[] players;
 	String[] nameSet = new String[] {
 			"train station",
@@ -117,12 +122,13 @@ public class GUIManager extends JFrame {
 
 		neighborMenu = initNeighborMenu(layeredFrame);
 		cards = initCards();
+		shots = initShots();
 		System.out.println("Initialization Complete. Showing GUI\n");
 	}
 
 	// initilizes the cards and their roles
 	private Hashtable<String, JLabel> initCards() {
-		Hashtable <String, JLabel> retTable = new Hashtable<>();
+		Hashtable<String, JLabel> retTable = new Hashtable<>();
 		Board board = BoardManager.board;
 		ArrayList<Space> spaceList = board.getSpaceList();
 		int idx = 0;
@@ -134,7 +140,8 @@ public class GUIManager extends JFrame {
 				Card workingCard = workingScene.getCard();
 				JLabel retLabel = new JLabel();
 				System.out.println("Space: " + workingSpace.name);
-				//retCards[idx].setIcon(new ImageIcon("graphics/Card/" + workingCard.getBackground()));
+				// retCards[idx].setIcon(new ImageIcon("graphics/Card/" +
+				// workingCard.getBackground()));
 				retLabel.setIcon(new ImageIcon("graphics/cardback.png"));
 				ImageIcon icon = (ImageIcon) retLabel.getIcon();
 				Image scaledIcon = icon.getImage().getScaledInstance((int) (icon.getIconWidth() * scaleRatio),
@@ -155,6 +162,52 @@ public class GUIManager extends JFrame {
 		return retTable;
 	}
 
+	// initilizes the shot counter sprites
+	private Hashtable<String, JLabel[]> initShots() {
+		Hashtable<String, JLabel[]> shotTable = new Hashtable<>();
+		Board board = BoardManager.board;
+		ArrayList<Space> spaceList = board.getSpaceList();
+		int index = 0;
+		for (int i = 0; i < spaceList.size(); i++) {
+			if (spaceList.get(i) instanceof Scene) {
+				Space workingSpace = spaceList.get(i);
+				Scene workingScene = (Scene) workingSpace;
+
+				int shotLoc[][] = new int[3][4];
+				shotLoc = workingScene.getShotLocation();
+				JLabel arr[] = new JLabel[4];
+
+				for (int j = 0; j < shotLoc.length; j++) {
+					if (shotLoc[j] != null) {
+						int x = shotLoc[j][0];
+						int y = shotLoc[j][1];
+						int h = shotLoc[j][2];
+						int w = shotLoc[j][3];
+
+						JLabel shot = new JLabel();
+						shot.setIcon(new ImageIcon("graphics/shot.png"));
+						ImageIcon icon = (ImageIcon) shot.getIcon();
+						Image scaled = icon.getImage().getScaledInstance((int) (icon.getIconWidth() * scaleRatio),
+								(int) (icon.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
+						shot.setIcon(new ImageIcon(scaled));
+						shot.setBounds((int) (x * scaleRatio), (int) (y * scaleRatio), (int) (w * scaleRatio),
+								(int) (h * scaleRatio));
+						shot.setVisible(true);
+						layeredFrame.add(shot, JLayeredPane.PALETTE_LAYER);
+						arr[j] = shot;
+
+					}
+				}
+				shotTable.put(nameSet[index], arr);
+				index++;
+
+			}
+		}
+		layeredFrame.revalidate();
+		layeredFrame.repaint();
+		return shotTable;
+	}
+
 	// Initilizes the players and their Sprites
 	private JLabel[] initPlayers() {
 		Player[] players = GameManager.getPlayerList();
@@ -165,7 +218,7 @@ public class GUIManager extends JFrame {
 			System.out.println("Making new player sprite");
 			JLabel start = spaces.get("trailer");
 			JLabel player = new JLabel();
-			System.out.println("graphics/Dice/" + playerDiceOrder[i] + players[i].rank + ".png");
+			//System.out.println("graphics/Dice/" + playerDiceOrder[i] + players[i].rank + ".png");
 			ImageIcon newImage = new ImageIcon("graphics/Dice/" + playerDiceOrder[i] + players[i].rank + ".png");
 			Image scaledImage = newImage.getImage().getScaledInstance((int) (newImage.getIconWidth() * scaleRatio),
 					(int) (newImage.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
@@ -653,7 +706,7 @@ public class GUIManager extends JFrame {
 
 				Player player = GameManager.getActivePlayer();
 				Space currSpace = player.currLocation;
-				if(currSpace instanceof Scene){
+				if (currSpace instanceof Scene) {
 					System.out.println("Moved to a scene. Setting the card to it's front");
 					Scene currScene = (Scene) currSpace;
 					Card workingCard = currScene.getCard();
@@ -662,8 +715,9 @@ public class GUIManager extends JFrame {
 					System.out.println("cards.get(" + spaceName + "): " + currCardLabel);
 
 					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
-					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio), (int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
-					//imgIcn.setImage(img);
+					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio),
+							(int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
+					// imgIcn.setImage(img);
 					currCardLabel.setIcon(new ImageIcon(img));
 
 				}
@@ -683,7 +737,7 @@ public class GUIManager extends JFrame {
 
 				Player player = GameManager.getActivePlayer();
 				Space currSpace = player.currLocation;
-				if(currSpace instanceof Scene){
+				if (currSpace instanceof Scene) {
 					System.out.println("Moved to a scene. Setting the card to it's front");
 					Scene currScene = (Scene) currSpace;
 					Card workingCard = currScene.getCard();
@@ -691,8 +745,9 @@ public class GUIManager extends JFrame {
 					JLabel currCardLabel = cards.get(spaceName);
 					System.out.println("cards.get(" + spaceName + "): " + currCardLabel);
 					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
-					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio), (int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
-					//imgIcn.setImage(img);
+					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio),
+							(int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
+					// imgIcn.setImage(img);
 					currCardLabel.setIcon(new ImageIcon(img));
 
 				}
@@ -711,7 +766,7 @@ public class GUIManager extends JFrame {
 
 				Player player = GameManager.getActivePlayer();
 				Space currSpace = player.currLocation;
-				if(currSpace instanceof Scene){
+				if (currSpace instanceof Scene) {
 					System.out.println("Moved to a scene. Setting the card to it's front");
 					Scene currScene = (Scene) currSpace;
 					Card workingCard = currScene.getCard();
@@ -719,8 +774,9 @@ public class GUIManager extends JFrame {
 					JLabel currCardLabel = cards.get(spaceName);
 					System.out.println("cards.get(" + spaceName + "): " + currCardLabel);
 					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
-					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio), (int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
-					//imgIcn.setImage(img);
+					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio),
+							(int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
+					// imgIcn.setImage(img);
 					currCardLabel.setIcon(new ImageIcon(img));
 
 				}
@@ -739,7 +795,7 @@ public class GUIManager extends JFrame {
 
 				Player player = GameManager.getActivePlayer();
 				Space currSpace = player.currLocation;
-				if(currSpace instanceof Scene){
+				if (currSpace instanceof Scene) {
 					System.out.println("Moved to a scene. Setting the card to it's front");
 					Scene currScene = (Scene) currSpace;
 					Card workingCard = currScene.getCard();
@@ -747,8 +803,9 @@ public class GUIManager extends JFrame {
 					JLabel currCardLabel = cards.get(spaceName);
 					System.out.println("cards.get(" + spaceName + "): " + currCardLabel);
 					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
-					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio), (int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
-					//imgIcn.setImage(img);
+					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio),
+							(int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
+					// imgIcn.setImage(img);
 					currCardLabel.setIcon(new ImageIcon(img));
 
 				}
