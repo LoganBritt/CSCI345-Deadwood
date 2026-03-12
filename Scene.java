@@ -99,6 +99,10 @@ public class Scene extends Space {
 			}
 		}
 	}
+
+	public int[][] getShotLocation(){
+		return takeAreasList;
+	}
 }
 
 
