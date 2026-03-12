@@ -91,8 +91,7 @@ public class GUIManager extends JFrame {
 		}
 
 		in = JOptionPane.showInputDialog("Select Scale");
-	        int scaleInput = Integer.parseInt(in);
-		scaleRatio = (double) scaleInput;
+	        scaleRatio = Double.parseDouble(in);
 
 		players = new JLabel[playerNumberInput];
 		GameManager.setPlayerAmt(playerNumberInput);
