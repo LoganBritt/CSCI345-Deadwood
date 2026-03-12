@@ -92,7 +92,7 @@ public class GUIManager extends JFrame {
 
 		in = JOptionPane.showInputDialog("Select Scale");
 	        int scaleInput = Integer.parseInt(in);
-		scaleRatio = scaleInput;
+		scaleRatio = (double) scaleInput;
 
 		players = new JLabel[playerNumberInput];
 		GameManager.setPlayerAmt(playerNumberInput);
@@ -446,6 +446,8 @@ public class GUIManager extends JFrame {
 		} else {
 			roleLabel.setText("Role: Not Working");
 		}
+	}
+
 
 	// initilizes the Neighbor Menu
 	private JLayeredPane initNeighborMenu(JLayeredPane basePane) {
