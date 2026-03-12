@@ -114,8 +114,8 @@ public class GUIManager extends JFrame{
 				Card workingCard = workingScene.getCard();
 				retCards[idx] = new JLabel();
 				
-				//retCards[idx].setIcon(new ImageIcon("graphics/Card/" + workingCard.getBackground()));
-				retCards[idx].setIcon(new ImageIcon("graphics/cardback.png"));
+				retCards[idx].setIcon(new ImageIcon("graphics/Card/" + workingCard.getBackground()));
+				//retCards[idx].setIcon(new ImageIcon("graphics/cardback.png"));
 				ImageIcon icon = (ImageIcon) retCards[idx].getIcon();
 				Image scaledIcon = icon.getImage().getScaledInstance((int)(icon.getIconWidth()*scaleRatio), (int)(icon.getIconHeight()*scaleRatio), Image.SCALE_SMOOTH);
 				retCards[idx].setIcon(new ImageIcon(scaledIcon));
@@ -257,10 +257,33 @@ public class GUIManager extends JFrame{
 					for(int j = 0; j < cardRoles.length; j++){
 						//For each role on the card
 						if(cardRoles[j] != null){
-							int xPos = cardRoles[j].getX();
-							int yPos = cardRoles[j].getY();
-							int height = cardRoles[j].getWidth();
-							int width = cardRoles[j].getHeight();
+							int xPos = workingScene.getX() + cardRoles[j].getX();
+							int yPos = workingScene.getY() + cardRoles[j].getY();
+							int width = cardRoles[j].getWidth();
+							int height = cardRoles[j].getHeight();
+
+							JPanel cardRole = new JPanel();
+							cardRole.setBounds(xPos, yPos, width, height);
+							//cardRole.setBorder(BorderFactory.createLineBorder(Color.RED));
+							cardRole.setOpaque(false);
+							cardRole.setBackground(Color.ORANGE);
+
+							cardRole.addMouseListener(new MouseAdapter(){
+								@Override
+								public void mouseEntered(MouseEvent e){
+									System.out.println("Entered cardRole");
+									cardRole.setOpaque(true);
+									cardRole.repaint();
+								}
+								@Override
+								public void mouseExited(MouseEvent e){
+									System.out.println("Exited cardRole");
+									cardRole.setOpaque(false);
+									cardRole.repaint();
+								}
+
+							});
+							layeredFrame.add(cardRole, JLayeredPane.PALETTE_LAYER + 10, 0);
 						}						
 					}
 				}
