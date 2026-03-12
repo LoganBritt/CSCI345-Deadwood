@@ -140,7 +140,8 @@ public class GUIManager extends JFrame{
 			JLabel player = new JLabel();
 			System.out.println("graphics/Dice/" + playerDiceOrder[i]  + players[i].rank + ".png");
 			ImageIcon newImage = new ImageIcon("graphics/Dice/" + playerDiceOrder[i] + players[i].rank + ".png");
-			player.setIcon(newImage);
+			Image scaledImage = newImage.getImage().getScaledInstance((int)(newImage.getIconWidth()*scaleRatio), (int)(newImage.getIconHeight()*scaleRatio), Image.SCALE_SMOOTH);
+			player.setIcon(new ImageIcon(scaledImage));
 			player.setBounds(start.getBounds());
 			player.setOpaque(true);
 			player.setVisible(true);
@@ -151,7 +152,7 @@ public class GUIManager extends JFrame{
 	}
 
 	private void initScreenAreas() {
-		int size = 40;
+		int size = 33;
 		int[][] statSet = new int[][]{
 			{285,  150, size, size}, //Jail
 			{20,   210, size, size}, //Train Station
