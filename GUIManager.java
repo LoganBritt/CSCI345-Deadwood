@@ -233,7 +233,7 @@ public class GUIManager extends JFrame{
 		
 					Card workingCard = workingScene.getCard();
 					JPanel cardPanel = new JPanel();
-					cardPanel.setBounds(workingScene.getX(), workingScene.getY(), workingScene.getW(), workingScene.getH());
+					cardPanel.setBounds((int) (workingScene.getX() * scaleRatio), (int) (workingScene.getY() * scaleRatio), (int) (workingScene.getW() * scaleRatio), (int) (workingScene.getH() * scaleRatio));
 					cardPanel.setOpaque(false);
 					cardPanel.setBackground(Color.BLUE);
 
