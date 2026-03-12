@@ -35,12 +35,9 @@ public class GUIManager extends JFrame {
 	JLabel rehearseTokensLabel;
 	JLabel locationLabel;
 	JLabel roleLabel;
-
-<<<<<<< HEAD
 	Hashtable<JPanel, Role> labelToRole = new Hashtable<>();
-=======
-	// JLabel[] cards = new JLabel[10];
->>>>>>> 3e8f9fbe1930d882f42a5546eca5a4e98dfeb02d
+
+
 	Hashtable<String, JLabel> spaces = new Hashtable<>();
 	Hashtable<String, JLabel> cards = new Hashtable<>();
 	Hashtable<String, JLabel[]> shots = new Hashtable<>();
@@ -449,7 +446,6 @@ public class GUIManager extends JFrame {
 		} else {
 			roleLabel.setText("Role: Not Working");
 		}
-	}
 
 	// initilizes the Neighbor Menu
 	private JLayeredPane initNeighborMenu(JLayeredPane basePane) {
