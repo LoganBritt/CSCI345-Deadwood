@@ -152,20 +152,20 @@ public class GUIManager extends JFrame{
 	}
 
 	private void initScreenAreas() {
-		int size = 33;
+		int size = (int) (40 * scaleRatio);
 		int[][] statSet = new int[][]{
-			{285,  150, size, size}, //Jail
-			{20,   210, size, size}, //Train Station
-			{1100, 180, size, size}, //Main Street
-			{1070, 325, size, size}, //Trailers
-			{730,  220, size, size}, //Saloon
-			{300,  380, size, size}, //General Store
-			{285,  635, size, size}, //Ranch
-			{1110, 630, size, size}, //Hotel
-			{845,  490, size, size}, //Bank
-			{755,  670, size, size}, //Church
-			{300,  830, size, size}, //Secret Hideout
-			{80,   470, size, size}  //Casting Office
+			{(int) (285 * scaleRatio), (int) (150 * scaleRatio), size, size}, //Jail
+			{(int) (20 * scaleRatio), (int) (210 * scaleRatio), size, size}, //Train Station
+			{(int) (1100 * scaleRatio), (int) (180 * scaleRatio), size, size}, //Main Street
+			{(int) (1070 * scaleRatio), (int) (325 * scaleRatio), size, size}, //Trailers
+			{(int) (730 * scaleRatio), (int) (220 * scaleRatio), size, size}, //Saloon
+			{(int) (300 * scaleRatio), (int) (380 * scaleRatio), size, size}, //General Store
+			{(int) (285 * scaleRatio), (int) (635 * scaleRatio), size, size}, //Ranch
+			{(int) (1110 * scaleRatio), (int) (630 * scaleRatio), size, size}, //Hotel
+			{(int) (845 * scaleRatio), (int) (490 * scaleRatio), size, size}, //Bank
+			{(int) (755 * scaleRatio), (int) (670 *scaleRatio), size, size}, //Church
+			{(int) (300 * scaleRatio), (int) (830 * scaleRatio), size, size}, //Secret Hideout
+			{(int) (80 * scaleRatio), (int) (470 * scaleRatio), size, size}  //Casting Office
 		};
 		Board board = BoardManager.board;
 		ArrayList<Space> spaceList = board.getSpaceList();
@@ -205,7 +205,7 @@ public class GUIManager extends JFrame{
 							int height = roleSet[j].getWidth();
 							int width = roleSet[j].getHeight();
 							JPanel rolePanel = new JPanel();
-		    					rolePanel.setBounds(xPos, yPos, width, height);
+		    					rolePanel.setBounds((int) (xPos * scaleRatio), (int) (yPos * scaleRatio), (int) (width * scaleRatio), (int) (height * scaleRatio));
 		    					rolePanel.setOpaque(false); // starts transparent
 		    					rolePanel.setBackground(Color.ORANGE);
 		
@@ -264,7 +264,7 @@ public class GUIManager extends JFrame{
 							int height = cardRoles[j].getHeight();
 
 							JPanel cardRole = new JPanel();
-							cardRole.setBounds(xPos, yPos, width, height);
+							cardRole.setBounds((int) (xPos * scaleRatio), (int) (yPos * scaleRatio), (int) (width * scaleRatio), (int) (height * scaleRatio));
 							//cardRole.setBorder(BorderFactory.createLineBorder(Color.RED));
 							cardRole.setOpaque(false);
 							cardRole.setBackground(Color.ORANGE);
