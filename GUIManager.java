@@ -9,7 +9,7 @@ public class GUIManager extends JFrame {
 	JFrame frame;
 	JLayeredPane layeredFrame;
 	JLabel boardLabel;
-	double scaleRatio = 1;
+	double scaleRatio = 0.85;
 	ImageIcon boardImage = new ImageIcon("graphics/board.jpg");
 	Image scaledBoard = boardImage.getImage().getScaledInstance((int) (boardImage.getIconWidth() * scaleRatio),
 			(int) (boardImage.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
@@ -165,30 +165,34 @@ public class GUIManager extends JFrame {
 				Space workingSpace = spaceList.get(i);
 				Scene workingScene = (Scene) workingSpace;
 
-				int shotLoc[][] = workingScene.getShotLocation();
+				int shotLoc[][] = new int[3][4];
+				shotLoc = workingScene.getShotLocation();
 				JLabel arr[] = new JLabel[4];
 
 				for (int j = 0; j < shotLoc.length; j++) {
-					int x = shotLoc[j][0];
-					int y = shotLoc[j][1];
-					int h = shotLoc[j][2];
-					int w = shotLoc[j][3];
+					if (shotLoc[j] != null) {
+						int x = shotLoc[j][0];
+						int y = shotLoc[j][1];
+						int h = shotLoc[j][2];
+						int w = shotLoc[j][3];
 
-					JLabel shot = new JLabel();
-					shot.setIcon(new ImageIcon("graphics/shot.png"));
-					ImageIcon icon = (ImageIcon) shot.getIcon();
-					Image scaled = icon.getImage().getScaledInstance((int) (icon.getIconWidth() * scaleRatio),
-							(int) (icon.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
-					shot.setIcon(new ImageIcon(scaled));
-					shot.setBounds((int) (x * scaleRatio), (int) (y * scaleRatio), (int) (w * scaleRatio),
-							(int) (h * scaleRatio));
-					shot.setVisible(true);
-					layeredFrame.add(shot, JLayeredPane.PALETTE_LAYER);
-					arr[j] = shot;
+						JLabel shot = new JLabel();
+						shot.setIcon(new ImageIcon("graphics/shot.png"));
+						ImageIcon icon = (ImageIcon) shot.getIcon();
+						Image scaled = icon.getImage().getScaledInstance((int) (icon.getIconWidth() * scaleRatio),
+								(int) (icon.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
+						shot.setIcon(new ImageIcon(scaled));
+						shot.setBounds((int) (x * scaleRatio), (int) (y * scaleRatio), (int) (w * scaleRatio),
+								(int) (h * scaleRatio));
+						shot.setVisible(true);
+						layeredFrame.add(shot, JLayeredPane.PALETTE_LAYER);
+						arr[j] = shot;
 
+					}
 				}
 				shotTable.put(nameSet[index], arr);
-				index ++;
+				index++;
+
 			}
 		}
 		layeredFrame.revalidate();
@@ -206,7 +210,7 @@ public class GUIManager extends JFrame {
 			System.out.println("Making new player sprite");
 			JLabel start = spaces.get("trailer");
 			JLabel player = new JLabel();
-			System.out.println("graphics/Dice/" + playerDiceOrder[i] + players[i].rank + ".png");
+			//System.out.println("graphics/Dice/" + playerDiceOrder[i] + players[i].rank + ".png");
 			ImageIcon newImage = new ImageIcon("graphics/Dice/" + playerDiceOrder[i] + players[i].rank + ".png");
 			Image scaledImage = newImage.getImage().getScaledInstance((int) (newImage.getIconWidth() * scaleRatio),
 					(int) (newImage.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
