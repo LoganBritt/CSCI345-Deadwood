@@ -36,7 +36,7 @@ public class GUIManager extends JFrame {
 	JLabel locationLabel;
 	JLabel roleLabel;
 
-	//JLabel[] cards = new JLabel[10];
+	Hashtable<JPanel, Role> labelToRole = new Hashtable<>();
 	Hashtable<String, JLabel> spaces = new Hashtable<>();
 	Hashtable<String, JLabel> cards = new Hashtable<>();
 	JLabel[] players;
@@ -87,6 +87,10 @@ public class GUIManager extends JFrame {
 			}
 
 		}
+
+		in = JOptionPane.showInputDialog("Select Scale");
+	        int scaleInput = Integer.parseInt(in);
+		scaleRatio = scaleInput;
 
 		players = new JLabel[playerNumberInput];
 		GameManager.setPlayerAmt(playerNumberInput);
@@ -252,6 +256,7 @@ public class GUIManager extends JFrame {
 									rolePanel.repaint();
 								}
 							});
+							labelToRole.put(rolePanel, roleSet[j]);
 
 							// Add to layered pane
 							layeredFrame.add(rolePanel, JLayeredPane.PALETTE_LAYER);
@@ -316,7 +321,7 @@ public class GUIManager extends JFrame {
 								}
 
 							});
-							layeredFrame.add(cardRole, JLayeredPane.PALETTE_LAYER + 10, 0);
+							labelToRole.put(cardRole, cardRoles[j]);
 						}
 					}
 				}
