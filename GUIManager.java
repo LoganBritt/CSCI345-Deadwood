@@ -338,33 +338,33 @@ public class GUIManager extends JFrame {
 		pane.setBackground(Color.GRAY);
 		pane.setOpaque(true);
 
-		//Title creation
+		// Title creation
 		statsTitle = new JLabel();
 		statsTitle.setBounds(50, 10, 160, 30);
 		statsTitle.setForeground(Color.WHITE);
 		statsTitle.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
 		pane.add(statsTitle, 1);
 
-		//Rank
+		// Rank
 		rankLabel = new JLabel();
 		rankLabel.setBounds(20, 50, 200, 20);
 		pane.add(rankLabel, 1);
 
-		//Dollars and Credits
+		// Dollars and Credits
 		dollarLabel = new JLabel();
 		dollarLabel.setBounds(20, 75, 200, 20);
 		pane.add(dollarLabel, 1);
-		
+
 		creditsLabel = new JLabel();
 		creditsLabel.setBounds(20, 100, 200, 20);
 		pane.add(creditsLabel, 1);
 
-		//Rehearsal Tokens
+		// Rehearsal Tokens
 		rehearseTokensLabel = new JLabel();
 		rehearseTokensLabel.setBounds(20, 125, 200, 20);
 		pane.add(rehearseTokensLabel, 1);
 
-		//Location and Role
+		// Location and Role
 		locationLabel = new JLabel();
 		locationLabel.setBounds(20, 150, 200, 20);
 		pane.add(locationLabel, 1);
@@ -377,20 +377,19 @@ public class GUIManager extends JFrame {
 		return pane;
 	}
 
-	//this method sets the information for the stats menu
-	public void playerStats(){
+	// this method sets the information for the stats menu
+	public void playerStats() {
 		Player p = GameManager.getActivePlayer();
-		statsTitle.setText("Player " + (GameManager.getActvPlyrIdx()+ 1) + " Stats");
+		statsTitle.setText("Player " + (GameManager.getActvPlyrIdx() + 1) + " Stats");
 		rankLabel.setText("Rank: " + p.rank);
 		dollarLabel.setText("Dollars: " + p.dollars);
-		creditsLabel.setText("Credits: " +p.credits);
+		creditsLabel.setText("Credits: " + p.credits);
 		rehearseTokensLabel.setText("Rehearsal Tokens: " + p.rehearseTokens);
 		locationLabel.setText("Current Location: " + p.currLocation.name);
 
-		if (p.currRole != null){
+		if (p.currRole != null) {
 			roleLabel.setText("Role: " + p.currRole);
-		}
-		else{
+		} else {
 			roleLabel.setText("Role: Not Working");
 		}
 	}
@@ -624,7 +623,7 @@ public class GUIManager extends JFrame {
 					mainMenu.setVisible(false);
 					neighborMenu.setVisible(true);
 					playerStats();
-					
+
 				}
 				playerStats();
 
