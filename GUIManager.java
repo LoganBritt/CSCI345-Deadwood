@@ -12,7 +12,7 @@ public class GUIManager extends JFrame {
 	double scaleRatio = 0.85;
 	ImageIcon boardImage = new ImageIcon("graphics/board.jpg");
 	Image scaledBoard = boardImage.getImage().getScaledInstance((int) (boardImage.getIconWidth() * scaleRatio),
-			(int) (boardImage.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
+		(int) (boardImage.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
 	JLabel menuLabel;
 	int buttCt = 4;
 	JButton actButt;
@@ -90,9 +90,6 @@ public class GUIManager extends JFrame {
 
 		}
 
-		in = JOptionPane.showInputDialog("Select Scale");
-	        scaleRatio = Double.parseDouble(in);
-
 		players = new JLabel[playerNumberInput];
 		GameManager.setPlayerAmt(playerNumberInput);
 		GameManager.createPlayers();
@@ -106,7 +103,9 @@ public class GUIManager extends JFrame {
 	private void initScreen() {
 		frame = initFrame();
 		layeredFrame = frame.getLayeredPane();
+
 		boardImage.setImage(scaledBoard);
+
 		boardLabel = initBoard(layeredFrame);
 		mainMenu = initMainMenu(layeredFrame);
 		statsMenu = initStatsMenu(layeredFrame);
@@ -323,7 +322,7 @@ public class GUIManager extends JFrame {
 					cardPanel.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseEntered(MouseEvent e) {
-							System.out.println("Entered card");
+							System.out.println("Entered card");add(cardRole, JLayeredPane.PALETTE_LAYER + 10, 0);
 							cardPanel.setOpaque(true);
 							cardPanel.repaint();
 						}
@@ -355,9 +354,6 @@ public class GUIManager extends JFrame {
 							cardRole.setBackground(Color.ORANGE);
 
 							cardRole.addMouseListener(new MouseAdapter() {
-								//@override
-								//public void
-
 								@Override
 								public void mouseEntered(MouseEvent e) {
 									System.out.println("Entered cardRole");
@@ -374,6 +370,7 @@ public class GUIManager extends JFrame {
 
 							});
 							labelToRole.put(cardRole, cardRoles[j]);
+							layeredFrame.add(cardRole, JLayeredPane.PALETTE_LAYER + 10, 0);
 						}
 					}
 				}
