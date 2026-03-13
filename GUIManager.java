@@ -12,7 +12,7 @@ public class GUIManager extends JFrame {
 	double scaleRatio = 0.85;
 	ImageIcon boardImage = new ImageIcon("graphics/board.jpg");
 	Image scaledBoard = boardImage.getImage().getScaledInstance((int) (boardImage.getIconWidth() * scaleRatio),
-		(int) (boardImage.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
+			(int) (boardImage.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
 	JLabel menuLabel;
 	int buttCt = 4;
 	JButton actButt;
@@ -36,7 +36,6 @@ public class GUIManager extends JFrame {
 	JLabel locationLabel;
 	JLabel roleLabel;
 	Hashtable<JPanel, Role> labelToRole = new Hashtable<>();
-
 
 	Hashtable<String, JLabel> spaces = new Hashtable<>();
 	Hashtable<String, JLabel> cards = new Hashtable<>();
@@ -213,7 +212,8 @@ public class GUIManager extends JFrame {
 			System.out.println("Making new player sprite");
 			JLabel start = spaces.get("trailer");
 			JLabel player = new JLabel();
-			//System.out.println("graphics/Dice/" + playerDiceOrder[i] + players[i].rank + ".png");
+			// System.out.println("graphics/Dice/" + playerDiceOrder[i] + players[i].rank +
+			// ".png");
 			ImageIcon newImage = new ImageIcon("graphics/Dice/" + playerDiceOrder[i] + players[i].rank + ".png");
 			Image scaledImage = newImage.getImage().getScaledInstance((int) (newImage.getIconWidth() * scaleRatio),
 					(int) (newImage.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
@@ -322,7 +322,7 @@ public class GUIManager extends JFrame {
 					cardPanel.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseEntered(MouseEvent e) {
-							System.out.println("Entered card");add(cardRole, JLayeredPane.PALETTE_LAYER + 10, 0);
+							System.out.println("Entered card");
 							cardPanel.setOpaque(true);
 							cardPanel.repaint();
 						}
@@ -349,7 +349,7 @@ public class GUIManager extends JFrame {
 							cardRole.setBounds((int) (xPos * scaleRatio), (int) (yPos * scaleRatio),
 									(int) (width * scaleRatio), (int) (height * scaleRatio));
 							// For Bounds testing --
-							//cardRole.setBorder(BorderFactory.createLineBorder(Color.RED));
+							// cardRole.setBorder(BorderFactory.createLineBorder(Color.RED));
 							cardRole.setOpaque(false);
 							cardRole.setBackground(Color.ORANGE);
 
@@ -446,7 +446,6 @@ public class GUIManager extends JFrame {
 			roleLabel.setText("Role: Not Working");
 		}
 	}
-
 
 	// initilizes the Neighbor Menu
 	private JLayeredPane initNeighborMenu(JLayeredPane basePane) {
