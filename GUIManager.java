@@ -322,7 +322,7 @@ public class GUIManager extends JFrame {
 					cardPanel.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseEntered(MouseEvent e) {
-							System.out.println("Entered card");add(cardRole, JLayeredPane.PALETTE_LAYER + 10, 0);
+							System.out.println("Entered card");
 							cardPanel.setOpaque(true);
 							cardPanel.repaint();
 						}
@@ -356,9 +356,9 @@ public class GUIManager extends JFrame {
 							cardRole.addMouseListener(new MouseAdapter() {
 								@Override
 								public void mouseEntered(MouseEvent e) {
-									System.out.println("Entered cardRole");
-									cardRole.setOpaque(true);
-									cardRole.repaint();
+										System.out.println("Entered cardRole");
+										cardRole.setOpaque(true);
+										cardRole.repaint();
 								}
 
 								@Override
