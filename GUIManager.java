@@ -9,9 +9,10 @@ public class GUIManager extends JFrame {
 	JFrame frame;
 	JLayeredPane layeredFrame;
 	JLabel boardLabel;
-	double scaleRatio;
+	double scaleRatio = 0.85;
 	ImageIcon boardImage = new ImageIcon("graphics/board.jpg");
-	
+	Image scaledBoard = boardImage.getImage().getScaledInstance((int) (boardImage.getIconWidth() * scaleRatio),
+			(int) (boardImage.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
 	JLabel menuLabel;
 	int buttCt = 4;
 	JButton actButt;
@@ -105,8 +106,6 @@ public class GUIManager extends JFrame {
 	private void initScreen() {
 		frame = initFrame();
 		layeredFrame = frame.getLayeredPane();
-		Image scaledBoard = boardImage.getImage().getScaledInstance((int) (boardImage.getIconWidth() * scaleRatio),
-			(int) (boardImage.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
 		boardImage.setImage(scaledBoard);
 		boardLabel = initBoard(layeredFrame);
 		mainMenu = initMainMenu(layeredFrame);
@@ -351,11 +350,14 @@ public class GUIManager extends JFrame {
 							cardRole.setBounds((int) (xPos * scaleRatio), (int) (yPos * scaleRatio),
 									(int) (width * scaleRatio), (int) (height * scaleRatio));
 							// For Bounds testing --
-							// cardRole.setBorder(BorderFactory.createLineBorder(Color.RED));
+							//cardRole.setBorder(BorderFactory.createLineBorder(Color.RED));
 							cardRole.setOpaque(false);
 							cardRole.setBackground(Color.ORANGE);
 
 							cardRole.addMouseListener(new MouseAdapter() {
+								//@override
+								//public void
+
 								@Override
 								public void mouseEntered(MouseEvent e) {
 									System.out.println("Entered cardRole");
