@@ -650,8 +650,8 @@ public class GUIManager extends JFrame {
 			} else if (e.getSource() == reherButt) {
 				// This is everything that will happen when the player tries to rehearse
 				System.out.println("Clicked Rehearse Button");
-				if (!GameManager.getPlayerActed()) {
-					Player player = GameManager.getActivePlayer();
+				Player player = GameManager.getActivePlayer();
+				if (!GameManager.getPlayerActed() && player.currRole != null) {
 					System.out.println(player.rehearseTokens);
 					player.rehearse();
 					System.out.println(player.rehearseTokens);
