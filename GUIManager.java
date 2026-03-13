@@ -224,8 +224,12 @@ public class GUIManager extends JFrame {
 			player.setBounds(start.getBounds());
 			player.setOpaque(true);
 			player.setVisible(true);
-			layeredFrame.add(player, JLayeredPane.PALETTE_LAYER);
+			layeredFrame.add(player, JLayeredPane.PALETTE_LAYER + 100,1);
 			retLabel[i] = player;
+		}
+
+		for(int i = 0; i < players.length; i++){
+			playerToLabel.put(players[i], retLabel[i]);
 		}
 		return retLabel;
 	}
@@ -294,6 +298,40 @@ public class GUIManager extends JFrame {
 							// Add mouse hover effect
 							rolePanel.addMouseListener(new MouseAdapter() {
 								@Override
+                                                                public void mouseClicked(MouseEvent e){
+                                                                        Role matchedRole = labelToRole.get(rolePanel);
+									if(GameManager.getPlayerMoved() || GameManager.getTookRole()) return;
+                                                                        if(matchedRole == null){
+                                                                                System.out.println("Didn't find the associated role");
+                                                                        }else{
+                                                                                System.out.println("Found role: " + matchedRole.getTitle());
+                                                                                Player player = GameManager.getActivePlayer();
+                                                                                Scene scene = (Scene) player.currLocation;
+                                                                                Role[] roleList = scene.getRoles();
+                                                                                boolean foundRole = false;
+                                                                                for(int k = 0; k < roleList.length; k++){
+                                                                                        if(roleList[k] != null && roleList[k].getTitle().equals(matchedRole.getTitle())){
+                                                                                                foundRole = true;
+                                                                                        }
+                                                                                }
+                                                                                if(player.currRole == null && matchedRole.canTake(player) && foundRole){
+                                                                                        System.out.println("Player can take this role");
+                                                                                        player.currRole = matchedRole;
+                                                                                        matchedRole.setPlayer(player);
+                                                                                        JLabel playerLabel = playerToLabel.get(player);
+                                                                                        playerLabel.setBounds(rolePanel.getBounds());
+											GameManager.makeTaken();
+                                                                                }else{
+                                                                                        System.out.println("Player cannot take this role");
+                                                                                }
+                                                                                System.out.println("player.currRole == null: " + player.currRole == null);
+                                                                                System.out.println("matchedRole.canTake(): " + matchedRole.canTake(player));
+                                                                                System.out.println("foundRole: " + foundRole);
+                                                                        }
+                                                                        playerStats();
+                                                                }
+
+								@Override
 								public void mouseEntered(MouseEvent e) {
 									System.out.println("Entered role");
 									rolePanel.setOpaque(true);
@@ -359,6 +397,7 @@ public class GUIManager extends JFrame {
 							cardRole.addMouseListener(new MouseAdapter() {
 								@Override
 								public void mouseClicked(MouseEvent e){
+									if(GameManager.getPlayerMoved() || GameManager.getTookRole()) return;
 									Role matchedRole = labelToRole.get(cardRole);
 									if(matchedRole == null){
 										System.out.println("Didn't find the associated role");
@@ -378,7 +417,8 @@ public class GUIManager extends JFrame {
 											System.out.println("Player can take this role");
 											player.currRole = matchedRole;
 											matchedRole.setPlayer(player);
-											//JLabel
+											JLabel playerLabel = playerToLabel.get(player);
+											playerLabel.setBounds(cardRole.getBounds());
 										}else{
 											System.out.println("Player cannot take this role");
 										}
@@ -567,6 +607,7 @@ public class GUIManager extends JFrame {
 
 		System.out.println("Initializing board label");
 		JLabel newBoardLabel = new JLabel();
+
 		newBoardLabel.setIcon(boardImage);
 		newBoardLabel.setBounds(xPos, yPos, boardWidth, boardHeight);
 		pane.add(newBoardLabel, 0);
