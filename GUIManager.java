@@ -304,15 +304,18 @@ public class GUIManager extends JFrame {
 							rolePanel.addMouseListener(new MouseAdapter() {
 								@Override
 								public void mouseClicked(MouseEvent e) {
+									Scene scene = (Scene) GameManager.getActivePlayer().currLocation;
 									Role matchedRole = labelToRole.get(rolePanel);
-									if (GameManager.getPlayerMoved() || GameManager.getTookRole())
+									if (GameManager.getPlayerMoved() || GameManager.getTookRole() || scene.getCard() == null){
+//										System.out.println(GameManager.getPlayerMoved() + ", " + GameManager.getTookRole() + ", " + scene.getCard() == null);
 										return;
+									}
+									System.out.println(GameManager.getPlayerMoved() + ", " + GameManager.getTookRole() + ", " + scene.getCard() == null);
 									if (matchedRole == null) {
 										System.out.println("Didn't find the associated role");
 									} else {
 										System.out.println("Found role: " + matchedRole.getTitle());
 										Player player = GameManager.getActivePlayer();
-										Scene scene = (Scene) player.currLocation;
 										Role[] roleList = scene.getRoles();
 										boolean foundRole = false;
 										for (int k = 0; k < roleList.length; k++) {
@@ -321,7 +324,7 @@ public class GUIManager extends JFrame {
 												foundRole = true;
 											}
 										}
-										if (player.currRole == null && matchedRole.canTake(player) && foundRole) {
+										if ((player.currRole == null) && matchedRole.canTake(player) && foundRole && (scene.getCard() != null)) {
 											System.out.println("Player can take this role");
 											player.currRole = matchedRole;
 											matchedRole.setPlayer(player);
@@ -331,9 +334,10 @@ public class GUIManager extends JFrame {
 										} else {
 											System.out.println("Player cannot take this role");
 										}
-										System.out.println("player.currRole == null: " + player.currRole == null);
+										System.out.println("player.currRole == null: " + (player.currRole == null));
 										System.out.println("matchedRole.canTake(): " + matchedRole.canTake(player));
 										System.out.println("foundRole: " + foundRole);
+										System.out.println("scene.getCard() != null: " + (scene.getCard() != null));
 									}
 									playerStats();
 								}
@@ -404,15 +408,16 @@ public class GUIManager extends JFrame {
 							cardRole.addMouseListener(new MouseAdapter() {
 								@Override
 								public void mouseClicked(MouseEvent e) {
-									if (GameManager.getPlayerMoved() || GameManager.getTookRole())
+									Scene scene = (Scene) GameManager.getActivePlayer().currLocation;
+									if (GameManager.getPlayerMoved() || GameManager.getTookRole() || scene.getCard() == null)
 										return;
+									System.out.println(GameManager.getPlayerMoved() + ", " + GameManager.getTookRole() + ", " + scene.getCard() == null);
 									Role matchedRole = labelToRole.get(cardRole);
 									if (matchedRole == null) {
 										System.out.println("Didn't find the associated role");
 									} else {
 										System.out.println("Found role: " + matchedRole.getTitle());
 										Player player = GameManager.getActivePlayer();
-										Scene scene = (Scene) player.currLocation;
 										Card sceneCard = scene.getCard();
 										Role[] roleList = sceneCard.getRoles();
 										boolean foundRole = false;
@@ -422,7 +427,7 @@ public class GUIManager extends JFrame {
 												foundRole = true;
 											}
 										}
-										if (player.currRole == null && matchedRole.canTake(player) && foundRole) {
+										if ((player.currRole == null) && matchedRole.canTake(player) && foundRole && (scene.getCard() != null)) {
 											System.out.println("Player can take this role");
 											player.currRole = matchedRole;
 											matchedRole.setPlayer(player);
@@ -431,9 +436,10 @@ public class GUIManager extends JFrame {
 										} else {
 											System.out.println("Player cannot take this role");
 										}
-										System.out.println("player.currRole == null: " + player.currRole == null);
+										System.out.println("player.currRole == null: " + (player.currRole == null));
 										System.out.println("matchedRole.canTake(): " + matchedRole.canTake(player));
 										System.out.println("foundRole: " + foundRole);
+										System.out.println("scene.getCard() != null: " + (scene.getCard() != null));
 									}
 									playerStats();
 								}
@@ -806,6 +812,7 @@ public class GUIManager extends JFrame {
 						playerLabel.setBounds(spot.getBounds());
 						player.currRole = null;
 						cards.get(sceneName).setVisible(false);
+						scene.setCard(null);
 					}
 				}
 
