@@ -41,6 +41,7 @@ public class GUIManager extends JFrame {
 	Hashtable<String, JLabel> spaces = new Hashtable<>();
 	Hashtable<String, JLabel> cards = new Hashtable<>();
 	Hashtable<String, JLabel[]> shots = new Hashtable<>();
+	Hashtable<Player, JLabel> playerToLabel = new Hashtable<>();
 	JLabel[] players;
 	String[] nameSet = new String[] {
 			"train station",
