@@ -44,7 +44,7 @@ public class Role {
 		if (playerHere != null) {
 			return false;
 		}
-		if (player.rank <= rank) {
+		if (player.rank < rank) {
 			return false;
 		}
 
