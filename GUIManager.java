@@ -356,9 +356,9 @@ public class GUIManager extends JFrame {
 							cardRole.addMouseListener(new MouseAdapter() {
 								@Override
 								public void mouseEntered(MouseEvent e) {
-									System.out.println("Entered cardRole");
-									cardRole.setOpaque(true);
-									cardRole.repaint();
+										System.out.println("Entered cardRole");
+										cardRole.setOpaque(true);
+										cardRole.repaint();
 								}
 
 								@Override
