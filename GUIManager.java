@@ -875,8 +875,8 @@ public class GUIManager extends JFrame {
 				Player p = GameManager.getActivePlayer();
 				int idx = upgradeButtons.indexOf(e.getSource());
 				boolean dollarCredit = ((idx % 2) == 0);
-				System.out.println(((idx % 5) + 1) + " :) " + dollarCredit);
-				p.upgrade(((idx % 5) + 1), dollarCredit);
+				System.out.println(((idx / 2) + 1) + " :) " + dollarCredit);
+				p.upgrade(((idx / 2 ) + 2 ), dollarCredit);
 				JLabel playerSpace = playerToLabel.get(p);
 				playerSpace.setIcon(new ImageIcon("graphics/Dice/" + playerDiceOrder[GameManager.getActvPlyrIdx()] + p.rank + ".png"));
 
