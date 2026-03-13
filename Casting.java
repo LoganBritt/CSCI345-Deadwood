@@ -49,4 +49,12 @@ public class Casting extends Space {
 		width = areaVals[3];
 	}
 
+	public int[] getDollarAmts(){
+		return moneyCostSet;
+	}
+
+	public int[] getCreditAmts(){
+		return creditCostSet;
+	}	
+
 }

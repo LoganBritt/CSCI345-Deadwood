@@ -24,9 +24,7 @@ public class GUIManager extends JFrame {
 
 	JButton upgradeButt;
 	JLayeredPane upgradeMenu;
-	JButton[][] upgradeButtons = new JButton[5][2];
-	int[] dollarCost = { 4, 10, 18, 28, 40 };
-	int[] creditCost = { 5, 10, 15, 20, 25 };
+	ArrayList<JButton> upgradeButtons = new ArrayList<>();
 
 	JButton neighborButt1;
 	JButton neighborButt2;
@@ -533,6 +531,7 @@ public class GUIManager extends JFrame {
 
 	// initilizes the Neighbor Menu
 	private JLayeredPane initNeighborMenu(JLayeredPane basePane) {
+
 		int width = 220;
 		int height = 260;
 		int x = boardImage.getIconWidth() + 5;
@@ -592,8 +591,11 @@ public class GUIManager extends JFrame {
 	}
 
 	private JLayeredPane initUpgradeMenu(JLayeredPane basePane) {
+		Casting c = (Casting) BoardManager.board.getSpaceByName("office");
+		int[] dollarCost = c.getDollarAmts();
+		int[] creditCost = c.getCreditAmts();
 
-		int x = boardImage.getIconWidth();
+		int x = boardImage.getIconWidth() + 5;
 		int y = 5;
 		int w = 220;
 		int h = 300;
@@ -602,10 +604,11 @@ public class GUIManager extends JFrame {
 		pane.setBounds(x, y, w, h);
 		pane.setOpaque(true);
 		pane.setBackground(Color.GRAY);
-		JLabel title = new JLabel("Upgrade Rank: ");
+		JLabel title = new JLabel("Upgrade Rank:");
 		title.setBounds(30, 10, 160, 30);
 		title.setForeground(Color.WHITE);
 		title.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
+		pane.add(title, 1);
 
 		for (int i = 0; i < 5; i++) {
 			int rank = (i + 2);
@@ -619,14 +622,14 @@ public class GUIManager extends JFrame {
 			dollarButt.addMouseListener(new boardMouseListener());
 			pane.add(dollarButt, 2);
 
-			JButton credButt = new JButton("Credits" + creditCost[i]);
+			JButton credButt = new JButton(creditCost[i] + "c");
 			credButt.setBounds(140, 50 + (i * 40), 60, 30);
 			credButt.setBackground(Color.LIGHT_GRAY);
 			credButt.addMouseListener(new boardMouseListener());
 			pane.add(credButt, 2);
 
-			upgradeButtons[i][0] = dollarButt;
-			upgradeButtons[i][1] = credButt;
+			upgradeButtons.add(dollarButt);
+			upgradeButtons.add(credButt);
 		}
 
 		JButton cancel = new JButton("Cancel");
@@ -861,6 +864,16 @@ public class GUIManager extends JFrame {
 				System.out.println("Clicked Upgrade Button");
 				mainMenu.setVisible(false);
 				upgradeMenu.setVisible(true);
+			} else if (upgradeButtons.contains(e.getSource())) {
+				Player p = GameManager.getActivePlayer();
+				int idx = upgradeButtons.indexOf(e.getSource());
+				boolean dollarCredit = ((idx % 2) == 0);
+				System.out.println(((idx % 5) + 1) + " :) " + dollarCredit);
+				p.upgrade(((idx % 5) + 1), dollarCredit);
+				JLabel playerSpace = playerToLabel.get(p);
+				playerSpace.setIcon(new ImageIcon("graphics/Dice/" + playerDiceOrder[GameManager.getActvPlyrIdx()] + p.rank + ".png"));
+
+				playerStats();
 
 			} else if (e.getSource() == neighborButt1) {
 				System.out.println("Selected to move to the first neighbor");
