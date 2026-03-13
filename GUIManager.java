@@ -9,10 +9,9 @@ public class GUIManager extends JFrame {
 	JFrame frame;
 	JLayeredPane layeredFrame;
 	JLabel boardLabel;
-	double scaleRatio = 0.85;
+	double scaleRatio;
 	ImageIcon boardImage = new ImageIcon("graphics/board.jpg");
-	Image scaledBoard = boardImage.getImage().getScaledInstance((int) (boardImage.getIconWidth() * scaleRatio),
-			(int) (boardImage.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
+	
 	JLabel menuLabel;
 	int buttCt = 4;
 	JButton actButt;
@@ -106,6 +105,8 @@ public class GUIManager extends JFrame {
 	private void initScreen() {
 		frame = initFrame();
 		layeredFrame = frame.getLayeredPane();
+		Image scaledBoard = boardImage.getImage().getScaledInstance((int) (boardImage.getIconWidth() * scaleRatio),
+			(int) (boardImage.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
 		boardImage.setImage(scaledBoard);
 		boardLabel = initBoard(layeredFrame);
 		mainMenu = initMainMenu(layeredFrame);
