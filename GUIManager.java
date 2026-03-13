@@ -298,8 +298,8 @@ public class GUIManager extends JFrame {
 							// Add mouse hover effect
 							rolePanel.addMouseListener(new MouseAdapter() {
 								@Override
-                                                                public void mouseClicked(MouseEvent e){
-                                                                        Role matchedRole = labelToRole.get(rolePanel);
+                                    public void mouseClicked(MouseEvent e){
+                                                                    Role matchedRole = labelToRole.get(rolePanel);
 									if(GameManager.getPlayerMoved() || GameManager.getTookRole()) return;
                                                                         if(matchedRole == null){
                                                                                 System.out.println("Didn't find the associated role");
@@ -726,9 +726,30 @@ public class GUIManager extends JFrame {
 	class boardMouseListener implements MouseListener {
 		public void mouseClicked(MouseEvent e) {
 			if (e.getSource() == actButt) {
-				// This is everything that will happen when the player tries to act
-				GameManager.getActivePlayer().act(true);
 				System.out.println("Clicked Act Button");
+				Player player = GameManager.getActivePlayer();
+				Scene scene = (Scene) player.currLocation;
+				// This is everything that will happen when the player tries to act
+				if(GameManager.getPlayerActed() || player.currRole == null || scene.getShots() <= 0) return;
+				boolean success = GameManager.getActivePlayer().act(true);
+				GameManager.makeActed();
+				if(success){
+					System.out.println("Acting Success");
+					System.out.println("Remaining shots: " + scene.getShots());
+					String sceneName = scene.name.toLowerCase();
+					JLabel[] shotsHere = shots.get(sceneName);
+					int idx = 0;
+					while(!shotsHere[idx].isVisible())  idx++;
+					shotsHere[idx].setVisible(false);
+					if(scene.getShots() == 0){
+						JLabel spot = spaces.get(sceneName);
+						JLabel playerLabel = playerToLabel.get(player);
+						playerLabel.setBounds(spot.getBounds());
+						player.currRole = null;
+						cards.get(sceneName).setVisible(false);
+					}
+				}
+				
 				playerStats();
 
 			} else if (e.getSource() == reherButt) {
@@ -743,19 +764,6 @@ public class GUIManager extends JFrame {
 					playerStats();
 				}
 			} else if (e.getSource() == moveButt) {
-				// This is everything that will happen when the player tries to move
-
-				// Create a new menu to select the neighboring place the Player wants to move to
-				// preinitialized and set to false, buttons for neighboring spaces need to be
-				// adjusted
-				// Once the menu is up, it waits for one of the neighbor buttons to be clicked
-				// change the layer of the main menu while this is up so only the one on top can
-				// be interacted with
-				// that active player will need to be moved to said neighbor, player.move(Scene)
-				// change visual
-
-				// flip card if player is first on the scene, show card
-
 				System.out.println("Clicked Move Button");
 				if (!GameManager.getPlayerMoved() && GameManager.getActivePlayer().currRole == null) {
 					updateNeighborOptions();
@@ -782,7 +790,12 @@ public class GUIManager extends JFrame {
 				}
 				menuLabel.setText("Menu: Player " + (GameManager.getActvPlyrIdx() + 1));
 				System.out.println(GameManager.getActvPlyrIdx());
-				
+				if(BoardManager.spacesLeft() <= 1){
+					GameManager.endDay();
+					initScreen();
+					initScreenAreas();
+					frame.setVisible(true);
+				}
 				playerStats();
 
 			} else if (e.getSource() == upgradeButt) {
