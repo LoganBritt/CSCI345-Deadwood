@@ -14,13 +14,15 @@ public class GUIManager extends JFrame {
 	Image scaledBoard = boardImage.getImage().getScaledInstance((int) (boardImage.getIconWidth() * scaleRatio),
 			(int) (boardImage.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
 	JLabel menuLabel;
-	int buttCt = 4;
+	int buttCt = 5;
 	JButton actButt;
 	JButton reherButt;
 	JButton moveButt;
 	JButton endTButt;
 	JLayeredPane neighborMenu;
 	JLayeredPane mainMenu;
+
+	JButton upgradeButt;
 
 	JButton neighborButt1;
 	JButton neighborButt2;
@@ -356,9 +358,9 @@ public class GUIManager extends JFrame {
 							cardRole.addMouseListener(new MouseAdapter() {
 								@Override
 								public void mouseEntered(MouseEvent e) {
-										System.out.println("Entered cardRole");
-										cardRole.setOpaque(true);
-										cardRole.repaint();
+									System.out.println("Entered cardRole");
+									cardRole.setOpaque(true);
+									cardRole.repaint();
 								}
 
 								@Override
@@ -384,7 +386,7 @@ public class GUIManager extends JFrame {
 		int width = 220;
 		int height = 220;
 		int x = boardImage.getIconWidth() + 5;
-		int y = 280;
+		int y = 320;
 
 		JLayeredPane pane = new JLayeredPane();
 		pane.setBounds(x, y, width, height);
@@ -570,6 +572,13 @@ public class GUIManager extends JFrame {
 				tempButt = new JButton("End Turn");
 				endTButt = tempButt;
 				break;
+			case 4:
+				// Initializing the Upgrade Button
+				System.out.println("Initializing Button 4: Upgrade");
+				tempButt = new JButton("Upgrade");
+				upgradeButt = tempButt;
+				upgradeButt.setVisible(false);
+				break;
 			default:
 				System.out.println("Tried implementing a button that does not exist: " + idx);
 				return;
@@ -586,7 +595,7 @@ public class GUIManager extends JFrame {
 	private JLayeredPane initMainMenu(JLayeredPane basePane) {
 
 		int width = 220;
-		int height = 260;
+		int height = 280;
 
 		int x = boardImage.getIconWidth() + 5;
 		int y = 5;
@@ -684,10 +693,25 @@ public class GUIManager extends JFrame {
 				// This is everything that will happen when the player tries to end their turn
 				System.out.println("Clicked End Turn Button");
 				System.out.println(GameManager.getActvPlyrIdx());
+				//Space curr = GameManager.getActivePlayer().currLocation;
 				GameManager.changeTurn();
+				if (GameManager.getActivePlayer().currLocation instanceof Casting) {
+					System.out.println("Show upgrade button");
+					upgradeButt.setVisible(true);
+				} else {
+					System.out.println("Hide upgrade button");
+					upgradeButt.setVisible(false);
+				}
 				menuLabel.setText("Menu: Player " + (GameManager.getActvPlyrIdx() + 1));
 				System.out.println(GameManager.getActvPlyrIdx());
+				
 				playerStats();
+
+			} else if (e.getSource() == upgradeButt) {
+				System.out.println("Clicked Upgrade Button");
+				System.out.println(GameManager.getActvPlyrIdx());
+				Player p = GameManager.getActivePlayer();
+				Space curr = p.currLocation;
 
 			} else if (e.getSource() == neighborButt1) {
 				System.out.println("Selected to move to the first neighbor");
@@ -719,6 +743,12 @@ public class GUIManager extends JFrame {
 				}
 
 				System.out.println("Space after: " + GameManager.getActivePlayer().currLocation.name);
+				if (currSpace instanceof Casting) {
+					upgradeButt.setVisible(true);
+				} else {
+					upgradeButt.setVisible(false);
+				}
+
 				playerStats();
 
 			} else if (e.getSource() == neighborButt2) {
@@ -747,8 +777,12 @@ public class GUIManager extends JFrame {
 					currCardLabel.setIcon(new ImageIcon(img));
 
 				}
-
-				playerStats();
+				if (currSpace instanceof Casting) {
+					upgradeButt.setVisible(true);
+				} else {
+					upgradeButt.setVisible(false);
+					playerStats();
+				}
 
 			} else if (e.getSource() == neighborButt3) {
 				System.out.println("Selected to move to the third neighbor");
@@ -776,7 +810,11 @@ public class GUIManager extends JFrame {
 					currCardLabel.setIcon(new ImageIcon(img));
 
 				}
-
+				if (currSpace instanceof Casting) {
+					upgradeButt.setVisible(true);
+				} else {
+					upgradeButt.setVisible(false);
+				}
 				playerStats();
 
 			} else if (e.getSource() == neighborButt4) {
@@ -805,7 +843,11 @@ public class GUIManager extends JFrame {
 					currCardLabel.setIcon(new ImageIcon(img));
 
 				}
-
+				if (currSpace instanceof Casting) {
+					upgradeButt.setVisible(true);
+				} else {
+					upgradeButt.setVisible(false);
+				}
 				playerStats();
 
 			} else if (e.getSource() instanceof JButton) {
