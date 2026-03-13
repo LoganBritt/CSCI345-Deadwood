@@ -377,7 +377,7 @@ public class GUIManager extends JFrame {
 											System.out.println("Player can take this role");
 											player.currRole = matchedRole;
 											matchedRole.setPlayer(player);
-											JLabel
+											//JLabel
 										}else{
 											System.out.println("Player cannot take this role");
 										}
