@@ -168,7 +168,7 @@ public class GUIManager extends JFrame {
 		Board board = BoardManager.board;
 		ArrayList<Space> spaceList = board.getSpaceList();
 		int index = 0;
-		// gets the number of scenes and gets the shot counter location for each scene 
+		// gets the number of scenes and gets the shot counter location for each scene
 		for (int i = 0; i < spaceList.size(); i++) {
 			if (spaceList.get(i) instanceof Scene) {
 				Space workingSpace = spaceList.get(i);
@@ -178,7 +178,7 @@ public class GUIManager extends JFrame {
 				shotLoc = workingScene.getShotLocation();
 				JLabel arr[] = new JLabel[4];
 
-				//gets the values of the shot counter location, sets the sprites
+				// gets the values of the shot counter location, sets the sprites
 				for (int j = 0; j < shotLoc.length; j++) {
 					if (shotLoc[j] != null) {
 						int x = shotLoc[j][0];
@@ -232,7 +232,7 @@ public class GUIManager extends JFrame {
 			layeredFrame.add(player, JLayeredPane.PALETTE_LAYER + 100, 1);
 			retLabel[i] = player;
 		}
-		//assigns each player label a player object
+		// assigns each player label a player object
 		for (int i = 0; i < players.length; i++) {
 			playerToLabel.put(players[i], retLabel[i]);
 		}
@@ -264,11 +264,11 @@ public class GUIManager extends JFrame {
 		// Creates places for Players in each space
 		for (int i = 0; i < spaceList.size(); i++) {
 			Space workingSpace = spaceList.get(i);
-			//if the working space is not null, then spaces are created for the players
+			// if the working space is not null, then spaces are created for the players
 			if (workingSpace != null) {
 				JLabel playerSpace = new JLabel();
 				playerSpace.setBounds(statSet[i][0], statSet[i][1], statSet[i][2], statSet[i][3]);
-				//Check to see if the mouse has entered/exited the player space
+				// Check to see if the mouse has entered/exited the player space
 				playerSpace.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseEntered(MouseEvent e) {
@@ -290,7 +290,8 @@ public class GUIManager extends JFrame {
 				if (workingSpace instanceof Scene) {
 					Scene workingScene = (Scene) workingSpace;
 					Role[] roleSet = workingScene.getRoles();
-					//goes through the roleset, and for each role gets the x/y/h/w values and then sets the bounds for those spaces
+					// goes through the roleset, and for each role gets the x/y/h/w values and then
+					// sets the bounds for those spaces
 					for (int j = 0; j < roleSet.length; j++) {
 						if (roleSet[j] != null) {
 							// For each role on the scene
@@ -311,15 +312,18 @@ public class GUIManager extends JFrame {
 									Scene scene = (Scene) GameManager.getActivePlayer().currLocation;
 									Role matchedRole = labelToRole.get(rolePanel);
 									// checks to see if role taking conditions are met
-									if (GameManager.getPlayerMoved() || GameManager.getTookRole() || scene.getCard() == null){
-//										System.out.println(GameManager.getPlayerMoved() + ", " + GameManager.getTookRole() + ", " + scene.getCard() == null);
+									if (GameManager.getPlayerMoved() || GameManager.getTookRole()
+											|| scene.getCard() == null) {
+										// System.out.println(GameManager.getPlayerMoved() + ", " +
+										// GameManager.getTookRole() + ", " + scene.getCard() == null);
 										return;
 									}
-									System.out.println(GameManager.getPlayerMoved() + ", " + GameManager.getTookRole() + ", " + scene.getCard() == null);
+									System.out.println(GameManager.getPlayerMoved() + ", " + GameManager.getTookRole()
+											+ ", " + scene.getCard() == null);
 									// checks to see if the role exists
 									if (matchedRole == null) {
 										System.out.println("Didn't find the associated role");
-									} 
+									}
 									// checks to see if the role is on the scene
 									else {
 										System.out.println("Found role: " + matchedRole.getTitle());
@@ -335,7 +339,8 @@ public class GUIManager extends JFrame {
 										}
 										// checks to see if the player can take the role
 										// puts the plauer on that role
-										if ((player.currRole == null) && matchedRole.canTake(player) && foundRole && (scene.getCard() != null)) {
+										if ((player.currRole == null) && matchedRole.canTake(player) && foundRole
+												&& (scene.getCard() != null)) {
 											System.out.println("Player can take this role");
 											player.currRole = matchedRole;
 											matchedRole.setPlayer(player);
@@ -352,9 +357,10 @@ public class GUIManager extends JFrame {
 										System.out.println("foundRole: " + foundRole);
 										System.out.println("scene.getCard() != null: " + (scene.getCard() != null));
 									}
-									
+
 									playerStats();
 								}
+
 								// checks to see if the mouse entered/exited the role area
 								@Override
 								public void mouseEntered(MouseEvent e) {
@@ -384,7 +390,7 @@ public class GUIManager extends JFrame {
 							(int) (workingScene.getH() * scaleRatio));
 					cardPanel.setOpaque(false);
 					cardPanel.setBackground(Color.BLUE);
-					//checks to see if the mouse has entered/exited the card 
+					// checks to see if the mouse has entered/exited the card
 					cardPanel.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseEntered(MouseEvent e) {
@@ -404,7 +410,8 @@ public class GUIManager extends JFrame {
 
 					Role[] cardRoles = workingCard.getRoles();
 					for (int j = 0; j < cardRoles.length; j++) {
-						// For each role on the card, find the x/y/w/h and set the color to orange when hovered over
+						// For each role on the card, find the x/y/w/h and set the color to orange when
+						// hovered over
 						if (cardRoles[j] != null) {
 							int xPos = workingScene.getX() + cardRoles[j].getX();
 							int yPos = workingScene.getY() + cardRoles[j].getY();
@@ -420,18 +427,20 @@ public class GUIManager extends JFrame {
 							cardRole.setBackground(Color.ORANGE);
 							cardRole.addMouseListener(new MouseAdapter() {
 								@Override
-								//Looks for roles and lets the player take them 	
+								// Looks for roles and lets the player take them
 								public void mouseClicked(MouseEvent e) {
 									Scene scene = (Scene) GameManager.getActivePlayer().currLocation;
-									//checks to see if the role taking conditions are met
-									if (GameManager.getPlayerMoved() || GameManager.getTookRole() || scene.getCard() == null)
+									// checks to see if the role taking conditions are met
+									if (GameManager.getPlayerMoved() || GameManager.getTookRole()
+											|| scene.getCard() == null)
 										return;
-									System.out.println(GameManager.getPlayerMoved() + ", " + GameManager.getTookRole() + ", " + scene.getCard() == null);
+									System.out.println(GameManager.getPlayerMoved() + ", " + GameManager.getTookRole()
+											+ ", " + scene.getCard() == null);
 									Role matchedRole = labelToRole.get(cardRole);
 									// checks to see if the role exists
 									if (matchedRole == null) {
 										System.out.println("Didn't find the associated role");
-									} 
+									}
 									// finds the role and checks to see if it's the correct role
 									else {
 										System.out.println("Found role: " + matchedRole.getTitle());
@@ -439,15 +448,16 @@ public class GUIManager extends JFrame {
 										Card sceneCard = scene.getCard();
 										Role[] roleList = sceneCard.getRoles();
 										boolean foundRole = false;
-										//checks to see if the desired role title equals the role title
+										// checks to see if the desired role title equals the role title
 										for (int k = 0; k < roleList.length; k++) {
 											if (roleList[k] != null
 													&& roleList[k].getTitle().equals(matchedRole.getTitle())) {
 												foundRole = true;
 											}
 										}
-										//if the player can take the role, place the player on the role
-										if ((player.currRole == null) && matchedRole.canTake(player) && foundRole && (scene.getCard() != null)) {
+										// if the player can take the role, place the player on the role
+										if ((player.currRole == null) && matchedRole.canTake(player) && foundRole
+												&& (scene.getCard() != null)) {
 											System.out.println("Player can take this role");
 											player.currRole = matchedRole;
 											matchedRole.setPlayer(player);
@@ -455,20 +465,21 @@ public class GUIManager extends JFrame {
 											playerLabel.setBounds(cardRole.getBounds());
 											neighborMenu.setVisible(false);
 											mainMenu.setVisible(true);
-											
+
 										} else {
 											System.out.println("Player cannot take this role");
 										}
-										
+
 										System.out.println("player.currRole == null: " + (player.currRole == null));
 										System.out.println("matchedRole.canTake(): " + matchedRole.canTake(player));
 										System.out.println("foundRole: " + foundRole);
 										System.out.println("scene.getCard() != null: " + (scene.getCard() != null));
 									}
-									
+
 									playerStats();
 								}
-								//Mouse listeners for entering/exiting the role. 
+
+								// Mouse listeners for entering/exiting the role.
 								@Override
 								public void mouseEntered(MouseEvent e) {
 									System.out.println("Entered cardRole");
@@ -495,7 +506,7 @@ public class GUIManager extends JFrame {
 		playerStats();
 	}
 
-	//initializes and shows the current player's stats
+	// initializes and shows the current player's stats
 	// shows rank, dollars, credits, rehearsal tokens, current location, and role
 	private JLayeredPane initStatsMenu(JLayeredPane basePane) {
 		int width = 220;
@@ -626,7 +637,7 @@ public class GUIManager extends JFrame {
 		return pane;
 	}
 
-	//initializes the Upgrade Menu with buttons for dollars and credit upgrades
+	// initializes the Upgrade Menu with buttons for dollars and credit upgrades
 	private JLayeredPane initUpgradeMenu(JLayeredPane basePane) {
 		Casting c = (Casting) BoardManager.board.getSpaceByName("office");
 		int[] dollarCost = c.getDollarAmts();
@@ -722,7 +733,7 @@ public class GUIManager extends JFrame {
 		int boardDist = 10;
 		int quanticY = 45;
 
-		//initialises all the buttons for the main menu
+		// initialises all the buttons for the main menu
 		switch (idx) {
 			case 0:
 				// Initializing Act Button
@@ -768,7 +779,7 @@ public class GUIManager extends JFrame {
 		System.out.println("Button " + idx + " Initialized\n");
 	}
 
-	//initilizes the main Menu 
+	// initilizes the main Menu
 	private JLayeredPane initMainMenu(JLayeredPane basePane) {
 
 		int width = 220;
@@ -800,7 +811,8 @@ public class GUIManager extends JFrame {
 		Player player = GameManager.getActivePlayer();
 		Space currSpace = player.currLocation;
 		Space[] neighbors = currSpace.neighborSpaces;
-		//goes through all the neighbors and correctly labels the buttons with the names 
+		// goes through all the neighbors and correctly labels the buttons with the
+		// names
 		for (int i = 0; i < neighbors.length; i++) {
 			String name = neighbors[i].name;
 			switch (i) {
@@ -826,13 +838,14 @@ public class GUIManager extends JFrame {
 	// Mouse event handler for the GUI
 	class boardMouseListener implements MouseListener {
 		public void mouseClicked(MouseEvent e) {
-			//what happens when the Act button is pressed
+			// what happens when the Act button is pressed
 			if (e.getSource() == actButt) {
 				System.out.println("Clicked Act Button");
 				Player player = GameManager.getActivePlayer();
 				Scene scene = (Scene) player.currLocation;
 				// This is everything that will happen when the player tries to act
-				// the player acts, shot counters are removed if there is a success, player stats are updated
+				// the player acts, shot counters are removed if there is a success, player
+				// stats are updated
 				if (GameManager.getPlayerActed() || player.currRole == null || scene.getShots() <= 0)
 					return;
 				boolean success = player.act(player.currRole.isOnCard());
@@ -858,8 +871,9 @@ public class GUIManager extends JFrame {
 
 				playerStats();
 
-			} 
-			// if the rehearse button is pressed, then the player rehearses and the stats are updated
+			}
+			// if the rehearse button is pressed, then the player rehearses and the stats
+			// are updated
 			else if (e.getSource() == reherButt) {
 				// This is everything that will happen when the player tries to rehearse
 				System.out.println("Clicked Rehearse Button");
@@ -871,8 +885,9 @@ public class GUIManager extends JFrame {
 					GameManager.makeActed();
 					playerStats();
 				}
-			} 
-			// if the move button is pressed, then the main menu's visibility is set to false, and the neighbor menu becomes visable. 
+			}
+			// if the move button is pressed, then the main menu's visibility is set to
+			// false, and the neighbor menu becomes visable.
 			else if (e.getSource() == moveButt) {
 				System.out.println("Clicked Move Button");
 				if (!GameManager.getPlayerMoved() && GameManager.getActivePlayer().currRole == null) {
@@ -891,19 +906,19 @@ public class GUIManager extends JFrame {
 				System.out.println(GameManager.getActvPlyrIdx());
 				// Space curr = GameManager.getActivePlayer().currLocation;
 				if (BoardManager.scenesLeft() <= 1) {
-                                        Player[] playerList = GameManager.getPlayerList();
-                                        JLabel trailerLabel = spaces.get("trailer");
-                                        for(int i = 0; i < playerList.length; i++){
-                                                JLabel playerLabel = playerToLabel.get(playerList[i]);
-						
-                                                playerLabel.setBounds(trailerLabel.getBounds());
-                                        }
+					Player[] playerList = GameManager.getPlayerList();
+					JLabel trailerLabel = spaces.get("trailer");
+					for (int i = 0; i < playerList.length; i++) {
+						JLabel playerLabel = playerToLabel.get(playerList[i]);
+
+						playerLabel.setBounds(trailerLabel.getBounds());
+					}
 					ArrayList<Space> spaceList = BoardManager.board.getSpaceList();
-					for(int i = 0; i < spaceList.size(); i++){
-						if(spaceList.get(i) instanceof Scene){
+					for (int i = 0; i < spaceList.size(); i++) {
+						if (spaceList.get(i) instanceof Scene) {
 							Scene scene = (Scene) spaceList.get(i);
 							Card card = scene.getCard();
-							if(card != null){
+							if (card != null) {
 								System.out.println("Found a card at " + scene.name.toLowerCase());
 								JLabel label = cards.get(scene.name.toLowerCase());
 								label.setVisible(false);
@@ -911,15 +926,15 @@ public class GUIManager extends JFrame {
 						}
 					}
 					initShots();
-                                        initCards();
-                                }
+					initCards();
+				}
 				GameManager.changeTurn();
-				//upgrade button is shown when in the Casting Office
+				// upgrade button is shown when in the Casting Office
 				if (GameManager.getActivePlayer().currLocation instanceof Casting) {
 					System.out.println("Show upgrade button");
 					upgradeButt.setVisible(true);
-				} 
-				
+				}
+
 				// otherwise, the casting button is hidden
 				else {
 					System.out.println("Hide upgrade button");
@@ -930,29 +945,31 @@ public class GUIManager extends JFrame {
 				System.out.println("Scenes left: " + BoardManager.scenesLeft());
 				playerStats();
 
-			} 
-			// if the upgrade button is clicked, then the main menu is no longer visible and the upgrade menu is. 
+			}
+			// if the upgrade button is clicked, then the main menu is no longer visible and
+			// the upgrade menu is.
 			else if (e.getSource() == upgradeButt) {
 				System.out.println("Clicked Upgrade Button");
 				mainMenu.setVisible(false);
 				upgradeMenu.setVisible(true);
-			} 
-			//this is what happens when an upgrade button is clicked. 
+			}
+			// this is what happens when an upgrade button is clicked.
 			else if (upgradeButtons.contains(e.getSource())) {
 				Player p = GameManager.getActivePlayer();
 				int idx = upgradeButtons.indexOf(e.getSource());
-				//math to pass the correct values to the upgrade method
+				// math to pass the correct values to the upgrade method
 				boolean dollarCredit = ((idx % 2) == 0);
 				System.out.println(((idx / 2) + 1) + " :) " + dollarCredit);
-				p.upgrade(((idx / 2 ) + 2 ), dollarCredit);
+				p.upgrade(((idx / 2) + 2), dollarCredit);
 				JLabel playerSpace = playerToLabel.get(p);
-				ImageIcon newImage = new ImageIcon("graphics/Dice/" + playerDiceOrder[GameManager.getActvPlyrIdx()] + p.rank + ".png");
+				ImageIcon newImage = new ImageIcon(
+						"graphics/Dice/" + playerDiceOrder[GameManager.getActvPlyrIdx()] + p.rank + ".png");
 				Image scaledImage = newImage.getImage().getScaledInstance((int) (newImage.getIconWidth() * scaleRatio),
-					(int) (newImage.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
-				playerSpace.setIcon(new ImageIcon (scaledImage));
+						(int) (newImage.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
+				playerSpace.setIcon(new ImageIcon(scaledImage));
 				playerStats();
 
-			} 
+			}
 			// what happens if a neighbot button (specifically Button 1) is clicked
 			else if (e.getSource() == neighborButt1) {
 				System.out.println("Selected to move to the first neighbor");
@@ -967,20 +984,18 @@ public class GUIManager extends JFrame {
 
 				Player player = GameManager.getActivePlayer();
 				Space currSpace = player.currLocation;
-				// if the space that the player is moving to is a scene and the card is on it's back, then the card side is switched
+				// if the space that the player is moving to is a scene and the card is on it's
+				// back, then the card side is switched
 				if (currSpace instanceof Scene) {
 					System.out.println("Moved to a scene. Setting the card to it's front");
 					Scene currScene = (Scene) currSpace;
 					Card workingCard = currScene.getCard();
 					String spaceName = currSpace.name.toLowerCase();
 					JLabel currCardLabel = cards.get(spaceName);
-<<<<<<< HEAD
-					//System.out.println("cards.get(" + spaceName + "): " + currCardLabel);
+					// System.out.println("cards.get(" + spaceName + "): " + currCardLabel);
 
-=======
-					System.out.println("cards.get(" + spaceName + "): " + currCardLabel);
+					// System.out.println("cards.get(" + spaceName + "): " + currCardLabel);
 					System.out.println("New side: graphics/Card/" + workingCard.getBackground());
->>>>>>> 3527432701420ff6edec8c5961103d34f6f38a4d
 					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
 					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio),
 							(int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
@@ -990,7 +1005,8 @@ public class GUIManager extends JFrame {
 				}
 
 				System.out.println("Space after: " + GameManager.getActivePlayer().currLocation.name);
-				//if the current space is not the casting office, the upgrade button should be invisible. 
+				// if the current space is not the casting office, the upgrade button should be
+				// invisible.
 				if (currSpace instanceof Casting) {
 					upgradeButt.setVisible(true);
 				} else {
@@ -999,7 +1015,7 @@ public class GUIManager extends JFrame {
 
 				playerStats();
 
-			} 
+			}
 			// does the exact same thing as neighborButt1
 			else if (e.getSource() == neighborButt2) {
 				System.out.println("Selected to move to the second neighbor");
@@ -1035,8 +1051,8 @@ public class GUIManager extends JFrame {
 					playerStats();
 				}
 
-			} 
-			
+			}
+
 			// again, does the exact same thing as neighborButton 1
 			else if (e.getSource() == neighborButt3) {
 				System.out.println("Selected to move to the third neighbor");
@@ -1072,8 +1088,8 @@ public class GUIManager extends JFrame {
 				}
 				playerStats();
 
-			} 
-			
+			}
+
 			// does the exact same thing, yet again!!
 			else if (e.getSource() == neighborButt4) {
 				System.out.println("Selected to move to the fourth neighbor");
@@ -1109,12 +1125,12 @@ public class GUIManager extends JFrame {
 				}
 				playerStats();
 
-			} 
+			}
 			// other buttons that could be appearing
 			else if (e.getSource() instanceof JButton) {
 				JButton b = (JButton) e.getSource();
-				
-				//move cancel button
+
+				// move cancel button
 				if (b.getText().equals("Cancel")) {
 					neighborMenu.setVisible(false);
 					mainMenu.setVisible(true);
