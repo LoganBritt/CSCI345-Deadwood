@@ -51,10 +51,12 @@ public class Board {
 		trailers = (Trailers) newTrailers;
 	}
 
-	// this looks through all of the space objects and returns the Space with passed name
+	// this looks through all of the space objects and returns the Space with passed
+	// name
 	public Space getSpaceByName(String name) {
 		for (int i = 0; i < spaces.size(); i++) {
-			if (spaces.get(i) != null && spaces.get(i).name != null && spaces.get(i).name.toLowerCase().equals(name.toLowerCase())) {
+			if (spaces.get(i) != null && spaces.get(i).name != null
+					&& spaces.get(i).name.toLowerCase().equals(name.toLowerCase())) {
 				return spaces.get(i);
 			}
 		}
