@@ -1,11 +1,22 @@
 # CSCI345-Deadwood
 This is the repository that contains the code for the game Deadwood
 
-Window has been excluded from implementation for Assignment 2
+Assignment 3 Notes: 
 
-Remaining Work:\
-Report\
-Class Diagram
+To begin the GUI implementation of the game, run java Deadwood to start. Then, the game will start. A dialogue will popup that asks for the number of players. Enter that number, and then the game begins. 
+
+Below is a list of actions and how to execute them. 
+	* Act -- When the player has a role, click this button. This will award the earned credits/dollars for a acting and will remove the shot counters at the scene
+	* Rehearse -- Adds a rehearsal token to the player's stats. Can only add up to 1 less than the budget. 
+	* Move -- pulls up a menu with all the neighboring buttons of the Space that you are on. In that neighboring menu, you can click on a location to move your sprite there. 
+	* Upgrade -- While in the Casting Office, the Upgrade button will appear. When clicked, a new meny with all the upgrade options will appear. The dollars are on the left, and the Credits are on the right. When clicked, the money will leave the player's account and the rank will be updated and correctly reflect on the player's sprite
+	* Taking a Role -- Click on the role you would like to take, either on the card or off the card
+	* End Turn -- Ends the turn, switches to the next player
+
+
+Assignment 2 Notes:
+
+Window has been excluded from implementation for Assignment 2
 
 About Deadwood:\
 Deadwood is a board game created by Cheap Ass Games, and was originally designed as an easy-to-create
