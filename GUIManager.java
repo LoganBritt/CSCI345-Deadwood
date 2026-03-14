@@ -1,4 +1,3 @@
-
 // This program creates a customized version of the GUI for Deadwood
 import java.awt.*;
 import java.awt.event.*;
@@ -266,6 +265,7 @@ public class GUIManager extends JFrame {
 				JLabel playerSpace = new JLabel();
 				playerSpace.setBounds(statSet[i][0], statSet[i][1], statSet[i][2], statSet[i][3]);
 				// Check to see if the mouse has entered/exited the player space
+				//This mouse listener only exists in case we decide to implement a popup menu for showing what players at at a scene
 				playerSpace.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseEntered(MouseEvent e) {
@@ -349,10 +349,6 @@ public class GUIManager extends JFrame {
 										} else {
 											System.out.println("Player cannot take this role");
 										}
-										System.out.println("player.currRole == null: " + (player.currRole == null));
-										System.out.println("matchedRole.canTake(): " + matchedRole.canTake(player));
-										System.out.println("foundRole: " + foundRole);
-										System.out.println("scene.getCard() != null: " + (scene.getCard() != null));
 									}
 
 									playerStats();
@@ -389,6 +385,8 @@ public class GUIManager extends JFrame {
 					}
 
 					Card workingCard = workingScene.getCard();
+					//This chunk is for in case we wanted to show when a card is being hovered over, but it doesn't work and we didn't need it anyway
+					//It was safer to just not remove it
 					JPanel cardPanel = new JPanel();
 					cardPanel.setBounds((int) (workingScene.getX() * scaleRatio),
 							(int) (workingScene.getY() * scaleRatio), (int) (workingScene.getW() * scaleRatio),
@@ -475,11 +473,6 @@ public class GUIManager extends JFrame {
 										} else {
 											System.out.println("Player cannot take this role");
 										}
-
-										System.out.println("player.currRole == null: " + (player.currRole == null));
-										System.out.println("matchedRole.canTake(): " + matchedRole.canTake(player));
-										System.out.println("foundRole: " + foundRole);
-										System.out.println("scene.getCard() != null: " + (scene.getCard() != null));
 									}
 
 									playerStats();
@@ -795,7 +788,6 @@ public class GUIManager extends JFrame {
 
 	// initilizes the main Menu
 	private JLayeredPane initMainMenu(JLayeredPane basePane) {
-
 		int width = 220;
 		int height = 300;
 
@@ -830,20 +822,11 @@ public class GUIManager extends JFrame {
 		for (int i = 0; i < neighbors.length; i++) {
 			String name = neighbors[i].name;
 			switch (i) {
-				case 0:
-					neighborButt1.setText(name);
-					break;
-				case 1:
-					neighborButt2.setText(name);
-					break;
-				case 2:
-					neighborButt3.setText(name);
-					break;
-				case 3:
-					neighborButt4.setText(name);
-					break;
-				default:
-					break;
+				case 0: neighborButt1.setText(name); break;
+				case 1: neighborButt2.setText(name); break;
+				case 2: neighborButt3.setText(name); break;
+				case 3: neighborButt4.setText(name); break;
+				default: break;
 			}
 		}
 		neighborButt4.setVisible(neighbors.length == 4);
@@ -856,6 +839,7 @@ public class GUIManager extends JFrame {
 			if (e.getSource() == actButt) {
 				System.out.println("Clicked Act Button");
 				Player player = GameManager.getActivePlayer();
+				if(!(player.currLocation instanceof Scene)) return;
 				Scene scene = (Scene) player.currLocation;
 				// This is everything that will happen when the player tries to act
 				// the player acts, shot counters are removed if there is a success, player
@@ -909,6 +893,7 @@ public class GUIManager extends JFrame {
 				// This is everything that will happen when the player tries to rehearse
 				System.out.println("Clicked Rehearse Button");
 				Player player = GameManager.getActivePlayer();
+				if(!(player.currLocation instanceof Scene)) return;
 				if (!GameManager.getPlayerActed() && player.currRole != null) {
 					System.out.println(player.rehearseTokens);
 					player.rehearse();
@@ -931,7 +916,9 @@ public class GUIManager extends JFrame {
 				}
 				playerStats();
 
-			} else if (e.getSource() == endTButt) {
+			} 
+			//This is functionality for ending the turn with a button click
+			else if (e.getSource() == endTButt) {
 				// This is everything that will happen when the player tries to end their turn
 				boolean changingTurn = false;
 				System.out.println("Clicked End Turn Button");
@@ -960,9 +947,6 @@ public class GUIManager extends JFrame {
 							for(int j = 0; j < shotsHere.length; j++){
 								if(shotsHere[j] != null){
 									shotsHere[j].setVisible(false);
-									//MouseListener[] ml = shotsHere[j].getMouseListeners();
-									//shotsHere[j].removeMouseListener(ml[0]);
-									//shotsHere[j] = null;
 								}
 							}
 							shots.remove(scene.name.toLowerCase());
@@ -994,11 +978,12 @@ public class GUIManager extends JFrame {
 					String finalMessage = "Game Over\nFinal Scores:\n";
 					Player[] playerList = GameManager.getPlayerList();
 					for(int i = 0; i < playerList.length; i++){
-						int score = playerList[i].dollars * playerList[i].credits + (5 * playerList[i].rank);
+						int score = playerList[i].dollars + playerList[i].credits + (5 * playerList[i].rank);
 						finalMessage  = finalMessage + "Player " + (i+1) + ": " + score + "\n";
 					}
 					JOptionPane.showMessageDialog(frame, finalMessage);
 					frame.dispose();
+					System.exit(0);
 				}
 				if(changingTurn){
 					ArrayList<Space> spaceList = BoardManager.board.getSpaceList();
@@ -1032,6 +1017,7 @@ public class GUIManager extends JFrame {
 
 					labelToRole.clear();
 					roleToSpace.clear();
+					upgradeButtons.clear();
 					spaces.clear();
 					initScreen();
 					initScreenAreas();
@@ -1106,20 +1092,13 @@ public class GUIManager extends JFrame {
 					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
 					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio),
 							(int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
-					// imgIcn.setImage(img);
 					currCardLabel.setIcon(new ImageIcon(img));
 
 				}
+				currSpace = GameManager.getActivePlayer().currLocation;
+				System.out.println("Space after: " + currSpace.name);
 
-				System.out.println("Space after: " + GameManager.getActivePlayer().currLocation.name);
-				// if the current space is not the casting office, the upgrade button should be
-				// invisible.
-				if (currSpace instanceof Casting) {
-					upgradeButt.setVisible(true);
-				} else {
-					upgradeButt.setVisible(false);
-				}
-
+				upgradeButt.setVisible(currSpace instanceof Casting);
 				playerStats();
 
 			}
@@ -1147,17 +1126,13 @@ public class GUIManager extends JFrame {
 					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
 					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio),
 							(int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
-					// imgIcn.setImage(img);
 					currCardLabel.setIcon(new ImageIcon(img));
 
 				}
-				if (currSpace instanceof Casting) {
-					upgradeButt.setVisible(true);
-				} else {
-					upgradeButt.setVisible(false);
-					playerStats();
-				}
-
+				currSpace = GameManager.getActivePlayer().currLocation;
+				System.out.println("Space after: " + currSpace.name);
+				upgradeButt.setVisible(currSpace instanceof Casting);
+				playerStats();
 			}
 
 			// again, does the exact same thing as neighborButton 1
@@ -1184,15 +1159,12 @@ public class GUIManager extends JFrame {
 					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
 					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio),
 							(int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
-					// imgIcn.setImage(img);
 					currCardLabel.setIcon(new ImageIcon(img));
 
 				}
-				if (currSpace instanceof Casting) {
-					upgradeButt.setVisible(true);
-				} else {
-					upgradeButt.setVisible(false);
-				}
+				currSpace = GameManager.getActivePlayer().currLocation;
+				System.out.println("Space after: " + currSpace.name);
+				upgradeButt.setVisible(currSpace instanceof Casting);
 				playerStats();
 
 			}
@@ -1221,15 +1193,12 @@ public class GUIManager extends JFrame {
 					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
 					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio),
 							(int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
-					// imgIcn.setImage(img);
 					currCardLabel.setIcon(new ImageIcon(img));
 
 				}
-				if (currSpace instanceof Casting) {
-					upgradeButt.setVisible(true);
-				} else {
-					upgradeButt.setVisible(false);
-				}
+				currSpace = GameManager.getActivePlayer().currLocation;
+				System.out.println("Space after: " + currSpace.name);
+				upgradeButt.setVisible(currSpace instanceof Casting);
 				playerStats();
 
 			}
@@ -1252,18 +1221,11 @@ public class GUIManager extends JFrame {
 				System.out.println("Clicked <Redacted>");
 				playerStats();
 			}
+			
 		}
-
-		public void mousePressed(MouseEvent e) {
-		}
-
-		public void mouseReleased(MouseEvent e) {
-		}
-
-		public void mouseEntered(MouseEvent e) {
-		}
-
-		public void mouseExited(MouseEvent e) {
-		}
+		public void mousePressed(MouseEvent e){}
+		public void mouseReleased(MouseEvent e){}
+		public void mouseEntered(MouseEvent e){}
+		public void mouseExited(MouseEvent e){}
 	}
 }
