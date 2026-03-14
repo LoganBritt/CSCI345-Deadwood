@@ -970,9 +970,9 @@ public class GUIManager extends JFrame {
 					}
 					
 					for(int i = 0; i < players.length; i++){
-						players[i].setVisible(false);
-						players[i] = null;
-						playerToLabel.remove(playerList[i]);
+    					JLabel playerLabel = players[i];
+    					playerLabel.setVisible(true);
+    					playerLabel.setBounds(trailerLabel.getBounds());
 					}
 					for(int i = 0; i < spaceList.size(); i++){
 						Space space = spaceList.get(i);
@@ -1006,8 +1006,19 @@ public class GUIManager extends JFrame {
 						}
 						
 					}
-					initCards();
+					for (JLabel card : cards.values()) {
+    					layeredFrame.remove(card);
+					}
+					for (JLabel plr : players) {
+    					layeredFrame.remove(plr);
+					}
+					cards.clear();
+					cards = initCards();
 					shots = initShots();
+
+					labelToRole.clear();
+					roleToSpace.clear();
+
 					initScreenAreas();
 				}
 				// upgrade button is shown when in the Casting Office
