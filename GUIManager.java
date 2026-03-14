@@ -100,8 +100,8 @@ public class GUIManager extends JFrame {
 		GameManager.createPlayers();
 
 		initScreen();
-		initScreenAreas();
-		frame.setVisible(true);	
+		initScreenAreas(); 
+		frame.setVisible(true);
 	}
 
 	// Initilizes the Screen and all of the different menus
@@ -1023,14 +1023,19 @@ public class GUIManager extends JFrame {
 					for (JLabel plr : players) {
     					layeredFrame.remove(plr);
 					}
-					cards.clear();
+					layeredFrame.removeAll();
+					frame.dispose();
+
+					boardLabel = initBoard(layeredFrame);
 					cards = initCards();
 					shots = initShots();
 
 					labelToRole.clear();
 					roleToSpace.clear();
-
+					spaces.clear();
+					initScreen();
 					initScreenAreas();
+					frame.setVisible(true);
 				}
 				// upgrade button is shown when in the Casting Office
 				if (GameManager.getActivePlayer().currLocation instanceof Casting) {
