@@ -835,7 +835,7 @@ public class GUIManager extends JFrame {
 				// the player acts, shot counters are removed if there is a success, player stats are updated
 				if (GameManager.getPlayerActed() || player.currRole == null || scene.getShots() <= 0)
 					return;
-				boolean success = GameManager.getActivePlayer().act(true);
+				boolean success = player.act(player.currRole.isOnCard());
 				GameManager.makeActed();
 				if (success) {
 					System.out.println("Acting Success");
@@ -890,6 +890,29 @@ public class GUIManager extends JFrame {
 				System.out.println("Clicked End Turn Button");
 				System.out.println(GameManager.getActvPlyrIdx());
 				// Space curr = GameManager.getActivePlayer().currLocation;
+				if (BoardManager.scenesLeft() <= 1) {
+                                        Player[] playerList = GameManager.getPlayerList();
+                                        JLabel trailerLabel = spaces.get("trailer");
+                                        for(int i = 0; i < playerList.length; i++){
+                                                JLabel playerLabel = playerToLabel.get(playerList[i]);
+						
+                                                playerLabel.setBounds(trailerLabel.getBounds());
+                                        }
+					ArrayList<Space> spaceList = BoardManager.board.getSpaceList();
+					for(int i = 0; i < spaceList.size(); i++){
+						if(spaceList.get(i) instanceof Scene){
+							Scene scene = (Scene) spaceList.get(i);
+							Card card = scene.getCard();
+							if(card != null){
+								System.out.println("Found a card at " + scene.name.toLowerCase());
+								JLabel label = cards.get(scene.name.toLowerCase());
+								label.setVisible(false);
+							}
+						}
+					}
+					initShots();
+                                        initCards();
+                                }
 				GameManager.changeTurn();
 				//upgrade button is shown when in the Casting Office
 				if (GameManager.getActivePlayer().currLocation instanceof Casting) {
@@ -904,12 +927,7 @@ public class GUIManager extends JFrame {
 				}
 				menuLabel.setText("Menu: Player " + (GameManager.getActvPlyrIdx() + 1));
 				System.out.println(GameManager.getActvPlyrIdx());
-				if (BoardManager.scenesLeft() <= 1) {
-					GameManager.endDay();
-					initScreen();
-					initScreenAreas();
-					frame.setVisible(true);
-				}
+				System.out.println("Scenes left: " + BoardManager.scenesLeft());
 				playerStats();
 
 			} 
@@ -956,8 +974,13 @@ public class GUIManager extends JFrame {
 					Card workingCard = currScene.getCard();
 					String spaceName = currSpace.name.toLowerCase();
 					JLabel currCardLabel = cards.get(spaceName);
+<<<<<<< HEAD
 					//System.out.println("cards.get(" + spaceName + "): " + currCardLabel);
 
+=======
+					System.out.println("cards.get(" + spaceName + "): " + currCardLabel);
+					System.out.println("New side: graphics/Card/" + workingCard.getBackground());
+>>>>>>> 3527432701420ff6edec8c5961103d34f6f38a4d
 					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
 					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio),
 							(int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
@@ -997,6 +1020,7 @@ public class GUIManager extends JFrame {
 					String spaceName = currSpace.name.toLowerCase();
 					JLabel currCardLabel = cards.get(spaceName);
 					System.out.println("cards.get(" + spaceName + "): " + currCardLabel);
+					System.out.println("New side: graphics/Card/" + workingCard.getBackground());
 					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
 					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio),
 							(int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
@@ -1033,6 +1057,7 @@ public class GUIManager extends JFrame {
 					String spaceName = currSpace.name.toLowerCase();
 					JLabel currCardLabel = cards.get(spaceName);
 					System.out.println("cards.get(" + spaceName + "): " + currCardLabel);
+					System.out.println("New side: graphics/Card/" + workingCard.getBackground());
 					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
 					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio),
 							(int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
@@ -1069,6 +1094,7 @@ public class GUIManager extends JFrame {
 					String spaceName = currSpace.name.toLowerCase();
 					JLabel currCardLabel = cards.get(spaceName);
 					System.out.println("cards.get(" + spaceName + "): " + currCardLabel);
+					System.out.println("New side: graphics/Card/" + workingCard.getBackground());
 					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
 					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio),
 							(int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
