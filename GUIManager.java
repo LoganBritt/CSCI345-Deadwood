@@ -101,7 +101,7 @@ public class GUIManager extends JFrame {
 
 		initScreen();
 		initScreenAreas();
-		frame.setVisible(true);
+		frame.setVisible(true);	
 	}
 
 	// Initilizes the Screen and all of the different menus
@@ -989,6 +989,17 @@ public class GUIManager extends JFrame {
 					changingTurn = true;
 				}
 				GameManager.changeTurn();
+				if(GameManager.getDay() == 0){
+					System.out.println("Ending Game. Closing Main Window and Showing Final Scores");
+					String finalMessage = "Game Over\nFinal Scores:\n";
+					Player[] playerList = GameManager.getPlayerList();
+					for(int i = 0; i < playerList.length; i++){
+						int score = playerList[i].dollars * playerList[i].credits + (5 * playerList[i].rank);
+						finalMessage  = finalMessage + "Player " + (i+1) + ": " + score + "\n";
+					}
+					JOptionPane.showMessageDialog(frame, finalMessage);
+					frame.dispose();
+				}
 				if(changingTurn){
 					ArrayList<Space> spaceList = BoardManager.board.getSpaceList();
 					for(int i = 0; i < spaceList.size(); i++){
@@ -1036,6 +1047,7 @@ public class GUIManager extends JFrame {
 				System.out.println(GameManager.getActvPlyrIdx());
 				System.out.println("Scenes left: " + BoardManager.scenesLeft());
 				playerStats();
+
 
 			}
 			// if the upgrade button is clicked, then the main menu is no longer visible and
