@@ -16,8 +16,6 @@ Below is a list of actions and how to execute them.
 
 Assignment 2 Notes:
 
-Window has been excluded from implementation for Assignment 2
-
 About Deadwood:\
 Deadwood is a board game created by Cheap Ass Games, and was originally designed as an easy-to-create
 board game for people to create for cheap and using materials typically found around the house.\
