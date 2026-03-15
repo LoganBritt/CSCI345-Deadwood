@@ -9,9 +9,8 @@ public class GUIManager extends JFrame {
 	JLayeredPane layeredFrame;
 	JLabel boardLabel;
 	double scaleRatio = 1.11;
-	ImageIcon boardImage = new ImageIcon("graphics/board.jpg");
-	Image scaledBoard = boardImage.getImage().getScaledInstance((int) (boardImage.getIconWidth() * scaleRatio),
-			(int) (boardImage.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
+	ImageIcon boardImage = scaleImageIcon(new ImageIcon("graphics/board.jpg"));
+	//Labels and buttons for the main menu
 	JLabel menuLabel;
 	int buttCt = 5;
 	JButton actButt;
@@ -21,24 +20,19 @@ public class GUIManager extends JFrame {
 	JLayeredPane neighborMenu;
 	JLayeredPane mainMenu;
 
+	//Labels for the upgrade menu
 	JButton upgradeButt;
 	JLayeredPane upgradeMenu;
 	ArrayList<JButton> upgradeButtons = new ArrayList<>();
 
-	JButton neighborButt1;
-	JButton neighborButt2;
-	JButton neighborButt3;
-	JButton neighborButt4;
+	//Labels for the neighbor menu
+	JButton neighborButt1, neighborButt2, neighborButt3, neighborButt4;
 
+	//Labels for the stats menu
 	JLayeredPane statsMenu;
-	JLabel statsTitle;
-	JLabel rankLabel;
-	JLabel dollarLabel;
-	JLabel creditsLabel;
-	JLabel rehearseTokensLabel;
-	JLabel locationLabel;
-	JLabel roleLabel;
+	JLabel statsTitle, dayLabel, rankLabel, dollarLabel, creditsLabel, rehearseTokensLabel, locationLabel, roleLabel;
 
+	//These hashtables are for knowing which label matches to which physical object
 	Hashtable<JPanel, Role> labelToRole = new Hashtable<>();
 	Hashtable<Role, Space> roleToSpace = new Hashtable<>();
 	Hashtable<String, JLabel> spaces = new Hashtable<>();
@@ -46,32 +40,18 @@ public class GUIManager extends JFrame {
 	Hashtable<String, JLabel[]> shots = new Hashtable<>();
 	Hashtable<Player, JLabel> playerToLabel = new Hashtable<>();
 	JLabel[] players;
+
+	//Preset data for picture names
 	String[] nameSet = new String[] {
-			"train station",
-			"secret hideout",
-			"church",
-			"hotel",
-			"main street",
-			"jail",
-			"general store",
-			"ranch",
-			"bank",
-			"saloon",
-			"trailer",
-			"office"
+			"train station", "secret hideout",
+			"church",        "hotel",
+			"main street",   "jail",
+			"general store", "ranch",
+			"bank",          "saloon",
+			"trailer",       "office"
 	};
 
-	String[] playerDiceOrder = new String[] {
-			"b",
-			"c",
-			"g",
-			"o",
-			"p",
-			"r",
-			"v",
-			"w",
-			"y"
-	};
+	String[] playerDiceOrder = new String[] {"b", "c", "g", "o", "p", "r", "v", "w", "y"};
 
 	// Default constructor that creates the deck and the board.
 	// Takes user input to determine number of players
@@ -88,10 +68,7 @@ public class GUIManager extends JFrame {
 			try {
 				in = JOptionPane.showInputDialog("How many players? (2-8)");
 				playerNumberInput = Integer.parseInt(in);
-			} catch (NumberFormatException e) {
-
-			}
-
+			} catch (NumberFormatException e) {}
 		}
 
 		players = new JLabel[playerNumberInput];
@@ -103,12 +80,18 @@ public class GUIManager extends JFrame {
 		frame.setVisible(true);
 	}
 
+	// Often we need to scale an image according to screen size. This returns the an ImageIcon that had been scaled
+	private ImageIcon scaleImageIcon(ImageIcon prev){
+		Image scaledIcon = prev.getImage().getScaledInstance((int) (prev.getIconWidth() * scaleRatio),
+		(int) (prev.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
+		prev.setImage(scaledIcon);
+		return prev;
+	}
+
 	// Initilizes the Screen and all of the different menus
 	private void initScreen() {
 		frame = initFrame();
 		layeredFrame = frame.getLayeredPane();
-
-		boardImage.setImage(scaledBoard);
 
 		boardLabel = initBoard(layeredFrame);
 		mainMenu = initMainMenu(layeredFrame);
@@ -140,11 +123,7 @@ public class GUIManager extends JFrame {
 				Card workingCard = workingScene.getCard();
 				JLabel retLabel = new JLabel();
 				System.out.println("Space: " + workingSpace.name);
-				retLabel.setIcon(new ImageIcon("graphics/cardback.png"));
-				ImageIcon icon = (ImageIcon) retLabel.getIcon();
-				Image scaledIcon = icon.getImage().getScaledInstance((int) (icon.getIconWidth() * scaleRatio),
-						(int) (icon.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
-				retLabel.setIcon(new ImageIcon(scaledIcon));
+				retLabel.setIcon(scaleImageIcon(new ImageIcon("graphics/cardBack.png")));
 				retLabel.setBounds((int) (workingSpace.getX() * scaleRatio),
 						(int) (workingSpace.getY() * scaleRatio), (int) (workingSpace.getW() * scaleRatio),
 						(int) (workingSpace.getH() * scaleRatio));
@@ -185,11 +164,7 @@ public class GUIManager extends JFrame {
 						int w = shotLoc[j][3];
 
 						JLabel shot = new JLabel();
-						shot.setIcon(new ImageIcon("graphics/shot.png"));
-						ImageIcon icon = (ImageIcon) shot.getIcon();
-						Image scaled = icon.getImage().getScaledInstance((int) (icon.getIconWidth() * scaleRatio),
-								(int) (icon.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
-						shot.setIcon(new ImageIcon(scaled));
+						shot.setIcon(scaleImageIcon(new ImageIcon("graphics/shot.png")));
 						shot.setBounds((int) (x * scaleRatio), (int) (y * scaleRatio), (int) (w * scaleRatio),
 								(int) (h * scaleRatio));
 						shot.setVisible(true);
@@ -218,18 +193,12 @@ public class GUIManager extends JFrame {
 			System.out.println("Making new player sprite");
 			JLabel start = spaces.get("trailer");
 			JLabel player = new JLabel();
-			ImageIcon newImage = new ImageIcon("graphics/Dice/" + playerDiceOrder[i] + players[i].rank + ".png");
-			Image scaledImage = newImage.getImage().getScaledInstance((int) (newImage.getIconWidth() * scaleRatio),
-					(int) (newImage.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
-			player.setIcon(new ImageIcon(scaledImage));
+			player.setIcon(scaleImageIcon(new ImageIcon("graphics/Dice/" + playerDiceOrder[i] + players[i].rank + ".png")));
 			player.setBounds(start.getBounds());
 			player.setOpaque(true);
 			player.setVisible(true);
 			layeredFrame.add(player, JLayeredPane.PALETTE_LAYER + 100, 1);
 			retLabel[i] = player;
-		}
-		// assigns each player label a player object
-		for (int i = 0; i < players.length; i++) {
 			playerToLabel.put(players[i], retLabel[i]);
 		}
 		return retLabel;
@@ -286,6 +255,7 @@ public class GUIManager extends JFrame {
 				// Create places for the roles
 				if (workingSpace instanceof Scene) {
 					Scene workingScene = (Scene) workingSpace;
+					Card workingCard = workingScene.getCard();
 					Role[] roleSet = workingScene.getRoles();
 					// goes through the roleset, and for each role gets the x/y/h/w values and then
 					// sets the bounds for those spaces
@@ -384,7 +354,6 @@ public class GUIManager extends JFrame {
 						}
 					}
 
-					Card workingCard = workingScene.getCard();
 					//This chunk is for in case we wanted to show when a card is being hovered over, but it doesn't work and we didn't need it anyway
 					//It was safer to just not remove it
 					JPanel cardPanel = new JPanel();
@@ -435,8 +404,7 @@ public class GUIManager extends JFrame {
 								public void mouseClicked(MouseEvent e) {
 									Scene scene = (Scene) GameManager.getActivePlayer().currLocation;
 									// checks to see if the role taking conditions are met
-									if (GameManager.getPlayerMoved() || GameManager.getTookRole()
-											|| scene.getCard() == null)
+									if (GameManager.getPlayerMoved() || GameManager.getTookRole()|| scene.getCard() == null)
 										return;
 									System.out.println(GameManager.getPlayerMoved() + ", " + GameManager.getTookRole()
 											+ ", " + scene.getCard() == null);
@@ -488,7 +456,7 @@ public class GUIManager extends JFrame {
 									if(sp instanceof Scene){
 										scene = (Scene) sp;
 									}
-									if(scene != null && scene.getCard() != null){
+									if((scene != null) && (scene.getCard() != null)){
 										cardRole.setOpaque(true);
 										cardRole.repaint();
 									}
@@ -523,7 +491,7 @@ public class GUIManager extends JFrame {
 
 		JLayeredPane pane = new JLayeredPane();
 		pane.setBounds(x, y, width, height);
-		pane.setBackground(Color.GRAY);
+		pane.setBackground(new Color(99, 80, 0));
 		pane.setOpaque(true);
 
 		// Title creation
@@ -533,32 +501,44 @@ public class GUIManager extends JFrame {
 		statsTitle.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
 		pane.add(statsTitle, 1);
 
+		dayLabel = new JLabel();
+		dayLabel.setBounds(50, 30, 160, 30);
+		dayLabel.setForeground(Color.LIGHT_GRAY);
+		dayLabel.setFont(new Font("Palatino Linotype", Font.BOLD, 17));
+		pane.add(dayLabel, 1);
+
 		// Rank
 		rankLabel = new JLabel();
-		rankLabel.setBounds(20, 50, 200, 20);
+		rankLabel.setBounds(20, 60, 200, 20);
+		rankLabel.setForeground(new Color(200, 200, 200));
 		pane.add(rankLabel, 1);
 
 		// Dollars and Credits
 		dollarLabel = new JLabel();
-		dollarLabel.setBounds(20, 75, 200, 20);
+		dollarLabel.setBounds(20, 85, 200, 20);
+		dollarLabel.setForeground(new Color(200, 200, 200));
 		pane.add(dollarLabel, 1);
 
 		creditsLabel = new JLabel();
-		creditsLabel.setBounds(20, 100, 200, 20);
+		creditsLabel.setBounds(20, 110, 200, 20);
+		creditsLabel.setForeground(new Color(200, 200, 200));
 		pane.add(creditsLabel, 1);
 
 		// Rehearsal Tokens
 		rehearseTokensLabel = new JLabel();
-		rehearseTokensLabel.setBounds(20, 125, 200, 20);
+		rehearseTokensLabel.setBounds(20, 135, 200, 20);
+		rehearseTokensLabel.setForeground(new Color(200, 200, 200));
 		pane.add(rehearseTokensLabel, 1);
 
 		// Location and Role
 		locationLabel = new JLabel();
-		locationLabel.setBounds(20, 150, 200, 20);
+		locationLabel.setBounds(20, 160, 200, 20);
+		locationLabel.setForeground(new Color(200, 200, 200));
 		pane.add(locationLabel, 1);
 
 		roleLabel = new JLabel();
-		roleLabel.setBounds(20, 175, 200, 20);
+		roleLabel.setBounds(20, 185, 200, 20);
+		roleLabel.setForeground(new Color(200, 200, 200));
 		pane.add(roleLabel, 1);
 
 		basePane.add(pane, 2);
@@ -569,11 +549,15 @@ public class GUIManager extends JFrame {
 	public void playerStats() {
 		Player p = GameManager.getActivePlayer();
 		statsTitle.setText("Player " + (GameManager.getActvPlyrIdx() + 1) + " Stats");
+		dayLabel.setText("Days Left: " + GameManager.getDay());
 		rankLabel.setText("Rank: " + p.rank);
 		dollarLabel.setText("Dollars: " + p.dollars);
 		creditsLabel.setText("Credits: " + p.credits);
 		rehearseTokensLabel.setText("Rehearsal Tokens: " + p.rehearseTokens);
-		locationLabel.setText("Current Location: " + p.currLocation.name);
+		String name = p.currLocation.name;
+		if(name.equals("trailer")) name = "Trailers";
+		if(name.equals("office")) name = "Casting Office";
+		locationLabel.setText("Current Location: " + name);
 		// sets the text for the player's current role
 		if (p.currRole != null) {
 			roleLabel.setText("Role: " + p.currRole.getTitle());
@@ -592,7 +576,7 @@ public class GUIManager extends JFrame {
 
 		JLayeredPane pane = new JLayeredPane();
 		pane.setBounds(x, y, width, height);
-		pane.setBackground(Color.GRAY);
+		pane.setBackground(new Color(99, 80, 0));
 		pane.setOpaque(true);
 
 		JLabel label = new JLabel("Move to which?");
@@ -621,17 +605,19 @@ public class GUIManager extends JFrame {
 				moveOption = new JButton(buttName);
 				neighborButt4 = moveOption;
 			}
-			moveOption.setBackground(Color.LIGHT_GRAY);
+			moveOption.setBackground(new Color(138, 170, 95));
 			moveOption.setFocusPainted(false);
-			moveOption.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
+			moveOption.setForeground(Color.WHITE);
+			moveOption.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 			moveOption.setBounds(10, 50 + (i * 40), 200, 35);
 			moveOption.addMouseListener(new boardMouseListener());
 			pane.add(moveOption, 2);
 		}
 
 		JButton cancel = new JButton("Cancel");
-		cancel.setBackground(Color.LIGHT_GRAY);
+		cancel.setBackground(new Color(138, 170, 95));
 		cancel.setFocusPainted(false);
+		cancel.setForeground(Color.WHITE);
 		cancel.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
 		cancel.setBounds(10, 210, 200, 35);
 		cancel.addMouseListener(new boardMouseListener());
@@ -658,7 +644,7 @@ public class GUIManager extends JFrame {
 		JLayeredPane pane = new JLayeredPane();
 		pane.setBounds(x, y, w, h);
 		pane.setOpaque(true);
-		pane.setBackground(Color.GRAY);
+		pane.setBackground(new Color(99, 80, 0));
 		JLabel title = new JLabel("Upgrade Rank:");
 		title.setBounds(30, 10, 160, 30);
 		title.setForeground(Color.WHITE);
@@ -670,17 +656,21 @@ public class GUIManager extends JFrame {
 			int rank = (i + 2);
 			JLabel rankLabel = new JLabel("Rank " + rank);
 			rankLabel.setBounds(10, 50 + (i * 40), 60, 30);
+			rankLabel.setForeground(new Color(230, 230, 230));
+			rankLabel.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
 			pane.add(rankLabel, 1);
 
 			JButton dollarButt = new JButton("$" + dollarCost[i]);
 			dollarButt.setBounds(70, 50 + (i * 40), 60, 30);
-			dollarButt.setBackground(Color.LIGHT_GRAY);
+			dollarButt.setBackground(new Color(138, 170, 95));
+			dollarButt.setForeground(Color.WHITE);
 			dollarButt.addMouseListener(new boardMouseListener());
 			pane.add(dollarButt, 2);
 
 			JButton credButt = new JButton(creditCost[i] + "c");
 			credButt.setBounds(140, 50 + (i * 40), 60, 30);
-			credButt.setBackground(Color.LIGHT_GRAY);
+			credButt.setBackground(new Color(138, 170, 95));
+			credButt.setForeground(Color.WHITE);
 			credButt.addMouseListener(new boardMouseListener());
 			pane.add(credButt, 2);
 
@@ -690,7 +680,8 @@ public class GUIManager extends JFrame {
 
 		JButton cancel = new JButton("Cancel");
 		cancel.setBounds(10, 250, 200, 35);
-		cancel.setBackground(Color.LIGHT_GRAY);
+		cancel.setBackground(new Color(138, 170, 95));
+		cancel.setForeground(Color.WHITE);
 		cancel.addMouseListener(new boardMouseListener());
 		pane.add(cancel, 2);
 
@@ -777,9 +768,10 @@ public class GUIManager extends JFrame {
 				System.out.println("Tried implementing a button that does not exist: " + idx);
 				return;
 		}
-		tempButt.setBackground(Color.LIGHT_GRAY);
+		tempButt.setBackground(new Color(138, 170, 95));
 		tempButt.setFocusPainted(false);
-		tempButt.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
+		tempButt.setForeground(Color.WHITE);
+		tempButt.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		tempButt.setBounds(10, 50 + (idx * quanticY), buttWidth, buttHeight);
 		tempButt.addMouseListener(new boardMouseListener());
 		pane.add(tempButt, 2);
@@ -796,10 +788,10 @@ public class GUIManager extends JFrame {
 
 		JLayeredPane pane = new JLayeredPane();
 		pane.setBounds(x, y, width, height);
-		pane.setBackground(Color.GRAY);
+		pane.setBackground(new Color(99, 80, 0));
 		pane.setOpaque(true);
 
-		JLabel label = new JLabel("Menu: Player 1");
+		JLabel label = new JLabel("Action Menu");
 		label.setBounds(30, 10, 160, 30);
 		label.setForeground(Color.WHITE);
 		label.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
@@ -821,6 +813,8 @@ public class GUIManager extends JFrame {
 		// names
 		for (int i = 0; i < neighbors.length; i++) {
 			String name = neighbors[i].name;
+			if(name.equals("office")) name = "Casting Office";
+			if(name.equals("trailer")) name = "Trailers";
 			switch (i) {
 				case 0: neighborButt1.setText(name); break;
 				case 1: neighborButt2.setText(name); break;
@@ -854,22 +848,13 @@ public class GUIManager extends JFrame {
 					String sceneName = scene.name.toLowerCase();
 					JLabel[] shotsHere = shots.get(sceneName);
 					int idx = 0;
-					while (shotsHere != null && !shotsHere[idx].isVisible())
-						idx++;
+					while (shotsHere != null && !shotsHere[idx].isVisible()) idx++;
 					shotsHere[idx].setVisible(false);
 					if (scene.getShots() == 0) {
 						JLabel spot = spaces.get(sceneName);
-						Role[] roleList = scene.getRoles();
-						for(int i = 0; i < roleList.length; i++){
-								if(roleList[i] != null && roleList[i].getPlayer() != null){
-									player = roleList[i].getPlayer();
-									JLabel playerLabel = playerToLabel.get(player);
-									playerLabel.setBounds(spot.getBounds());
-									player.currRole.setPlayer(null);
-									player.currRole = null;
-								}
-						}
-						roleList = scene.getCard().getRoles();
+						Role[] roleList = new Role[scene.getRoles().length + scene.getCard().getRoles().length];
+						System.arraycopy(scene.getRoles(), 0, roleList, 0, scene.getRoles().length);
+						System.arraycopy(scene.getCard().getRoles(), 0, roleList, scene.getRoles().length, scene.getCard().getRoles().length);
 						for(int i = 0; i < roleList.length; i++){
 								if(roleList[i] != null && roleList[i].getPlayer() != null){
 									player = roleList[i].getPlayer();
@@ -883,9 +868,6 @@ public class GUIManager extends JFrame {
 						scene.setCard(null);
 					}
 				}
-
-				playerStats();
-
 			}
 			// if the rehearse button is pressed, then the player rehearses and the stats
 			// are updated
@@ -893,29 +875,20 @@ public class GUIManager extends JFrame {
 				// This is everything that will happen when the player tries to rehearse
 				System.out.println("Clicked Rehearse Button");
 				Player player = GameManager.getActivePlayer();
-				if(!(player.currLocation instanceof Scene)) return;
-				if (!GameManager.getPlayerActed() && player.currRole != null) {
-					System.out.println(player.rehearseTokens);
-					player.rehearse();
-					System.out.println(player.rehearseTokens);
-					GameManager.makeActed();
-					playerStats();
-				}
+				if(!(player.currLocation instanceof Scene) || GameManager.getPlayerActed() || player.currRole == null) return;
+				System.out.println("Rehearsal tokens before: " + player.rehearseTokens);
+				player.rehearse();
+				System.out.println("Rehearsal tokens after: " + player.rehearseTokens);
+				GameManager.makeActed();
 			}
 			// if the move button is pressed, then the main menu's visibility is set to
 			// false, and the neighbor menu becomes visable.
 			else if (e.getSource() == moveButt) {
 				System.out.println("Clicked Move Button");
-				if (!GameManager.getPlayerMoved() && GameManager.getActivePlayer().currRole == null) {
-					updateNeighborOptions();
-					mainMenu.setVisible(false);
-					neighborMenu.setVisible(true);
-
-					playerStats();
-
-				}
-				playerStats();
-
+				if (GameManager.getPlayerMoved() || (GameManager.getActivePlayer().currRole != null)) return; 
+				updateNeighborOptions();
+				mainMenu.setVisible(false);
+				neighborMenu.setVisible(true);
 			} 
 			//This is functionality for ending the turn with a button click
 			else if (e.getSource() == endTButt) {
@@ -945,31 +918,16 @@ public class GUIManager extends JFrame {
 							}
 							JLabel[] shotsHere = shots.get(scene.name.toLowerCase());
 							for(int j = 0; j < shotsHere.length; j++){
-								if(shotsHere[j] != null){
-									shotsHere[j].setVisible(false);
-								}
+								if(shotsHere[j] != null) shotsHere[j].setVisible(false);
 							}
 							shots.remove(scene.name.toLowerCase());
 						}
 					}
-					
 					for(int i = 0; i < players.length; i++){
     					JLabel playerLabel = players[i];
     					playerLabel.setVisible(true);
     					playerLabel.setBounds(trailerLabel.getBounds());
 					}
-					for(int i = 0; i < spaceList.size(); i++){
-						Space space = spaceList.get(i);
-						if(space instanceof Scene){
-							Scene scene = (Scene) space;
-							Role[] roles = scene.getRoles();
-							for(int j = 0; j < roles.length; j++){
-
-							}
-							Card card = scene.getCard();
-						}
-					}
-
 					changingTurn = true;
 				}
 				GameManager.changeTurn();
@@ -993,21 +951,12 @@ public class GUIManager extends JFrame {
 							Card card = scene.getCard();
 							System.out.println("Showing new card at " + scene.name.toLowerCase());
 							JLabel label = cards.get(scene.name.toLowerCase());
-							label.setIcon(new ImageIcon("graphics/cardback.png"));
-							ImageIcon icon = (ImageIcon) label.getIcon();
-							Image scaledIcon = icon.getImage().getScaledInstance((int) (icon.getIconWidth() * scaleRatio),
-							(int) (icon.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
-							label.setIcon(new ImageIcon(scaledIcon));
+							label.setIcon(scaleImageIcon(new ImageIcon("graphics/cardBack.png")));
 							label.setVisible(true);
 						}
-						
 					}
-					for (JLabel card : cards.values()) {
-    					layeredFrame.remove(card);
-					}
-					for (JLabel plr : players) {
-    					layeredFrame.remove(plr);
-					}
+					for (JLabel card : cards.values()) { layeredFrame.remove(card); }
+					for (JLabel plr : players) { layeredFrame.remove(plr); }
 					layeredFrame.removeAll();
 					frame.dispose();
 
@@ -1023,23 +972,11 @@ public class GUIManager extends JFrame {
 					initScreenAreas();
 					frame.setVisible(true);
 				}
-				// upgrade button is shown when in the Casting Office
-				if (GameManager.getActivePlayer().currLocation instanceof Casting) {
-					System.out.println("Show upgrade button");
-					upgradeButt.setVisible(true);
-				}
-
-				// otherwise, the casting button is hidden
-				else {
-					System.out.println("Hide upgrade button");
-					upgradeButt.setVisible(false);
-				}
-				menuLabel.setText("Menu: Player " + (GameManager.getActvPlyrIdx() + 1));
+				
+				upgradeButt.setVisible(GameManager.getActivePlayer().currLocation instanceof Casting);
+				menuLabel.setText("Action Menu");
 				System.out.println(GameManager.getActvPlyrIdx());
 				System.out.println("Scenes left: " + BoardManager.scenesLeft());
-				playerStats();
-
-
 			}
 			// if the upgrade button is clicked, then the main menu is no longer visible and
 			// the upgrade menu is.
@@ -1057,19 +994,27 @@ public class GUIManager extends JFrame {
 				System.out.println(((idx / 2) + 1) + " :) " + dollarCredit);
 				p.upgrade(((idx / 2) + 2), dollarCredit);
 				JLabel playerSpace = playerToLabel.get(p);
-				ImageIcon newImage = new ImageIcon(
-						"graphics/Dice/" + playerDiceOrder[GameManager.getActvPlyrIdx()] + p.rank + ".png");
-				Image scaledImage = newImage.getImage().getScaledInstance((int) (newImage.getIconWidth() * scaleRatio),
-						(int) (newImage.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
-				playerSpace.setIcon(new ImageIcon(scaledImage));
-				playerStats();
+				playerSpace.setIcon(scaleImageIcon(new ImageIcon("graphics/Dice/" + playerDiceOrder[GameManager.getActvPlyrIdx()] + p.rank + ".png")));
 
 			}
-			// what happens if a neighbot button (specifically Button 1) is clicked
-			else if (e.getSource() == neighborButt1) {
-				System.out.println("Selected to move to the first neighbor");
+			else if((e.getSource() instanceof JButton) && ((JButton) e.getSource()).getText().equals("Cancel")){
+					neighborMenu.setVisible(false);
+					mainMenu.setVisible(true);
+					System.out.println("Move cancelled");
+					playerStats();
+			}
+			// what happens if a neighbor button is clicked
+			JButton nButt = null;
+			if(e.getSource() == neighborButt1) nButt = neighborButt1;
+			else if(e.getSource() == neighborButt2) nButt = neighborButt2;
+			else if(e.getSource() == neighborButt3) nButt = neighborButt3;
+			else if(e.getSource() == neighborButt4) nButt = neighborButt4;
+			
+			if(nButt != null){
 				System.out.println("Space before: " + GameManager.getActivePlayer().currLocation.name);
-				String newSceneName = neighborButt1.getText().toLowerCase();
+				String newSceneName = nButt.getText().toLowerCase();
+				if(newSceneName.equals("trailers")) newSceneName = "trailer";
+				if(newSceneName.equals("casting office")) newSceneName = "office";
 				GameManager.getActivePlayer().move(newSceneName);
 				mainMenu.setVisible(true);
 				neighborMenu.setVisible(false);
@@ -1086,142 +1031,20 @@ public class GUIManager extends JFrame {
 					Scene currScene = (Scene) currSpace;
 					Card workingCard = currScene.getCard();
 					String spaceName = currSpace.name.toLowerCase();
-					JLabel currCardLabel = cards.get(spaceName);
-
-					System.out.println("New side: graphics/Card/" + workingCard.getBackground());
-					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
-					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio),
-							(int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
-					currCardLabel.setIcon(new ImageIcon(img));
-
-				}
-				currSpace = GameManager.getActivePlayer().currLocation;
-				System.out.println("Space after: " + currSpace.name);
-
-				upgradeButt.setVisible(currSpace instanceof Casting);
-				playerStats();
-
-			}
-			// does the exact same thing as neighborButt1
-			else if (e.getSource() == neighborButt2) {
-				System.out.println("Selected to move to the second neighbor");
-				String newSceneName = neighborButt2.getText().toLowerCase();
-				GameManager.getActivePlayer().move(newSceneName);
-				mainMenu.setVisible(true);
-				neighborMenu.setVisible(false);
-				GameManager.makeMoved();
-				JLabel newSpaceLabel = spaces.get(newSceneName);
-				players[GameManager.getActvPlyrIdx()].setBounds(newSpaceLabel.getBounds());
-
-				Player player = GameManager.getActivePlayer();
-				Space currSpace = player.currLocation;
-				if (currSpace instanceof Scene) {
-					System.out.println("Moved to a scene. Setting the card to it's front");
-					Scene currScene = (Scene) currSpace;
-					Card workingCard = currScene.getCard();
-					String spaceName = currSpace.name.toLowerCase();
-					JLabel currCardLabel = cards.get(spaceName);
-					
-					System.out.println("New side: graphics/Card/" + workingCard.getBackground());
-					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
-					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio),
-							(int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
-					currCardLabel.setIcon(new ImageIcon(img));
-
+					if(workingCard != null){
+						JLabel currCardLabel = cards.get(spaceName);
+						System.out.println("New side: graphics/Card/" + workingCard.getBackground());
+						ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
+						Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio),
+								(int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
+						currCardLabel.setIcon(new ImageIcon(img));	
+					}
 				}
 				currSpace = GameManager.getActivePlayer().currLocation;
 				System.out.println("Space after: " + currSpace.name);
 				upgradeButt.setVisible(currSpace instanceof Casting);
-				playerStats();
 			}
-
-			// again, does the exact same thing as neighborButton 1
-			else if (e.getSource() == neighborButt3) {
-				System.out.println("Selected to move to the third neighbor");
-				String newSceneName = neighborButt3.getText().toLowerCase();
-				GameManager.getActivePlayer().move(newSceneName);
-				mainMenu.setVisible(true);
-				neighborMenu.setVisible(false);
-				GameManager.makeMoved();
-				JLabel newSpaceLabel = spaces.get(newSceneName);
-				players[GameManager.getActvPlyrIdx()].setBounds(newSpaceLabel.getBounds());
-
-				Player player = GameManager.getActivePlayer();
-				Space currSpace = player.currLocation;
-				if (currSpace instanceof Scene) {
-					System.out.println("Moved to a scene. Setting the card to it's front");
-					Scene currScene = (Scene) currSpace;
-					Card workingCard = currScene.getCard();
-					String spaceName = currSpace.name.toLowerCase();
-					JLabel currCardLabel = cards.get(spaceName);
-					
-					System.out.println("New side: graphics/Card/" + workingCard.getBackground());
-					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
-					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio),
-							(int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
-					currCardLabel.setIcon(new ImageIcon(img));
-
-				}
-				currSpace = GameManager.getActivePlayer().currLocation;
-				System.out.println("Space after: " + currSpace.name);
-				upgradeButt.setVisible(currSpace instanceof Casting);
-				playerStats();
-
-			}
-
-			// does the exact same thing, yet again!!
-			else if (e.getSource() == neighborButt4) {
-				System.out.println("Selected to move to the fourth neighbor");
-				String newSceneName = neighborButt4.getText().toLowerCase();
-				GameManager.getActivePlayer().move(newSceneName);
-				mainMenu.setVisible(true);
-				neighborMenu.setVisible(false);
-				GameManager.makeMoved();
-				JLabel newSpaceLabel = spaces.get(newSceneName);
-				players[GameManager.getActvPlyrIdx()].setBounds(newSpaceLabel.getBounds());
-
-				Player player = GameManager.getActivePlayer();
-				Space currSpace = player.currLocation;
-				if (currSpace instanceof Scene) {
-					System.out.println("Moved to a scene. Setting the card to it's front");
-					Scene currScene = (Scene) currSpace;
-					Card workingCard = currScene.getCard();
-					String spaceName = currSpace.name.toLowerCase();
-					JLabel currCardLabel = cards.get(spaceName);
-					
-					System.out.println("New side: graphics/Card/" + workingCard.getBackground());
-					ImageIcon imgIcn = new ImageIcon("graphics/Card/" + workingCard.getBackground());
-					Image img = imgIcn.getImage().getScaledInstance((int) (imgIcn.getIconWidth() * scaleRatio),
-							(int) (imgIcn.getIconHeight() * scaleRatio), Image.SCALE_SMOOTH);
-					currCardLabel.setIcon(new ImageIcon(img));
-
-				}
-				currSpace = GameManager.getActivePlayer().currLocation;
-				System.out.println("Space after: " + currSpace.name);
-				upgradeButt.setVisible(currSpace instanceof Casting);
-				playerStats();
-
-			}
-			// other buttons that could be appearing
-			else if (e.getSource() instanceof JButton) {
-				JButton b = (JButton) e.getSource();
-
-				// move cancel button
-				if (b.getText().equals("Cancel")) {
-					neighborMenu.setVisible(false);
-					mainMenu.setVisible(true);
-					System.out.println("Move cancelled");
-					playerStats();
-				}
-			}
-
-			else {
-				// This is what happens when the player clicks a button without a purpose.
-				// This should not happen
-				System.out.println("Clicked <Redacted>");
-				playerStats();
-			}
-			
+			playerStats();
 		}
 		public void mousePressed(MouseEvent e){}
 		public void mouseReleased(MouseEvent e){}
