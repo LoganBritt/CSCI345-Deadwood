@@ -8,7 +8,7 @@ public class GUIManager extends JFrame {
 	JFrame frame;
 	JLayeredPane layeredFrame;
 	JLabel boardLabel;
-	double scaleRatio = 1.11;
+	double scaleRatio = 1;
 	ImageIcon boardImage = scaleImageIcon(new ImageIcon("graphics/board.jpg"));
 	//Labels and buttons for the main menu
 	JLabel menuLabel;
@@ -491,7 +491,7 @@ public class GUIManager extends JFrame {
 
 		JLayeredPane pane = new JLayeredPane();
 		pane.setBounds(x, y, width, height);
-		pane.setBackground(new Color(99, 80, 0));
+		pane.setBackground(new Color(177, 114, 70));
 		pane.setOpaque(true);
 
 		// Title creation
@@ -576,7 +576,7 @@ public class GUIManager extends JFrame {
 
 		JLayeredPane pane = new JLayeredPane();
 		pane.setBounds(x, y, width, height);
-		pane.setBackground(new Color(99, 80, 0));
+		pane.setBackground(new Color(177, 114, 70));
 		pane.setOpaque(true);
 
 		JLabel label = new JLabel("Move to which?");
@@ -605,7 +605,7 @@ public class GUIManager extends JFrame {
 				moveOption = new JButton(buttName);
 				neighborButt4 = moveOption;
 			}
-			moveOption.setBackground(new Color(138, 170, 95));
+			moveOption.setBackground(new Color(188, 218, 157));
 			moveOption.setFocusPainted(false);
 			moveOption.setForeground(Color.WHITE);
 			moveOption.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
@@ -615,7 +615,7 @@ public class GUIManager extends JFrame {
 		}
 
 		JButton cancel = new JButton("Cancel");
-		cancel.setBackground(new Color(138, 170, 95));
+		cancel.setBackground(new Color(188, 218, 157));
 		cancel.setFocusPainted(false);
 		cancel.setForeground(Color.WHITE);
 		cancel.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
@@ -644,7 +644,7 @@ public class GUIManager extends JFrame {
 		JLayeredPane pane = new JLayeredPane();
 		pane.setBounds(x, y, w, h);
 		pane.setOpaque(true);
-		pane.setBackground(new Color(99, 80, 0));
+		pane.setBackground(new Color(177, 114, 70));
 		JLabel title = new JLabel("Upgrade Rank:");
 		title.setBounds(30, 10, 160, 30);
 		title.setForeground(Color.WHITE);
@@ -662,14 +662,14 @@ public class GUIManager extends JFrame {
 
 			JButton dollarButt = new JButton("$" + dollarCost[i]);
 			dollarButt.setBounds(70, 50 + (i * 40), 60, 30);
-			dollarButt.setBackground(new Color(138, 170, 95));
+			dollarButt.setBackground(new Color(188, 218, 157));
 			dollarButt.setForeground(Color.WHITE);
 			dollarButt.addMouseListener(new boardMouseListener());
 			pane.add(dollarButt, 2);
 
 			JButton credButt = new JButton(creditCost[i] + "c");
 			credButt.setBounds(140, 50 + (i * 40), 60, 30);
-			credButt.setBackground(new Color(138, 170, 95));
+			credButt.setBackground(new Color(188, 218, 157));
 			credButt.setForeground(Color.WHITE);
 			credButt.addMouseListener(new boardMouseListener());
 			pane.add(credButt, 2);
@@ -680,7 +680,7 @@ public class GUIManager extends JFrame {
 
 		JButton cancel = new JButton("Cancel");
 		cancel.setBounds(10, 250, 200, 35);
-		cancel.setBackground(new Color(138, 170, 95));
+		cancel.setBackground(new Color(188, 218, 157));
 		cancel.setForeground(Color.WHITE);
 		cancel.addMouseListener(new boardMouseListener());
 		pane.add(cancel, 2);
@@ -697,7 +697,7 @@ public class GUIManager extends JFrame {
 		System.out.println("Initializing main frame...");
 		JFrame newFrame = new JFrame("Deadwood");
 		newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		newFrame.getContentPane().setBackground(Color.DARK_GRAY);
+		newFrame.getContentPane().setBackground(new Color(234, 203, 175));
 		newFrame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		newFrame.setIconImage(new ImageIcon("graphics/shot.png").getImage());
 		System.out.println("Main frame initiailized\n");
@@ -768,7 +768,7 @@ public class GUIManager extends JFrame {
 				System.out.println("Tried implementing a button that does not exist: " + idx);
 				return;
 		}
-		tempButt.setBackground(new Color(138, 170, 95));
+		tempButt.setBackground(new Color(188, 218, 157));
 		tempButt.setFocusPainted(false);
 		tempButt.setForeground(Color.WHITE);
 		tempButt.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
@@ -788,10 +788,10 @@ public class GUIManager extends JFrame {
 
 		JLayeredPane pane = new JLayeredPane();
 		pane.setBounds(x, y, width, height);
-		pane.setBackground(new Color(99, 80, 0));
+		pane.setBackground(new Color(177, 114, 70));
 		pane.setOpaque(true);
 
-		JLabel label = new JLabel("Action Menu");
+		JLabel label = new JLabel("Action Menu: P" + (GameManager.getActvPlyrIdx()+ 1));
 		label.setBounds(30, 10, 160, 30);
 		label.setForeground(Color.WHITE);
 		label.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
